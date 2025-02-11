@@ -96,6 +96,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 172, -1, 42));
 
         reguname.setBackground(new java.awt.Color(255, 204, 102));
+        reguname.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         reguname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         reguname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +106,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(reguname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 320, 60));
 
         contact.setBackground(new java.awt.Color(255, 204, 102));
+        contact.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         contact.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         contact.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -114,6 +116,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 320, 60));
 
         fname.setBackground(new java.awt.Color(255, 204, 102));
+        fname.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         fname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         fname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -123,6 +126,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 320, 60));
 
         lname.setBackground(new java.awt.Color(255, 204, 102));
+        lname.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         lname.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         lname.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -169,6 +173,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 227, -1, 47));
 
         noteaddress.setBackground(new java.awt.Color(255, 204, 102));
+        noteaddress.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         noteaddress.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         noteaddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,6 +186,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 329, -1, 47));
 
         address.setBackground(new java.awt.Color(255, 204, 102));
+        address.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         address.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         address.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -204,6 +210,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(regconfirmhide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
 
         regconfirmpass.setBackground(new java.awt.Color(255, 204, 102));
+        regconfirmpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         regconfirmpass.setText("jPasswordField1");
         regconfirmpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         regconfirmpass.addActionListener(new java.awt.event.ActionListener() {
@@ -228,6 +235,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(regpasshide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
 
         regpass.setBackground(new java.awt.Color(255, 204, 102));
+        regpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         regpass.setText("jPasswordField1");
         regpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         regpass.addActionListener(new java.awt.event.ActionListener() {
@@ -278,6 +286,7 @@ public class regform extends javax.swing.JFrame {
         jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, -1, -1));
 
         email.setBackground(new java.awt.Color(255, 204, 102));
+        email.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         email.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -337,6 +346,14 @@ public class regform extends javax.swing.JFrame {
     } else {
         email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
     }
+    
+      if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+        email.setBorder(BorderFactory.createLineBorder(Color.RED)); 
+        JOptionPane.showMessageDialog(null, "Email must be in the format 'username@domain.com'.", "Error", JOptionPane.ERROR_MESSAGE);
+        isValid = false;
+}   else {
+        email.setBorder(BorderFactory.createLineBorder(Color.GRAY));  
+}
 
     if (contact.getText().isEmpty()) {
         contact.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -345,6 +362,15 @@ public class regform extends javax.swing.JFrame {
         contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         
     }
+    
+     String contactNumber = contact.getText().trim();
+        if (!contactNumber.matches("\\d{11}")) {
+            contact.setBorder(BorderFactory.createLineBorder(Color.RED)); 
+            JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+            isValid = false;
+        }else {
+            contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        }
 
      if (username.isEmpty()) {
         reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
@@ -413,22 +439,9 @@ public class regform extends javax.swing.JFrame {
     }
        
     
-    if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-        email.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-        JOptionPane.showMessageDialog(null, "Email must be in the format 'username@domain.com'.", "Error", JOptionPane.ERROR_MESSAGE);
-        isValid = false;
-}   else {
-        email.setBorder(BorderFactory.createLineBorder(Color.GRAY));  
-}
+    
       
-        String contactNumber = contact.getText().trim();
-        if (!contactNumber.matches("\\d{11}")) {
-            contact.setBorder(BorderFactory.createLineBorder(Color.RED)); 
-            JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
-            isValid = false;
-        }else {
-            contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+       
         
     
     }//GEN-LAST:event_RegDoneButtonActionPerformed

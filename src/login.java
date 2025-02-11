@@ -106,7 +106,7 @@ public class login extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jTextField9.setBackground(new java.awt.Color(255, 204, 102));
-        jTextField9.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jTextField9.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         jTextField9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         jTextField9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,6 +147,7 @@ public class login extends javax.swing.JFrame {
         jPanel1.add(logshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 30, -1));
 
         logpass.setBackground(new java.awt.Color(255, 204, 102));
+        logpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         logpass.setText("Jpasswordte123");
         logpass.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         jPanel1.add(logpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 290, 290, 70));
@@ -262,7 +263,9 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_Signin1MouseExited
 
     private void Signin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Signin1ActionPerformed
-        // TODO add your handling code here:
+        Dashboard dbd = new Dashboard();
+        this.dispose();
+        dbd.setVisible(true);
     }//GEN-LAST:event_Signin1ActionPerformed
 
     private void loghideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghideMousePressed
