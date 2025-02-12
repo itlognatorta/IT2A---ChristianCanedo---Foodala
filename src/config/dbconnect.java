@@ -7,6 +7,7 @@ package config;
 
 import com.mysql.jdbc.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -24,6 +25,21 @@ public class dbconnect {
             }catch(SQLException ex){
                     System.out.println("Can't connect to database: "+ex.getMessage());
             }
+        }
+        
+          public int insertData(String sql){
+            int result;
+            try{
+                PreparedStatement pst = connect.prepareStatement(sql);
+                pst.executeUpdate();
+                System.out.println("Inserted Successfully!");
+                pst.close();
+                result =1;
+            }catch(SQLException ex){
+                System.out.println("Connection Error: "+ex);
+                result =0;
+            }
+            return result;
         }
     
 }

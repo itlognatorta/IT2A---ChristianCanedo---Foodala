@@ -370,11 +370,6 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="regconfirmshow">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Administrator\Downloads\showeye-removebg-preview (2).png"/>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="660" y="490" width="-1" height="-1"/>
@@ -382,11 +377,6 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="regconfirmhide">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Administrator\Downloads\hideeye-removebg-preview (1).png"/>
-            </Property>
-          </Properties>
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="regconfirmhideMousePressed"/>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="regconfirmhideMouseReleased"/>
@@ -427,11 +417,6 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="regpassshow">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Administrator\Downloads\showeye-removebg-preview (2).png"/>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
               <AbsoluteConstraints x="660" y="400" width="-1" height="-1"/>
@@ -439,11 +424,6 @@
           </Constraints>
         </Component>
         <Component class="javax.swing.JLabel" name="regpasshide">
-          <Properties>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Administrator\Downloads\hideeye-removebg-preview (1).png"/>
-            </Property>
-          </Properties>
           <Events>
             <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="regpasshideMousePressed"/>
             <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="regpasshideMouseReleased"/>

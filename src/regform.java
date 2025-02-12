@@ -1,4 +1,5 @@
 
+import config.dbconnect;
 import java.awt.Color;
 import java.util.Arrays;
 import javax.swing.BorderFactory;
@@ -315,9 +316,18 @@ public class regform extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void RegDoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegDoneButtonActionPerformed
+        
+        dbconnect dbc = new dbconnect();
+        
+        if(dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address"
+                + "VALUES ('"+fname.getText()+"','"+lname.getText()+"','"+email.getText()+"','"+contact.getText()+"','"+reguname.getText()+"','"
+                +regpass.getPassword()+"','"+address.getText()+"')") == 1){
+            
+        }
+        
+        
         boolean isValid = true;
-        
-        
+                        
     String username = reguname.getText().trim();
     String emails = email.getText().trim();
         
