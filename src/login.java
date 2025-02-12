@@ -132,7 +132,7 @@ public class login extends javax.swing.JFrame {
         });
         jPanel1.add(RegAccButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 450, 280, 60));
 
-        loghide.setIcon(new javax.swing.ImageIcon("C:\\Users\\Administrator\\Downloads\\hideeye-removebg-preview (1).png")); // NOI18N
+        loghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
         loghide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 loghideMousePressed(evt);
@@ -143,7 +143,7 @@ public class login extends javax.swing.JFrame {
         });
         jPanel1.add(loghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, -1, -1));
 
-        logshow.setIcon(new javax.swing.ImageIcon("C:\\Users\\Administrator\\Downloads\\showeye-removebg-preview (2).png")); // NOI18N
+        logshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
         jPanel1.add(logshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 320, 30, -1));
 
         logpass.setBackground(new java.awt.Color(255, 204, 102));

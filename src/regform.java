@@ -47,10 +47,11 @@ public class regform extends javax.swing.JFrame {
         noteaddress = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         address = new javax.swing.JTextField();
-        regconfirmshow = new javax.swing.JLabel();
-        regconfirmhide = new javax.swing.JLabel();
+        reghide1 = new javax.swing.JLabel();
+        regshow1 = new javax.swing.JLabel();
         regconfirmpass = new javax.swing.JPasswordField();
-        regpassshow = new javax.swing.JLabel();
+        regshow = new javax.swing.JLabel();
+        reghide = new javax.swing.JLabel();
         regpasshide = new javax.swing.JLabel();
         regpass = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
@@ -196,19 +197,24 @@ public class regform extends javax.swing.JFrame {
         });
         jPanel1.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 310, 60));
 
-        regconfirmshow.setIcon(new javax.swing.ImageIcon("C:\\Users\\Administrator\\Downloads\\showeye-removebg-preview (2).png")); // NOI18N
-        jPanel1.add(regconfirmshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
-
-        regconfirmhide.setIcon(new javax.swing.ImageIcon("C:\\Users\\Administrator\\Downloads\\hideeye-removebg-preview (1).png")); // NOI18N
-        regconfirmhide.addMouseListener(new java.awt.event.MouseAdapter() {
+        reghide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
+        reghide1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                regconfirmhideMousePressed(evt);
+                reghide1MousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                regconfirmhideMouseReleased(evt);
+                reghide1MouseReleased(evt);
             }
         });
-        jPanel1.add(regconfirmhide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
+        jPanel1.add(reghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
+
+        regshow1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
+        regshow1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regshow1MouseClicked(evt);
+            }
+        });
+        jPanel1.add(regshow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
 
         regconfirmpass.setBackground(new java.awt.Color(255, 204, 102));
         regconfirmpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -221,10 +227,25 @@ public class regform extends javax.swing.JFrame {
         });
         jPanel1.add(regconfirmpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 470, 310, 60));
 
-        regpassshow.setIcon(new javax.swing.ImageIcon("C:\\Users\\Administrator\\Downloads\\showeye-removebg-preview (2).png")); // NOI18N
-        jPanel1.add(regpassshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
+        regshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
+        regshow.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                regshowMouseClicked(evt);
+            }
+        });
+        jPanel1.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
 
-        regpasshide.setIcon(new javax.swing.ImageIcon("C:\\Users\\Administrator\\Downloads\\hideeye-removebg-preview (1).png")); // NOI18N
+        reghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
+        reghide.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                reghideMousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                reghideMouseReleased(evt);
+            }
+        });
+        jPanel1.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
+
         regpasshide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 regpasshideMousePressed(evt);
@@ -321,7 +342,7 @@ public class regform extends javax.swing.JFrame {
         
         if(dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address"
                 + "VALUES ('"+fname.getText()+"','"+lname.getText()+"','"+email.getText()+"','"+contact.getText()+"','"+reguname.getText()+"','"
-                +regpass.getPassword()+"','"+address.getText()+"')") == 1){
+                +regpass.getText()+"','"+address.getText()+"')") == 1){
             
         }
         
@@ -496,10 +517,6 @@ public class regform extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_regpassActionPerformed
 
-    private void regconfirmpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regconfirmpassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_regconfirmpassActionPerformed
-
     private void RegDoneButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegDoneButtonMouseEntered
         RegDoneButton.setBackground(hover);
     }//GEN-LAST:event_RegDoneButtonMouseEntered
@@ -517,28 +534,48 @@ public class regform extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelregformButtonMouseExited
 
     private void regpasshideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regpasshideMousePressed
-        regpassshow.setVisible(true);
-        regpasshide.setVisible(false);
-        regpass.setEchoChar((char)0);
+       
     }//GEN-LAST:event_regpasshideMousePressed
 
     private void regpasshideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regpasshideMouseReleased
-        regpassshow.setVisible(false);
-        regpasshide.setVisible(true);
-        regpass.setEchoChar('*');
+       
     }//GEN-LAST:event_regpasshideMouseReleased
 
-    private void regconfirmhideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regconfirmhideMousePressed
-        regconfirmshow.setVisible(true);
-        regconfirmhide.setVisible(false);
-        regconfirmpass.setEchoChar((char)0);
-    }//GEN-LAST:event_regconfirmhideMousePressed
+    private void regshowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regshowMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regshowMouseClicked
 
-    private void regconfirmhideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regconfirmhideMouseReleased
-        regconfirmshow.setVisible(false);
-        regconfirmhide.setVisible(true);
+    private void reghideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghideMousePressed
+        reghide.setVisible(true);
+        regshow.setVisible(false);
+        regpass.setEchoChar((char)0);
+    }//GEN-LAST:event_reghideMousePressed
+
+    private void reghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghideMouseReleased
+        reghide.setVisible(false);
+        regshow.setVisible(true);
+        regpass.setEchoChar('*');
+    }//GEN-LAST:event_reghideMouseReleased
+
+    private void regshow1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regshow1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regshow1MouseClicked
+
+    private void reghide1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghide1MousePressed
+        reghide1.setVisible(true);
+        regshow1.setVisible(false);
+        regconfirmpass.setEchoChar((char)0);
+    }//GEN-LAST:event_reghide1MousePressed
+
+    private void reghide1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghide1MouseReleased
+        reghide1.setVisible(false);
+        regshow1.setVisible(true);
         regconfirmpass.setEchoChar('*');
-    }//GEN-LAST:event_regconfirmhideMouseReleased
+    }//GEN-LAST:event_reghide1MouseReleased
+
+    private void regconfirmpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regconfirmpassActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_regconfirmpassActionPerformed
 
     /**
      * @param args the command line arguments
@@ -604,12 +641,13 @@ public class regform extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lname;
     private javax.swing.JTextField noteaddress;
-    private javax.swing.JLabel regconfirmhide;
     private javax.swing.JPasswordField regconfirmpass;
-    private javax.swing.JLabel regconfirmshow;
+    private javax.swing.JLabel reghide;
+    private javax.swing.JLabel reghide1;
     private javax.swing.JPasswordField regpass;
     private javax.swing.JLabel regpasshide;
-    private javax.swing.JLabel regpassshow;
+    private javax.swing.JLabel regshow;
+    private javax.swing.JLabel regshow1;
     private javax.swing.JTextField reguname;
     // End of variables declaration//GEN-END:variables
 }
