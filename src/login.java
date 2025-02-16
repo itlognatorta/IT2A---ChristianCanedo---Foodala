@@ -1,10 +1,15 @@
 
+import config.dbconnect;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import java.sql.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.swing.JOptionPane;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -50,7 +55,7 @@ public class login extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        jTextField9 = new javax.swing.JTextField();
+        username = new javax.swing.JTextField();
         RegAccButton = new javax.swing.JButton();
         loghide = new javax.swing.JLabel();
         logshow = new javax.swing.JLabel();
@@ -105,15 +110,15 @@ public class login extends javax.swing.JFrame {
         });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField9.setBackground(new java.awt.Color(255, 204, 102));
-        jTextField9.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        jTextField9.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        jTextField9.addActionListener(new java.awt.event.ActionListener() {
+        username.setBackground(new java.awt.Color(255, 204, 102));
+        username.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        username.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Username", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField9ActionPerformed(evt);
+                usernameActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextField9, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 210, 290, 70));
+        jPanel1.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 210, 290, 70));
 
         RegAccButton.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         RegAccButton.setText("Create new account");
@@ -242,9 +247,9 @@ public class login extends javax.swing.JFrame {
         rfm.setVisible(true);
     }//GEN-LAST:event_RegAccButtonActionPerformed
 
-    private void jTextField9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField9ActionPerformed
+    private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField9ActionPerformed
+    }//GEN-LAST:event_usernameActionPerformed
  
     private void RegAccButtonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RegAccButtonMouseEntered
         RegAccButton.setBackground(hover);
@@ -263,9 +268,37 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_Signin1MouseExited
 
     private void Signin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Signin1ActionPerformed
-        Dashboard dbd = new Dashboard();
-        this.dispose();
-        dbd.setVisible(true);
+ 
+        
+      String url = "jdbc:mysql://localhost:3306/christian";
+      String user = "root";
+      String password = "";
+
+    String query = "SELECT cs_pass FROM customer WHERE cs_user = ? AND cs_status = 'active'";
+
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+     PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+    pstmt.setString(1, username.getText());
+    ResultSet rs = pstmt.executeQuery();
+
+    if (rs.next()) {
+        String storedPassword = rs.getString("cs_pass");
+
+        if (logpass.getText().equals(storedPassword)) {
+            JOptionPane.showMessageDialog(null, "Login Successful!");
+            Dashboard dbd = new Dashboard();
+            this.dispose();
+            dbd.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+}
     }//GEN-LAST:event_Signin1ActionPerformed
 
     private void loghideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghideMousePressed
@@ -329,9 +362,9 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField6;
-    private javax.swing.JTextField jTextField9;
     private javax.swing.JLabel loghide;
     private javax.swing.JPasswordField logpass;
     private javax.swing.JLabel logshow;
+    private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }

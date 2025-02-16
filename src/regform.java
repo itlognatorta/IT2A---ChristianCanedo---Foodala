@@ -11,8 +11,8 @@ import javax.swing.border.Border;
 
 public class regform extends javax.swing.JFrame {
 
-   List<String> existingUsernames = Arrays.asList("user1", "admin", "johndoe");
-   List<String> existingEmails = Arrays.asList("user1@example.com", "admin@example.com", "johndoe@example.com");
+   List<String> existingUsernames = Arrays.asList("cs_user");
+   List<String> existingEmails = Arrays.asList("cs_email");
     
     public regform() {
         initComponents();
@@ -30,29 +30,19 @@ public class regform extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
         reguname = new javax.swing.JTextField();
         contact = new javax.swing.JTextField();
         fname = new javax.swing.JTextField();
         lname = new javax.swing.JTextField();
         cancelregformButton = new javax.swing.JButton();
         RegDoneButton = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
         noteaddress = new javax.swing.JTextField();
-        jLabel12 = new javax.swing.JLabel();
         address = new javax.swing.JTextField();
-        reghide1 = new javax.swing.JLabel();
-        regshow1 = new javax.swing.JLabel();
+        confirmreghide = new javax.swing.JLabel();
+        confirmregshow = new javax.swing.JLabel();
         regconfirmpass = new javax.swing.JPasswordField();
-        regshow = new javax.swing.JLabel();
         reghide = new javax.swing.JLabel();
-        regpasshide = new javax.swing.JLabel();
+        regshow = new javax.swing.JLabel();
         regpass = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
@@ -75,27 +65,6 @@ public class regform extends javax.swing.JFrame {
             }
         });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 361, -1, 47));
-
-        jLabel5.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 172, -1, 47));
-
-        jLabel6.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 295, -1, 47));
-
-        jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 232, -1, 47));
-
-        jLabel9.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 422, -1, 47));
-
-        jLabel10.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 482, -1, 47));
-
-        jLabel11.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 172, -1, 42));
 
         reguname.setBackground(new java.awt.Color(255, 204, 102));
         reguname.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -169,10 +138,7 @@ public class regform extends javax.swing.JFrame {
                 RegDoneButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 560, 128, 49));
-
-        jLabel4.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 227, -1, 47));
+        jPanel1.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 560, 128, 49));
 
         noteaddress.setBackground(new java.awt.Color(255, 204, 102));
         noteaddress.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -184,9 +150,6 @@ public class regform extends javax.swing.JFrame {
         });
         jPanel1.add(noteaddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 290, 310, 60));
 
-        jLabel12.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(561, 329, -1, 47));
-
         address.setBackground(new java.awt.Color(255, 204, 102));
         address.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
         address.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -197,24 +160,19 @@ public class regform extends javax.swing.JFrame {
         });
         jPanel1.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 310, 60));
 
-        reghide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
-        reghide1.addMouseListener(new java.awt.event.MouseAdapter() {
+        confirmreghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
+        confirmreghide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                reghide1MousePressed(evt);
+                confirmreghideMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                reghide1MouseReleased(evt);
+                confirmreghideMouseReleased(evt);
             }
         });
-        jPanel1.add(reghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
+        jPanel1.add(confirmreghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
 
-        regshow1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
-        regshow1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                regshow1MouseClicked(evt);
-            }
-        });
-        jPanel1.add(regshow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
+        confirmregshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
+        jPanel1.add(confirmregshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
 
         regconfirmpass.setBackground(new java.awt.Color(255, 204, 102));
         regconfirmpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -227,14 +185,6 @@ public class regform extends javax.swing.JFrame {
         });
         jPanel1.add(regconfirmpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 470, 310, 60));
 
-        regshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
-        regshow.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                regshowMouseClicked(evt);
-            }
-        });
-        jPanel1.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
-
         reghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
         reghide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
@@ -246,15 +196,8 @@ public class regform extends javax.swing.JFrame {
         });
         jPanel1.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
 
-        regpasshide.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                regpasshideMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                regpasshideMouseReleased(evt);
-            }
-        });
-        jPanel1.add(regpasshide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
+        regshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
+        jPanel1.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
 
         regpass.setBackground(new java.awt.Color(255, 204, 102));
         regpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
@@ -338,13 +281,7 @@ public class regform extends javax.swing.JFrame {
 
     private void RegDoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegDoneButtonActionPerformed
         
-        dbconnect dbc = new dbconnect();
-        
-        if(dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address"
-                + "VALUES ('"+fname.getText()+"','"+lname.getText()+"','"+email.getText()+"','"+contact.getText()+"','"+reguname.getText()+"','"
-                +regpass.getText()+"','"+address.getText()+"')") == 1){
-            
-        }
+        dbconnect dbc = new dbconnect();     
         
         
         boolean isValid = true;
@@ -457,19 +394,23 @@ public class regform extends javax.swing.JFrame {
         noteaddress.setBorder(BorderFactory.createLineBorder(Color.GRAY));
     }
     
-    if (!isValid) {
-        JOptionPane.showMessageDialog(null, "Some fields are required", "Error", JOptionPane.ERROR_MESSAGE);
-    } else {
-        
-        JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
-        
+   if (!isValid) {
+    JOptionPane.showMessageDialog(null, "Some fields are required", "Error", JOptionPane.ERROR_MESSAGE);
+} else {
+    JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+    
+    if (dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_status)"
+            + " VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
+            + contact.getText() + "','" + reguname.getText() + "','" + String.valueOf(regpass.getPassword()) + "','" 
+            + address.getText() + "','Pending')") == 1) {
         
         login lg = new login();
         this.dispose();
         lg.setVisible(true);
+    } else {
+        JOptionPane.showMessageDialog(null, "Database insertion failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
-       
-    
+}
     
       
        
@@ -510,7 +451,7 @@ public class regform extends javax.swing.JFrame {
     }//GEN-LAST:event_addressActionPerformed
 
     private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
-       
+     
        }//GEN-LAST:event_emailActionPerformed
 
     private void regpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regpassActionPerformed
@@ -533,49 +474,33 @@ public class regform extends javax.swing.JFrame {
         cancelregformButton.setBackground(defbutton);
     }//GEN-LAST:event_cancelregformButtonMouseExited
 
-    private void regpasshideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regpasshideMousePressed
-       
-    }//GEN-LAST:event_regpasshideMousePressed
-
-    private void regpasshideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regpasshideMouseReleased
-       
-    }//GEN-LAST:event_regpasshideMouseReleased
-
-    private void regshowMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regshowMouseClicked
+    private void regconfirmpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regconfirmpassActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_regshowMouseClicked
+    }//GEN-LAST:event_regconfirmpassActionPerformed
 
     private void reghideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghideMousePressed
-        reghide.setVisible(true);
-        regshow.setVisible(false);
+        regshow.setVisible(true);
+        reghide.setVisible(false);
         regpass.setEchoChar((char)0);
     }//GEN-LAST:event_reghideMousePressed
 
     private void reghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghideMouseReleased
-        reghide.setVisible(false);
-        regshow.setVisible(true);
+        regshow.setVisible(false);
+        reghide.setVisible(true);
         regpass.setEchoChar('*');
     }//GEN-LAST:event_reghideMouseReleased
 
-    private void regshow1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regshow1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_regshow1MouseClicked
-
-    private void reghide1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghide1MousePressed
-        reghide1.setVisible(true);
-        regshow1.setVisible(false);
+    private void confirmreghideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmreghideMousePressed
+        confirmregshow.setVisible(true);
+        confirmreghide.setVisible(false);
         regconfirmpass.setEchoChar((char)0);
-    }//GEN-LAST:event_reghide1MousePressed
+    }//GEN-LAST:event_confirmreghideMousePressed
 
-    private void reghide1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghide1MouseReleased
-        reghide1.setVisible(false);
-        regshow1.setVisible(true);
+    private void confirmreghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmreghideMouseReleased
+        confirmregshow.setVisible(false);
+        confirmreghide.setVisible(true);
         regconfirmpass.setEchoChar('*');
-    }//GEN-LAST:event_reghide1MouseReleased
-
-    private void regconfirmpassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regconfirmpassActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_regconfirmpassActionPerformed
+    }//GEN-LAST:event_confirmreghideMouseReleased
 
     /**
      * @param args the command line arguments
@@ -616,12 +541,11 @@ public class regform extends javax.swing.JFrame {
     private javax.swing.JButton RegDoneButton;
     private javax.swing.JTextField address;
     private javax.swing.JButton cancelregformButton;
+    private javax.swing.JLabel confirmreghide;
+    private javax.swing.JLabel confirmregshow;
     private javax.swing.JTextField contact;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -631,23 +555,14 @@ public class regform extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField lname;
     private javax.swing.JTextField noteaddress;
     private javax.swing.JPasswordField regconfirmpass;
     private javax.swing.JLabel reghide;
-    private javax.swing.JLabel reghide1;
     private javax.swing.JPasswordField regpass;
-    private javax.swing.JLabel regpasshide;
     private javax.swing.JLabel regshow;
-    private javax.swing.JLabel regshow1;
     private javax.swing.JTextField reguname;
     // End of variables declaration//GEN-END:variables
 }
