@@ -35,7 +35,8 @@ CREATE TABLE `customer` (
   `cs_contact` varchar(50) NOT NULL,
   `cs_user` varchar(100) NOT NULL,
   `cs_pass` varchar(100) NOT NULL,
-  `cs_address` varchar(100) NOT NULL
+  `cs_address` varchar(100) NOT NULL,
+  `cs_type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --

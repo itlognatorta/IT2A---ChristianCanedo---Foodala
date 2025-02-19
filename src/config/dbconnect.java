@@ -5,7 +5,8 @@
  */
 package config;
 
-import com.mysql.jdbc.Connection;
+
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,7 +26,7 @@ public class dbconnect {
        // constructor to connect to our database
         public dbconnect(){
             try{
-                connect = (Connection)  DriverManager.getConnection("jdbc:mysql://localhost:3306/christian", "root", "");
+                connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/christian", "root", "");
             }catch(SQLException ex){
                     System.out.println("Can't connect to database: "+ex.getMessage());
             }

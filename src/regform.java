@@ -18,8 +18,8 @@ public class regform extends javax.swing.JFrame {
         initComponents();
     }
 
-    Color hover = new Color(255,255,153);  
-    Color defbutton = new Color(255,204,102);  
+    Color hover = new Color(153,153,153);  
+    Color defbutton = new Color(102,102,102);  
     
     Border empty = BorderFactory.createEmptyBorder();
     
@@ -29,36 +29,50 @@ public class regform extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        jSpinner1 = new javax.swing.JSpinner();
         jPanel1 = new javax.swing.JPanel();
-        reguname = new javax.swing.JTextField();
-        contact = new javax.swing.JTextField();
-        fname = new javax.swing.JTextField();
-        lname = new javax.swing.JTextField();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         cancelregformButton = new javax.swing.JButton();
         RegDoneButton = new javax.swing.JButton();
-        noteaddress = new javax.swing.JTextField();
-        address = new javax.swing.JTextField();
-        confirmreghide = new javax.swing.JLabel();
-        confirmregshow = new javax.swing.JLabel();
+        reghide1 = new javax.swing.JLabel();
+        regshow1 = new javax.swing.JLabel();
         regconfirmpass = new javax.swing.JPasswordField();
+        jLabel7 = new javax.swing.JLabel();
+        reguname = new javax.swing.JTextField();
+        jLabel17 = new javax.swing.JLabel();
+        contact = new javax.swing.JTextField();
+        jLabel15 = new javax.swing.JLabel();
+        email = new javax.swing.JTextField();
+        jLabel14 = new javax.swing.JLabel();
+        fname = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        lname = new javax.swing.JTextField();
         reghide = new javax.swing.JLabel();
         regshow = new javax.swing.JLabel();
         regpass = new javax.swing.JPasswordField();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
-        jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        email = new javax.swing.JTextField();
+        noteaddress = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        address = new javax.swing.JTextField();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        type = new javax.swing.JComboBox<>();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 102));
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jPanel1MouseClicked(evt);
@@ -66,46 +80,14 @@ public class regform extends javax.swing.JFrame {
         });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        reguname.setBackground(new java.awt.Color(255, 204, 102));
-        reguname.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        reguname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        reguname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                regunameActionPerformed(evt);
-            }
-        });
-        jPanel1.add(reguname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 320, 60));
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        contact.setBackground(new java.awt.Color(255, 204, 102));
-        contact.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        contact.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        contact.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contactActionPerformed(evt);
-            }
-        });
-        jPanel1.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 290, 320, 60));
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+        jLabel2.setText("Create Account");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 280, 50));
 
-        fname.setBackground(new java.awt.Color(255, 204, 102));
-        fname.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        fname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        fname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fnameActionPerformed(evt);
-            }
-        });
-        jPanel1.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 320, 60));
-
-        lname.setBackground(new java.awt.Color(255, 204, 102));
-        lname.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        lname.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        lname.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lnameActionPerformed(evt);
-            }
-        });
-        jPanel1.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 110, 310, 60));
-
+        cancelregformButton.setBackground(new java.awt.Color(102, 102, 102));
         cancelregformButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         cancelregformButton.setText("Cancel");
         cancelregformButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -121,8 +103,9 @@ public class regform extends javax.swing.JFrame {
                 cancelregformButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(cancelregformButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 560, 128, 49));
+        jPanel2.add(cancelregformButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 530, 128, 49));
 
+        RegDoneButton.setBackground(new java.awt.Color(102, 102, 102));
         RegDoneButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         RegDoneButton.setText("Sign Up");
         RegDoneButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -138,54 +121,97 @@ public class regform extends javax.swing.JFrame {
                 RegDoneButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 560, 128, 49));
+        jPanel2.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 530, 128, 49));
 
-        noteaddress.setBackground(new java.awt.Color(255, 204, 102));
-        noteaddress.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        noteaddress.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        noteaddress.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                noteaddressActionPerformed(evt);
-            }
-        });
-        jPanel1.add(noteaddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 290, 310, 60));
-
-        address.setBackground(new java.awt.Color(255, 204, 102));
-        address.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        address.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        address.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addressActionPerformed(evt);
-            }
-        });
-        jPanel1.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 200, 310, 60));
-
-        confirmreghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
-        confirmreghide.addMouseListener(new java.awt.event.MouseAdapter() {
+        reghide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
+        reghide1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                confirmreghideMousePressed(evt);
+                reghide1MousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                confirmreghideMouseReleased(evt);
+                reghide1MouseReleased(evt);
             }
         });
-        jPanel1.add(confirmreghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
+        jPanel2.add(reghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 450, 30, -1));
 
-        confirmregshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
-        jPanel1.add(confirmregshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 490, -1, -1));
+        regshow1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
+        jPanel2.add(regshow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 450, -1, -1));
 
-        regconfirmpass.setBackground(new java.awt.Color(255, 204, 102));
-        regconfirmpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        regconfirmpass.setText("jPasswordField1");
+        regconfirmpass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         regconfirmpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         regconfirmpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 regconfirmpassActionPerformed(evt);
             }
         });
-        jPanel1.add(regconfirmpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 470, 310, 60));
+        jPanel2.add(regconfirmpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 240, 50));
 
-        reghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/hideeye-removebg-preview (1).png"))); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel7.setText("Confirm Password*");
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 420, -1, -1));
+
+        reguname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        reguname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        reguname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                regunameActionPerformed(evt);
+            }
+        });
+        jPanel2.add(reguname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 240, 50));
+
+        jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel17.setText("Username*");
+        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
+
+        contact.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        contact.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        contact.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactActionPerformed(evt);
+            }
+        });
+        jPanel2.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 240, 50));
+
+        jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel15.setText("Contact Number*");
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
+
+        email.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        email.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailActionPerformed(evt);
+            }
+        });
+        jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 240, 50));
+
+        jLabel14.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel14.setText("Email Address*");
+        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
+
+        fname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        fname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        fname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fnameActionPerformed(evt);
+            }
+        });
+        jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 240, 50));
+
+        jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel13.setText("First Name*");
+        jPanel2.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        lname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        lname.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14)), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        lname.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lnameActionPerformed(evt);
+            }
+        });
+        jPanel2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 240, 50));
+
+        reghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
         reghide.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 reghideMousePressed(evt);
@@ -194,81 +220,82 @@ public class regform extends javax.swing.JFrame {
                 reghideMouseReleased(evt);
             }
         });
-        jPanel1.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
+        jPanel2.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 370, -1, -1));
 
-        regshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/showeye-removebg-preview (2).png"))); // NOI18N
-        jPanel1.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 400, -1, -1));
+        regshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
+        jPanel2.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 370, -1, -1));
 
-        regpass.setBackground(new java.awt.Color(255, 204, 102));
-        regpass.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        regpass.setText("jPasswordField1");
+        regpass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        regpass.setText("createpass");
         regpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         regpass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 regpassActionPerformed(evt);
             }
         });
-        jPanel1.add(regpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 380, 310, 60));
-
-        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
-        jLabel2.setText("Sign Up");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 20, 150, 50));
-
-        jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel7.setText("Confirm Password*");
-        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 450, -1, -1));
-
-        jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel13.setText("First Name*");
-        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 90, -1, -1));
-
-        jLabel14.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel14.setText("Email Address*");
-        jPanel1.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
-
-        jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel15.setText("Contact Number*");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, -1, -1));
-
-        jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel16.setText("Last Name*");
-        jPanel1.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 90, -1, -1));
-
-        jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel17.setText("Username*");
-        jPanel1.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, -1, -1));
-
-        jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel18.setText("Address*");
-        jPanel1.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 180, -1, -1));
-
-        jLabel19.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jLabel19.setText("Note Address*");
-        jPanel1.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 270, -1, -1));
+        jPanel2.add(regpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 360, 240, 50));
 
         jLabel20.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel20.setText("Password*");
-        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, -1, -1));
+        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, -1, -1));
 
-        email.setBackground(new java.awt.Color(255, 204, 102));
-        email.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        email.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        email.addActionListener(new java.awt.event.ActionListener() {
+        noteaddress.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        noteaddress.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        noteaddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailActionPerformed(evt);
+                noteaddressActionPerformed(evt);
             }
         });
-        jPanel1.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 320, 60));
+        jPanel2.add(noteaddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 240, 50));
+
+        jLabel19.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel19.setText("Note Address*");
+        jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 260, -1, -1));
+
+        address.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        address.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        address.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressActionPerformed(evt);
+            }
+        });
+        jPanel2.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 240, 50));
+
+        jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel18.setText("Address*");
+        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, -1, -1));
+
+        jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        jLabel16.setText("Last Name*");
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 100, -1, -1));
+
+        type.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select\t", "Customer", "Manager" }));
+        type.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true));
+        type.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                typeActionPerformed(evt);
+            }
+        });
+        jPanel2.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 240, 50));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/gradientbackground.jpg"))); // NOI18N
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 620));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 540, 620));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/background (2).jpg"))); // NOI18N
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, -20, 730, 720));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 785, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -387,22 +414,22 @@ public class regform extends javax.swing.JFrame {
         address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
     }
 
-    if (noteaddress.getText().isEmpty()) {
-        noteaddress.setBorder(BorderFactory.createLineBorder(Color.RED));
+    if (type.getSelectedIndex() == 0) {  
+        type.setBorder(BorderFactory.createLineBorder(Color.RED));
         isValid = false;
-    } else {
-        noteaddress.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-    }
+}   else {
+        type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
     
-   if (!isValid) {
-    JOptionPane.showMessageDialog(null, "Some fields are required", "Error", JOptionPane.ERROR_MESSAGE);
-} else {
-    JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+    if (!isValid) {
+        JOptionPane.showMessageDialog(null, "Some fields are required", "Error", JOptionPane.ERROR_MESSAGE);
+}   else {
+         JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
     
-    if (dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_status)"
+    if (dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status)"
             + " VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
             + contact.getText() + "','" + reguname.getText() + "','" + String.valueOf(regpass.getPassword()) + "','" 
-            + address.getText() + "','Pending')") == 1) {
+            + address.getText() + "','" + type.getSelectedItem() + "','Pending')") == 1) {
         
         login lg = new login();
         this.dispose();
@@ -490,17 +517,21 @@ public class regform extends javax.swing.JFrame {
         regpass.setEchoChar('*');
     }//GEN-LAST:event_reghideMouseReleased
 
-    private void confirmreghideMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmreghideMousePressed
-        confirmregshow.setVisible(true);
-        confirmreghide.setVisible(false);
+    private void reghide1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghide1MousePressed
+        regshow1.setVisible(true);
+        reghide1.setVisible(false);
         regconfirmpass.setEchoChar((char)0);
-    }//GEN-LAST:event_confirmreghideMousePressed
+    }//GEN-LAST:event_reghide1MousePressed
 
-    private void confirmreghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_confirmreghideMouseReleased
-        confirmregshow.setVisible(false);
-        confirmreghide.setVisible(true);
+    private void reghide1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_reghide1MouseReleased
+        regshow1.setVisible(false);
+        reghide1.setVisible(true);
         regconfirmpass.setEchoChar('*');
-    }//GEN-LAST:event_confirmreghideMouseReleased
+    }//GEN-LAST:event_reghide1MouseReleased
+
+    private void typeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_typeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_typeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -541,11 +572,10 @@ public class regform extends javax.swing.JFrame {
     private javax.swing.JButton RegDoneButton;
     private javax.swing.JTextField address;
     private javax.swing.JButton cancelregformButton;
-    private javax.swing.JLabel confirmreghide;
-    private javax.swing.JLabel confirmregshow;
     private javax.swing.JTextField contact;
     private javax.swing.JTextField email;
     private javax.swing.JTextField fname;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -555,14 +585,23 @@ public class regform extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField lname;
     private javax.swing.JTextField noteaddress;
     private javax.swing.JPasswordField regconfirmpass;
     private javax.swing.JLabel reghide;
+    private javax.swing.JLabel reghide1;
     private javax.swing.JPasswordField regpass;
     private javax.swing.JLabel regshow;
+    private javax.swing.JLabel regshow1;
     private javax.swing.JTextField reguname;
+    private javax.swing.JComboBox<String> type;
     // End of variables declaration//GEN-END:variables
 }
