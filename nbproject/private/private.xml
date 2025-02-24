@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/PC10/Desktop/IT2A---ChristianCanedo---Foodala/src/AdminPanel.java</file>
-            <file>file:/C:/Users/PC10/Desktop/IT2A---ChristianCanedo---Foodala/src/regform.java</file>
-            <file>file:/C:/Users/PC10/Desktop/IT2A---ChristianCanedo---Foodala/src/CustomerPanel.java</file>
-            <file>file:/C:/Users/PC10/Desktop/IT2A---ChristianCanedo---Foodala/src/Dashboard.java</file>
-            <file>file:/C:/Users/PC10/Desktop/IT2A---ChristianCanedo---Foodala/src/login.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/Dashboard.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/ManagersDB.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/ManagerPanel.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/CustomersDB.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/login.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/regform.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/AccountsPanel.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/CustomerPanel.java</file>
         </group>
     </open-files>
 </project-private>

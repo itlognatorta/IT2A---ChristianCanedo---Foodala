@@ -253,15 +253,15 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_Signin1MouseExited
 
     private void Signin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Signin1ActionPerformed
- 
-        
-      String url = "jdbc:mysql://localhost:3306/christian";
-      String user = "root";
-      String password = "";
+            
+     
+    String url = "jdbc:mysql://localhost:3306/christian";
+String user = "root";
+String password = "";
 
-    String query = "SELECT cs_pass FROM customer WHERE cs_user = ? AND cs_status = 'active'";
+String query = "SELECT cs_pass, cs_type FROM customer WHERE cs_user = ? AND cs_status = 'active'";
 
-    try (Connection conn = DriverManager.getConnection(url, user, password);
+try (Connection conn = DriverManager.getConnection(url, user, password);
      PreparedStatement pstmt = conn.prepareStatement(query)) {
 
     pstmt.setString(1, username.getText());
@@ -269,12 +269,27 @@ public class login extends javax.swing.JFrame {
 
     if (rs.next()) {
         String storedPassword = rs.getString("cs_pass");
+        String userType = rs.getString("cs_type"); 
 
         if (logpass.getText().equals(storedPassword)) {
             JOptionPane.showMessageDialog(null, "Login Successful!");
-            Dashboard dbd = new Dashboard();
-            this.dispose();
-            dbd.setVisible(true);
+
+            // Redirect based on user type
+            if ("customer".equalsIgnoreCase(userType)) {
+                CustomersDB csdb = new CustomersDB();
+                this.dispose();
+                csdb.setVisible(true);
+            } else if ("manager".equalsIgnoreCase(userType)) {
+                ManagersDB mgdb = new ManagersDB();
+                this.dispose();
+                mgdb.setVisible(true);
+            } else if ("admin".equalsIgnoreCase(userType)) {
+                Dashboard dbd = new Dashboard();
+                this.dispose();
+                dbd.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -284,6 +299,9 @@ public class login extends javax.swing.JFrame {
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
+        
+   
+
     }//GEN-LAST:event_Signin1ActionPerformed
 
     private void loghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghideMouseReleased

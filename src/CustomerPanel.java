@@ -40,20 +40,15 @@ public class CustomerPanel extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
 
-    public void displayData(){
-        
-        try{
-            dbconnect dbc = new dbconnect();
-            ResultSet rs = dbc.getData("SELECT * FROM customer");           
-            customer_table.setModel(DbUtils.resultSetToTableModel(rs));
-            
-            
-        }catch(SQLException ex){
-            System.out.println("Errors"+ex.getMessage());
-        }
-        
+   public void displayData(){
+    try {
+        dbconnect dbc = new dbconnect();
+        ResultSet rs = dbc.getData("SELECT * FROM customer WHERE cs_type = 'customer'");           
+        customer_table.setModel(DbUtils.resultSetToTableModel(rs));
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
     }
-    
+}
     
     
     @SuppressWarnings("unchecked")
@@ -100,6 +95,9 @@ public class CustomerPanel extends javax.swing.JFrame {
 
         acc.setBackground(new java.awt.Color(204, 204, 204));
         acc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 accMouseEntered(evt);
             }
@@ -292,10 +290,16 @@ public class CustomerPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_dbMouseClicked
 
     private void mgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mgMouseClicked
-        AdminPanel ap = new AdminPanel();
+        ManagerPanel ap = new ManagerPanel();
         this.dispose();
         ap.setVisible(true);
     }//GEN-LAST:event_mgMouseClicked
+
+    private void accMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseClicked
+        AccountsPanel ap = new AccountsPanel();
+        this.dispose();
+        ap.setVisible(true);
+    }//GEN-LAST:event_accMouseClicked
 
     /**
      * @param args the command line arguments

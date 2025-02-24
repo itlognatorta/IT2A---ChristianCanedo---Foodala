@@ -1,5 +1,8 @@
 
+import config.dbconnect;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.Border;
@@ -14,23 +17,41 @@ import javax.swing.border.Border;
  *
  * @author Administrator
  */
-public class AdminPanel extends javax.swing.JFrame {
+public class CustomersDB extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AdminPanel
-     */
-    public AdminPanel() {
+    
+    public CustomersDB() {
         initComponents();
     }
 
-    Color hover = new Color(102,102,102);  
-     Color defbutton = new Color(204,204,204);  
+   Color hover = new Color(102,102,102);  
+    Color defbutton = new Color(204,204,204);  
     
-        Border empty = BorderFactory.createEmptyBorder();
+    Border empty = BorderFactory.createEmptyBorder();
     
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
+   
+    public void displayUserGreeting(String username) {
+    try {
+        dbconnect dbc = new dbconnect();
+        ResultSet rs = dbc.getData("SELECT cs_fname FROM customer WHERE cs_user = '" + username + "'");
+
+        if (rs.next()) {
+            String firstName = rs.getString("cs_fname");
+            greetingLabel.setText("Hi " + firstName + "!");
+        } else {
+            greetingLabel.setText("Hi User!");
+        }
+
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+}
+
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -55,10 +76,10 @@ public class AdminPanel extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        customer_table = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
+        greetingLabel = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -96,6 +117,9 @@ public class AdminPanel extends javax.swing.JFrame {
 
         mg.setBackground(new java.awt.Color(204, 204, 204));
         mg.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mgMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 mgMouseEntered(evt);
             }
@@ -170,8 +194,8 @@ public class AdminPanel extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
-        jLabel5.setText("MANAGER PANEL");
+        greetingLabel.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
+        greetingLabel.setText("Hi Customer!");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -179,41 +203,44 @@ public class AdminPanel extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(216, Short.MAX_VALUE))
+                .addComponent(greetingLabel)
+                .addContainerGap(324, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
+                .addComponent(greetingLabel)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 630, 80));
 
-        jScrollPane1.setViewportView(customer_table);
-
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, 630, 370));
-
-        jButton1.setBackground(new java.awt.Color(153, 153, 153));
-        jButton1.setText("REFRESH");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 110, 40));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel9.setText("Log Out Account");
+        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
+
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/logout-removebg-preview (1).png"))); // NOI18N
+        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 210, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -227,6 +254,12 @@ public class AdminPanel extends javax.swing.JFrame {
     private void accMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseExited
         acc.setBackground(defbutton);
     }//GEN-LAST:event_accMouseExited
+
+    private void mgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mgMouseClicked
+        ManagerPanel mp = new ManagerPanel();
+        this.dispose();
+        mp.setVisible(true);
+    }//GEN-LAST:event_mgMouseClicked
 
     private void mgMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mgMouseEntered
         mg.setBackground(hover);
@@ -250,6 +283,12 @@ public class AdminPanel extends javax.swing.JFrame {
         db.setBackground(defbutton);
     }//GEN-LAST:event_dbMouseExited
 
+    private void csMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseClicked
+        CustomerPanel cp = new CustomerPanel();
+        this.dispose();
+        cp.setVisible(true);
+    }//GEN-LAST:event_csMouseClicked
+
     private void csMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseEntered
         cs.setBackground(hover);
     }//GEN-LAST:event_csMouseEntered
@@ -258,19 +297,14 @@ public class AdminPanel extends javax.swing.JFrame {
         cs.setBackground(defbutton);
     }//GEN-LAST:event_csMouseExited
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+
+
+    }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel1MouseClicked
-
-    private void csMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseClicked
-        CustomerPanel cp = new CustomerPanel();
-        this.dispose();
-        cp.setVisible(true);
-    }//GEN-LAST:event_csMouseClicked
 
     /**
      * @param args the command line arguments
@@ -289,20 +323,20 @@ public class AdminPanel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdminPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomersDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdminPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomersDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdminPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomersDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdminPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomersDB.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AdminPanel().setVisible(true);
+                new CustomersDB().setVisible(true);
             }
         });
     }
@@ -310,10 +344,10 @@ public class AdminPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acc;
     private javax.swing.JPanel cs;
-    private javax.swing.JTable customer_table;
     private javax.swing.JPanel db;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel greetingLabel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -323,14 +357,14 @@ public class AdminPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel mg;
     // End of variables declaration//GEN-END:variables
 }
