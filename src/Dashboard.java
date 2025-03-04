@@ -1,4 +1,5 @@
 
+import config.Session;
 import config.dbconnect;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -43,7 +44,7 @@ public class Dashboard extends javax.swing.JFrame {
         
         try{
             dbconnect dbc = new dbconnect();
-            ResultSet rs = dbc.getData("SELECT * FROM customer");           
+            ResultSet rs = dbc.getData("SELECT id,cs_fname, cs_lname,cs_user,cs_type, cs_status FROM customer");           
             users_table.setModel(DbUtils.resultSetToTableModel(rs));
             
             
@@ -108,12 +109,23 @@ public class Dashboard extends javax.swing.JFrame {
         users_table = new javax.swing.JTable();
         mgno = new javax.swing.JPanel();
         ManagersLabel = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         csno = new javax.swing.JPanel();
         CustomersLabel = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        add_user = new javax.swing.JButton();
+        edit_user = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
+        delete_user = new javax.swing.JButton();
 
         jLabel9.setText("jLabel9");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -264,7 +276,10 @@ public class Dashboard extends javax.swing.JFrame {
         ManagersLabel.setText("Managers:");
         mgno.add(ManagersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jPanel1.add(mgno, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 90, 150, 50));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/manager (1) (1).png"))); // NOI18N
+        mgno.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, 60));
+
+        jPanel1.add(mgno, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 90, 150, 120));
 
         csno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -272,7 +287,36 @@ public class Dashboard extends javax.swing.JFrame {
         CustomersLabel.setText("Customers:");
         csno.add(CustomersLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jPanel1.add(csno, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 90, 150, 50));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/customer-removebg-preview (1) (1).png"))); // NOI18N
+        csno.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 50, -1, -1));
+
+        jPanel1.add(csno, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 150, 120));
+
+        add_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        add_user.setText("ADD");
+        jPanel1.add(add_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 100, 40));
+
+        edit_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        edit_user.setText("EDIT");
+        edit_user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_userActionPerformed(evt);
+            }
+        });
+        jPanel1.add(edit_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 100, 40));
+
+        refresh.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        refresh.setText("REFRESH");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 100, 40));
+
+        delete_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        delete_user.setText("DELETE");
+        jPanel1.add(delete_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 100, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -351,6 +395,19 @@ public class Dashboard extends javax.swing.JFrame {
         ap.setVisible(true);
     }//GEN-LAST:event_accMouseClicked
 
+    private void edit_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_userActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edit_userActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+       displayData();
+    }//GEN-LAST:event_refreshActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+        Session sess = Session.getInstance();
+        
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -390,10 +447,15 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel CustomersLabel;
     private javax.swing.JLabel ManagersLabel;
     private javax.swing.JPanel acc;
+    private javax.swing.JButton add_user;
     private javax.swing.JPanel cs;
     private javax.swing.JPanel csno;
     private javax.swing.JPanel db;
+    private javax.swing.JButton delete_user;
+    private javax.swing.JButton edit_user;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -411,6 +473,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mg;
     private javax.swing.JPanel mgno;
+    private javax.swing.JButton refresh;
     private javax.swing.JTable users_table;
     // End of variables declaration//GEN-END:variables
 }

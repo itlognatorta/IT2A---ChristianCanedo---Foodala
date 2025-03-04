@@ -1,4 +1,5 @@
 
+import config.Session;
 import config.dbconnect;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -37,7 +38,44 @@ public class login extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
-
+    
+   public static boolean login(String username, String password) {
+    dbconnect db = new dbconnect();
+    
+    // Constructing the query manually (⚠️ NOT SECURE)
+    String query = "SELECT * FROM customer WHERE cs_user = '" + username + "' AND cs_pass = '" + password + "'";
+    
+    try {
+        ResultSet resultSet = db.getData(query); // Assuming getData() executes the query
+        
+        if (resultSet.next()) {  
+            // Debugging output
+            System.out.println("DEBUG: User found, ID = " + resultSet.getInt("id"));
+            
+            // Set session values
+            Session sess = Session.getInstance();
+            sess.setUid(resultSet.getInt("id"));
+            sess.setFname(resultSet.getString("cs_fname"));
+            sess.setLname(resultSet.getString("cs_lname"));
+            sess.setEmail(resultSet.getString("cs_email"));
+            sess.setContact(resultSet.getString("cs_contact"));
+            sess.setAddress(resultSet.getString("cs_address"));
+            sess.setUser(resultSet.getString("cs_user"));
+            sess.setType(resultSet.getString("cs_type"));
+            sess.setStatus(resultSet.getString("cs_status"));
+            
+            System.out.println("Session UID after login: " + sess.getUid()); // Debugging
+            return true;
+        } else { 
+            System.out.println("DEBUG: No user found with provided credentials.");
+            return false;
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace(); // Prints full error details
+        return false;
+    }
+}
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -299,6 +337,9 @@ try (Connection conn = DriverManager.getConnection(url, user, password);
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
+
+
+    
         
    
 
