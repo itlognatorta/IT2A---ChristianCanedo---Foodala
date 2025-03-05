@@ -1,6 +1,9 @@
 
 import config.dbconnect;
 import java.awt.Color;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -13,6 +16,8 @@ public class regform extends javax.swing.JFrame {
 
    List<String> existingUsernames = Arrays.asList("cs_user");
    List<String> existingEmails = Arrays.asList("cs_email");
+   
+    
     
     public regform() {
         initComponents();
@@ -26,6 +31,8 @@ public class regform extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -323,9 +330,15 @@ public class regform extends javax.swing.JFrame {
 String username = reguname.getText().trim();
 String emails = email.getText().trim();
 
+
+
+StringBuilder errorMessages = new StringBuilder();
+
+
 // First Name Validation
 if (fname.getText().isEmpty()) {
     fname.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("First name is required.\n");
     isValid = false;
 } else {
     fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -334,6 +347,7 @@ if (fname.getText().isEmpty()) {
 // Last Name Validation
 if (lname.getText().isEmpty()) {
     lname.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Last name is required.\n");
     isValid = false;
 } else {
     lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -342,19 +356,23 @@ if (lname.getText().isEmpty()) {
 // Email Validation
 if (email.getText().isEmpty()) {
     email.setBorder(BorderFactory.createLineBorder(Color.RED));
-    isValid = false;
-} else if (existingEmails.contains(emails)) {
-    email.setBorder(BorderFactory.createLineBorder(Color.RED));
-    JOptionPane.showMessageDialog(null, "Email is already registered. Please use another email.", "Error", JOptionPane.ERROR_MESSAGE);
+    errorMessages.append("Email is required.\n");
     isValid = false;
 } else {
     email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
 
-// Email Format Validation
-if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+// Check if Email already exists in the list
+if (existingEmails.contains(email.getText())) {
     email.setBorder(BorderFactory.createLineBorder(Color.RED));
-    JOptionPane.showMessageDialog(null, "Email must be in the format 'username@domain.com'.", "Error", JOptionPane.ERROR_MESSAGE);
+    errorMessages.append("Email is already registered.\n");
+    isValid = false;
+}
+
+// Email Format Validation
+if (!email.getText().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+    email.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Email must be in the format 'username@domain.com'.\n");
     isValid = false;
 } else {
     email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -363,6 +381,7 @@ if (!emails.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
 // Contact Number Validation
 if (contact.getText().isEmpty()) {
     contact.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Contact number is required.\n");
     isValid = false;
 } else {
     contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -371,7 +390,7 @@ if (contact.getText().isEmpty()) {
 String contactNumber = contact.getText().trim();
 if (!contactNumber.matches("\\d{11}")) {
     contact.setBorder(BorderFactory.createLineBorder(Color.RED));
-    JOptionPane.showMessageDialog(null, "Contact number must contain exactly 11 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+    errorMessages.append("Contact number must contain exactly 11 digits.\n");
     isValid = false;
 } else {
     contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -380,19 +399,23 @@ if (!contactNumber.matches("\\d{11}")) {
 // Username Validation
 if (username.isEmpty()) {
     reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
-    isValid = false;
-} else if (existingUsernames.contains(username)) {
-    reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
-    JOptionPane.showMessageDialog(null, "Username is already taken. Please choose another one.", "Error", JOptionPane.ERROR_MESSAGE);
+    errorMessages.append("Username is required.\n");
     isValid = false;
 } else {
     reguname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
 
+// Check if Username already exists
+if (existingUsernames.contains(username)) {
+    reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Username is already taken.\n");
+    isValid = false;
+}
+
 // Password Length Validation
 if (regpass.getPassword().length < 8) {
     regpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-    JOptionPane.showMessageDialog(null, "Password must contain at least 8 characters.", "Error", JOptionPane.ERROR_MESSAGE);
+    errorMessages.append("Password must contain at least 8 characters.\n");
     isValid = false;
 } else {
     regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -401,7 +424,7 @@ if (regpass.getPassword().length < 8) {
 // Password Match Validation
 if (!String.valueOf(regpass.getPassword()).equals(String.valueOf(regconfirmpass.getPassword()))) {
     regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-    JOptionPane.showMessageDialog(null, "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
+    errorMessages.append("Passwords do not match.\n");
     isValid = false;
 } else {
     regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -411,6 +434,7 @@ if (!String.valueOf(regpass.getPassword()).equals(String.valueOf(regconfirmpass.
 // Address Validation
 if (address.getText().isEmpty()) {
     address.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Address is required.\n");
     isValid = false;
 } else {
     address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -419,6 +443,7 @@ if (address.getText().isEmpty()) {
 // Account Type Validation
 if (type.getSelectedIndex() == 0) {
     type.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Account type must be selected.\n");
     isValid = false;
 } else {
     type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -427,6 +452,7 @@ if (type.getSelectedIndex() == 0) {
 // Password Empty Check
 if (regpass.getPassword().length == 0) {
     regpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Password is required.\n");
     isValid = false;
 } else {
     regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -435,6 +461,7 @@ if (regpass.getPassword().length == 0) {
 // Confirm Password Empty Check
 if (regconfirmpass.getPassword().length == 0) {
     regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Confirm password is required.\n");
     isValid = false;
 } else {
     regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -442,13 +469,14 @@ if (regconfirmpass.getPassword().length == 0) {
 
 // Final Validation Check
 if (!isValid) {
-    JOptionPane.showMessageDialog(null, "Some fields are required", "Error", JOptionPane.ERROR_MESSAGE);
+    // Show all error messages in a single JOptionPane dialog
+    JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
 } else {
     JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
 
     // Database Insertion
-    if (dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status)"
-            + " VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
+    if (dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status) "
+            + "VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
             + contact.getText() + "','" + reguname.getText() + "','" + String.valueOf(regpass.getPassword()) + "','" 
             + address.getText() + "','" + type.getSelectedItem() + "','Pending')") == 1) {
 

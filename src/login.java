@@ -1,4 +1,5 @@
 
+import com.sun.glass.events.KeyEvent;
 import config.Session;
 import config.dbconnect;
 import java.awt.BasicStroke;
@@ -37,6 +38,53 @@ public class login extends javax.swing.JFrame {
     
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
+    }
+    
+    private void loginUser() {
+        String url = "jdbc:mysql://localhost:3306/christian";
+        String user = "root";
+        String password = "";
+
+        String query = "SELECT cs_pass, cs_type FROM customer WHERE cs_user = ? AND cs_status = 'active'";
+
+        try (Connection conn = DriverManager.getConnection(url, user, password);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+            pstmt.setString(1, username.getText());
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String storedPassword = rs.getString("cs_pass");
+                String userType = rs.getString("cs_type"); 
+
+                if (logpass.getText().equals(storedPassword)) {
+                    JOptionPane.showMessageDialog(null, "Login Successful!");
+
+                    // Redirect based on user type
+                    if ("customer".equalsIgnoreCase(userType)) {
+                        CustomersDB csdb = new CustomersDB();
+                        this.dispose();
+                        csdb.setVisible(true);
+                    } else if ("manager".equalsIgnoreCase(userType)) {
+                        ManagersDB mgdb = new ManagersDB();
+                        this.dispose();
+                        mgdb.setVisible(true);
+                    } else if ("admin".equalsIgnoreCase(userType)) {
+                        Dashboard dbd = new Dashboard();
+                        this.dispose();
+                        dbd.setVisible(true);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
    public static boolean login(String username, String password) {
@@ -193,6 +241,11 @@ public class login extends javax.swing.JFrame {
                 Signin1ActionPerformed(evt);
             }
         });
+        Signin1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Signin1KeyPressed(evt);
+            }
+        });
         jPanel1.add(Signin1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 320, 141, 48));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo_Logo-removebg-preview.png"))); // NOI18N
@@ -206,6 +259,11 @@ public class login extends javax.swing.JFrame {
         username.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 usernameActionPerformed(evt);
+            }
+        });
+        username.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                usernameKeyPressed(evt);
             }
         });
         jPanel2.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 290, 70));
@@ -226,6 +284,14 @@ public class login extends javax.swing.JFrame {
 
         logpass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         logpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
+        logpass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                logpassKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                logpassKeyTyped(evt);
+            }
+        });
         jPanel2.add(logpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 290, 70));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 310, 200));
@@ -291,58 +357,7 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_Signin1MouseExited
 
     private void Signin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Signin1ActionPerformed
-            
-     
-    String url = "jdbc:mysql://localhost:3306/christian";
-String user = "root";
-String password = "";
-
-String query = "SELECT cs_pass, cs_type FROM customer WHERE cs_user = ? AND cs_status = 'active'";
-
-try (Connection conn = DriverManager.getConnection(url, user, password);
-     PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-    pstmt.setString(1, username.getText());
-    ResultSet rs = pstmt.executeQuery();
-
-    if (rs.next()) {
-        String storedPassword = rs.getString("cs_pass");
-        String userType = rs.getString("cs_type"); 
-
-        if (logpass.getText().equals(storedPassword)) {
-            JOptionPane.showMessageDialog(null, "Login Successful!");
-
-            // Redirect based on user type
-            if ("customer".equalsIgnoreCase(userType)) {
-                CustomersDB csdb = new CustomersDB();
-                this.dispose();
-                csdb.setVisible(true);
-            } else if ("manager".equalsIgnoreCase(userType)) {
-                ManagersDB mgdb = new ManagersDB();
-                this.dispose();
-                mgdb.setVisible(true);
-            } else if ("admin".equalsIgnoreCase(userType)) {
-                Dashboard dbd = new Dashboard();
-                this.dispose();
-                dbd.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } else {
-        JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
-    }
-} catch (SQLException e) {
-    JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
-
-
-    
-        
-   
-
+            loginUser();
     }//GEN-LAST:event_Signin1ActionPerformed
 
     private void loghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghideMouseReleased
@@ -360,6 +375,28 @@ try (Connection conn = DriverManager.getConnection(url, user, password);
     private void usernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usernameActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_usernameActionPerformed
+
+    private void Signin1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Signin1KeyPressed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_Signin1KeyPressed
+
+    private void logpassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_logpassKeyTyped
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_logpassKeyTyped
+
+    private void logpassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_logpassKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            loginUser();
+    }//GEN-LAST:event_logpassKeyPressed
+
+    private void usernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyPressed
+        // TODO add your handling code here:
+        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
+            loginUser();
+    }//GEN-LAST:event_usernameKeyPressed
 
     /**
      * @param args the command line arguments

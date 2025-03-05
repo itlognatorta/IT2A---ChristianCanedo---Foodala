@@ -68,12 +68,23 @@ public class CustomersDB extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
+        acc2 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        acc3 = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         db = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cs_name = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        cs_order = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -117,7 +128,49 @@ public class CustomersDB extends javax.swing.JFrame {
         jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/account1-removebg-preview (1).png"))); // NOI18N
         acc.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jPanel2.add(acc, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 180, 50));
+        acc2.setBackground(new java.awt.Color(204, 204, 204));
+        acc2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                acc2MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                acc2MouseExited(evt);
+            }
+        });
+        acc2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 18)); // NOI18N
+        jLabel11.setText("ACCOUNT");
+        acc2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 20));
+        acc2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/account1-removebg-preview (1).png"))); // NOI18N
+        acc2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        acc3.setBackground(new java.awt.Color(204, 204, 204));
+        acc3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                acc3MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                acc3MouseExited(evt);
+            }
+        });
+        acc3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel12.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 18)); // NOI18N
+        jLabel12.setText("ACCOUNT");
+        acc3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 20));
+        acc3.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/account1-removebg-preview (1).png"))); // NOI18N
+        acc3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        acc2.add(acc3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 180, 50));
+
+        acc.add(acc2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 380, 180, 50));
+
+        jPanel2.add(acc, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 340, 180, 50));
 
         db.setBackground(new java.awt.Color(204, 204, 204));
         db.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -149,6 +202,24 @@ public class CustomersDB extends javax.swing.JFrame {
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+
+        cs_order.setBackground(new java.awt.Color(204, 204, 204));
+        cs_order.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                cs_orderMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                cs_orderMouseExited(evt);
+            }
+        });
+        cs_order.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel5.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 18)); // NOI18N
+        jLabel5.setText("ORDERS");
+        cs_order.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, 20));
+        cs_order.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, -1, -1));
+
+        jPanel2.add(cs_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 290, 180, 50));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 180, 560));
 
@@ -238,6 +309,30 @@ public class CustomersDB extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formWindowActivated
 
+    private void cs_orderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cs_orderMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cs_orderMouseEntered
+
+    private void cs_orderMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cs_orderMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cs_orderMouseExited
+
+    private void acc3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acc3MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_acc3MouseEntered
+
+    private void acc3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acc3MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_acc3MouseExited
+
+    private void acc2MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acc2MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_acc2MouseEntered
+
+    private void acc2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acc2MouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_acc2MouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -275,14 +370,25 @@ public class CustomersDB extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acc;
+    private javax.swing.JPanel acc2;
+    private javax.swing.JPanel acc3;
     private javax.swing.JLabel cs_name;
+    private javax.swing.JPanel cs_order;
     private javax.swing.JPanel db;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
