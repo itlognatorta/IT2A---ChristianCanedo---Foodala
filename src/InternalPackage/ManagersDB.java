@@ -4,6 +4,7 @@ package InternalPackage;
 import InsideManagerDB.AccManagerDB;
 import OutsidePackage.login;
 import InsideManagerDB.FoodsDB;
+import config.Session;
 import config.dbconnect;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -31,7 +32,8 @@ public class ManagersDB extends javax.swing.JFrame {
     public ManagersDB() {
         initComponents();
         
-        displayManagerGreeting();
+        accountInformation();
+        
     }
 
    Color hover = new Color(102,102,102);  
@@ -42,24 +44,29 @@ public class ManagersDB extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+   
     
-    public void displayManagerGreeting() {
-    try {
-        dbconnect dbc = new dbconnect();
-        ResultSet rs = dbc.getData("SELECT cs_fname FROM customer WHERE cs_user = 1");
+    public void accountInformation() {
+    // Get session instance
+    Session sess = Session.getInstance();
 
-        if (rs.next()) {
-            String firstName = rs.getString("cs_fname");
-           mgname.setText("Hi " + firstName + "!");
-        } else {
-            mgname.setText("Hello Christian!");
-        }
+    // Debugging output
+    System.out.println("DEBUG: Account Info - First Name: " + sess.getFname());
+    System.out.println("DEBUG: Account Info - Last Name: " + sess.getLname());
+    System.out.println("DEBUG: Account Info - Username: " + sess.getUser());
 
-    } catch (SQLException ex) {
-        System.out.println("Error: " + ex.getMessage());
-    }
+    // Retrieve user details
+    String firstName = sess.getFname();
+    String lastName = sess.getLname();
+    String username = sess.getUser(); // Retrieve username
 
+    // Construct full display name
+    String fullNameWithUsername = firstName + " " + lastName + " (" + username + ")";
+
+    // Display full name with username
+    mgname.setText(fullNameWithUsername);
 }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -229,7 +236,7 @@ public class ManagersDB extends javax.swing.JFrame {
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 190, 60));
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 190, 60));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 700, 100));
 

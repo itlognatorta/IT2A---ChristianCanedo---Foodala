@@ -1,7 +1,8 @@
 package InternalPackage;
 
 
-import InternalPackage.ManagerPanel;
+import InsideAdminDB.AccountsPanel;
+import InsideAdminDB.CustomerPanel;
 import config.Session;
 import config.dbconnect;
 import java.awt.Color;
@@ -11,6 +12,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.Border;
 import net.proteanit.sql.DbUtils;
+import InsideAdminDB.AddUsersForm;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -297,6 +301,11 @@ public class Dashboard extends javax.swing.JFrame {
 
         add_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_user.setText("ADD");
+        add_user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_userActionPerformed(evt);
+            }
+        });
         jPanel1.add(add_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 100, 40));
 
         edit_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -399,7 +408,31 @@ public class Dashboard extends javax.swing.JFrame {
     }//GEN-LAST:event_accMouseClicked
 
     private void edit_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_userActionPerformed
-        // TODO add your handling code here:
+        int rowindex = users_table.getSelectedRow();
+        
+        if (rowindex < 0){
+           JOptionPane.showMessageDialog(null, "Please Select an Item:");
+        }else{   
+            
+            
+            try{
+            dbconnect db = new dbconnect();
+            TableModel tbl = users_table.getModel();
+            ResultSet rs = db.getData("SELECT * FROM customer WHERE id = "+tbl.getValueAt(rowindex, 0)+"");
+            if(rs.next()){
+            AddUsersForm af = new AddUsersForm();
+            af.add_fname.setText(""+rs.getString("cs_fname"));                      
+            af.add_email.setText(""+rs.getString("cs_email"));  
+            af.add_contact.setText(""+rs.getString("cs_contact"));  
+            af.setVisible(true);
+            this.dispose();
+                    }
+        }catch(SQLException ex){
+            System.out.println(""+ex);
+        }
+        
+        TableModel tbl = users_table.getModel();
+        }
     }//GEN-LAST:event_edit_userActionPerformed
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
@@ -410,6 +443,12 @@ public class Dashboard extends javax.swing.JFrame {
         Session sess = Session.getInstance();
         
     }//GEN-LAST:event_formWindowActivated
+
+    private void add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_userActionPerformed
+         AddUsersForm af = new AddUsersForm();
+         this.dispose();
+         af.setVisible(true);
+    }//GEN-LAST:event_add_userActionPerformed
 
     /**
      * @param args the command line arguments

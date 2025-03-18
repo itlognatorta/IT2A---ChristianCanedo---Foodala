@@ -1,12 +1,8 @@
 package OutsidePackage;
 
 
-import OutsidePackage.login;
 import config.dbconnect;
 import java.awt.Color;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -251,7 +247,6 @@ public class regform extends javax.swing.JFrame {
         jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, -1, -1));
 
         noteaddress.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
-        noteaddress.setText("(Optional)");
         noteaddress.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         noteaddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -441,6 +436,15 @@ if (address.getText().isEmpty()) {
     isValid = false;
 } else {
     address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Note Address Validation
+if (noteaddress.getText().isEmpty()) {
+    noteaddress.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Note Address is required.\n");
+    isValid = false;
+} else {
+    noteaddress.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
 
 // Account Type Validation

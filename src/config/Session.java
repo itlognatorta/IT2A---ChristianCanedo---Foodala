@@ -1,21 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package config;
 
-/**
- *
- * @author Administrator
- */
-
- 
 public class Session {
 
-    private static Session instance; // Singleton instance
-
-    private int uid;
+    private static Session instance;    
+    private String uid;
     private String fname;
     private String lname;
     private String email;
@@ -25,29 +13,26 @@ public class Session {
     private String type;
     private String status;
 
-    // Private constructor to prevent instantiation
+    // Private constructor to prevent external instantiation
     private Session() {
     }
 
-    
     public static synchronized Session getInstance() {
         if (instance == null) {
             instance = new Session();
-                       
         }
         return instance;
     }
 
-    public static boolean isInstanceEmpty() {
-        return instance == null;
+    public static void resetSession() {
+        instance = null;  // Clear session when user logs out
     }
 
-    // Getters and Setters
-    public int getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(int uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -114,5 +99,4 @@ public class Session {
     public void setStatus(String status) {
         this.status = status;
     }
-    
 }

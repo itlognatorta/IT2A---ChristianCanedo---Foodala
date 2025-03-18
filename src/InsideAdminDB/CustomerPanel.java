@@ -1,15 +1,20 @@
-package InternalPackage;
+package InsideAdminDB;
 
 
-import InternalPackage.CustomerPanel;
+import InternalPackage.Dashboard;
 import InternalPackage.Dashboard;
 import InternalPackage.ManagerPanel;
-import OutsidePackage.login;
+import InternalPackage.ManagerPanel;
+import config.dbconnect;
 import java.awt.Color;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -21,16 +26,18 @@ import javax.swing.border.Border;
  *
  * @author Administrator
  */
-public class AccountsPanel extends javax.swing.JFrame {
+public class CustomerPanel extends javax.swing.JFrame {
 
     /**
-     * Creates new form AccountsPanel
+     * Creates new form CustomerPanel
      */
-    public AccountsPanel() {
+    public CustomerPanel() {
         initComponents();
+        
+        displayData();
     }
-
-    Color hover = new Color(102,102,102);  
+    
+     Color hover = new Color(102,102,102);  
      Color defbutton = new Color(204,204,204);  
     
         Border empty = BorderFactory.createEmptyBorder();
@@ -38,6 +45,18 @@ public class AccountsPanel extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+
+   public void displayData(){
+    try {
+        dbconnect dbc = new dbconnect();
+        ResultSet rs = dbc.getData("SELECT cs_fname, cs_lname, cs_contact, cs_user, cs_type, cs_status FROM customer WHERE cs_type = 'customer'");           
+        customer_table.setModel(DbUtils.resultSetToTableModel(rs));
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex.getMessage());
+    }
+}
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -63,9 +82,11 @@ public class AccountsPanel extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        customer_table = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +103,9 @@ public class AccountsPanel extends javax.swing.JFrame {
 
         acc.setBackground(new java.awt.Color(204, 204, 204));
         acc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 accMouseEntered(evt);
             }
@@ -151,9 +175,6 @@ public class AccountsPanel extends javax.swing.JFrame {
 
         cs.setBackground(new java.awt.Color(204, 204, 204));
         cs.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                csMouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 csMouseEntered(evt);
             }
@@ -181,7 +202,7 @@ public class AccountsPanel extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel5.setFont(new java.awt.Font("Century Gothic", 1, 48)); // NOI18N
-        jLabel5.setText("ACCOUNT PANEL");
+        jLabel5.setText("CUSTOMER PANEL");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -190,7 +211,7 @@ public class AccountsPanel extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addContainerGap(223, Short.MAX_VALUE))
+                .addContainerGap(211, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -202,52 +223,90 @@ public class AccountsPanel extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 0, 630, 80));
 
-        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
+        jScrollPane1.setViewportView(customer_table);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, 630, 370));
+
+        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setText("REFRESH");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 110, 40));
 
-        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel9.setText("Log Out Account");
-        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel9.setText("List of Customers");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 160, 30));
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/logout-removebg-preview (1).png"))); // NOI18N
-        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 180, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 30, Short.MAX_VALUE)
+        );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 210, 50));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 180, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void accMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseEntered
-        acc.setBackground(hover);
-    }//GEN-LAST:event_accMouseEntered
+    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jPanel1MouseClicked
 
-    private void accMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseExited
-        acc.setBackground(defbutton);
-    }//GEN-LAST:event_accMouseExited
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        displayData();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void dbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbMouseEntered
+      db.setBackground(hover);
+    }//GEN-LAST:event_dbMouseEntered
+
+    private void dbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbMouseExited
+      db.setBackground(defbutton);
+    }//GEN-LAST:event_dbMouseExited
+
+    private void csMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseEntered
+       cs.setBackground(hover);
+    }//GEN-LAST:event_csMouseEntered
+
+    private void csMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseExited
+      cs.setBackground(defbutton);
+    }//GEN-LAST:event_csMouseExited
 
     private void mgMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mgMouseEntered
-        mg.setBackground(hover);
+      mg.setBackground(hover);
     }//GEN-LAST:event_mgMouseEntered
 
     private void mgMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mgMouseExited
-        mg.setBackground(defbutton);
+      mg.setBackground(defbutton);
     }//GEN-LAST:event_mgMouseExited
+
+    private void accMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseEntered
+     acc.setBackground(hover);
+    }//GEN-LAST:event_accMouseEntered
+
+    private void accMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseExited
+     acc.setBackground(defbutton);
+    }//GEN-LAST:event_accMouseExited
 
     private void dbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbMouseClicked
         Dashboard db = new Dashboard();
@@ -255,56 +314,17 @@ public class AccountsPanel extends javax.swing.JFrame {
         db.setVisible(true);
     }//GEN-LAST:event_dbMouseClicked
 
-    private void dbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbMouseEntered
-        db.setBackground(hover);
-    }//GEN-LAST:event_dbMouseEntered
-
-    private void dbMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbMouseExited
-        db.setBackground(defbutton);
-    }//GEN-LAST:event_dbMouseExited
-
-    private void csMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseClicked
-        CustomerPanel cp = new CustomerPanel();
-        this.dispose();
-        cp.setVisible(true);
-    }//GEN-LAST:event_csMouseClicked
-
-    private void csMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseEntered
-        cs.setBackground(hover);
-    }//GEN-LAST:event_csMouseEntered
-
-    private void csMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_csMouseExited
-        cs.setBackground(defbutton);
-    }//GEN-LAST:event_csMouseExited
-
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPanel1MouseClicked
-
     private void mgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mgMouseClicked
-         ManagerPanel mp = new ManagerPanel();
+        ManagerPanel ap = new ManagerPanel();
         this.dispose();
-        mp.setVisible(true);
+        ap.setVisible(true);
     }//GEN-LAST:event_mgMouseClicked
 
-    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-     
-    int choice = JOptionPane.showConfirmDialog(
-        null,
-        "Are you sure you want to log out?",
-        "Logout Confirmation",
-        JOptionPane.YES_NO_OPTION
-    );
-
-    if (choice == JOptionPane.YES_OPTION) {
-       
+    private void accMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseClicked
+        AccountsPanel ap = new AccountsPanel();
         this.dispose();
-        login lg = new login();
-        lg.setVisible(true);
-    }
-    
-
-    }//GEN-LAST:event_jPanel4MouseClicked
+        ap.setVisible(true);
+    }//GEN-LAST:event_accMouseClicked
 
     /**
      * @param args the command line arguments
@@ -323,20 +343,20 @@ public class AccountsPanel extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AccountsPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AccountsPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AccountsPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AccountsPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CustomerPanel.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new AccountsPanel().setVisible(true);
+                new CustomerPanel().setVisible(true);
             }
         });
     }
@@ -344,9 +364,10 @@ public class AccountsPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acc;
     private javax.swing.JPanel cs;
+    private javax.swing.JTable customer_table;
     private javax.swing.JPanel db;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
@@ -365,6 +386,7 @@ public class AccountsPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mg;
     // End of variables declaration//GEN-END:variables
 }

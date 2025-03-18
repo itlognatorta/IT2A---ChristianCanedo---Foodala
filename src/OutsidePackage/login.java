@@ -7,15 +7,11 @@ import InternalPackage.ManagersDB;
 import com.sun.glass.events.KeyEvent;
 import config.Session;
 import config.dbconnect;
-import java.awt.BasicStroke;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
 import java.sql.*;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import javax.swing.JOptionPane;
 
 /*
@@ -34,6 +30,7 @@ public class login extends javax.swing.JFrame {
   
     public login() {
         initComponents();
+       
     }
     
     Color hover = new Color(153,153,153);  
@@ -43,6 +40,7 @@ public class login extends javax.swing.JFrame {
     
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
+            
     }
     
     private void loginUser() {
@@ -91,8 +89,9 @@ public class login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
+     
     
-   public static boolean login(String username, String password) {
+  public static boolean login(String username, String password) {
     dbconnect db = new dbconnect();
     
     // Constructing the query manually (⚠️ NOT SECURE)
@@ -107,7 +106,7 @@ public class login extends javax.swing.JFrame {
             
             // Set session values
             Session sess = Session.getInstance();
-            sess.setUid(resultSet.getInt("id"));
+            sess.setUid(resultSet.getString("id"));
             sess.setFname(resultSet.getString("cs_fname"));
             sess.setLname(resultSet.getString("cs_lname"));
             sess.setEmail(resultSet.getString("cs_email"));
@@ -128,6 +127,7 @@ public class login extends javax.swing.JFrame {
         return false;
     }
 }
+  
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -363,6 +363,7 @@ public class login extends javax.swing.JFrame {
 
     private void Signin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Signin1ActionPerformed
             loginUser();
+            
     }//GEN-LAST:event_Signin1ActionPerformed
 
     private void loghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghideMouseReleased

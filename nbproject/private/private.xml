@@ -5,16 +5,12 @@
         <group>
             <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InternalPackage/ManagersDB.java</file>
             <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InternalPackage/Dashboard.java</file>
-            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InternalPackage/AccountsPanel.java</file>
-            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InternalPackage/CustomerPanel.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InternalPackage/CustomersDB.java</file>
             <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/config/Session.java</file>
-            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/config/dbconnect.java</file>
             <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/OutsidePackage/regform.java</file>
-            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InsideManagerDB/FoodForm.java</file>
-            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InsideManagerDB/FoodsDB.java</file>
-            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InternalPackage/ManagerPanel.java</file>
-            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InsideManagerDB/AccManagerDB.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InsideAdminDB/CustomerPanel.java</file>
             <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/OutsidePackage/login.java</file>
+            <file>file:/C:/Users/Administrator/Desktop/IT2A---ChristianCanedo---Foodala/src/InsideAdminDB/AddUsersForm.java</file>
         </group>
     </open-files>
 </project-private>

@@ -1,6 +1,8 @@
 package InternalPackage;
 
 
+import InsideAdminDB.AccountsPanel;
+import InsideAdminDB.CustomerPanel;
 import config.dbconnect;
 import java.awt.Color;
 import java.sql.ResultSet;
