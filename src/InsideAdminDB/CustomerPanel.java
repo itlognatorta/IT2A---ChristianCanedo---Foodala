@@ -225,7 +225,7 @@ public class CustomerPanel extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(customer_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, 630, 370));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 590, 340));
 
         jButton1.setBackground(new java.awt.Color(153, 153, 153));
         jButton1.setText("REFRESH");

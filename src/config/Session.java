@@ -28,6 +28,8 @@ public class Session {
         instance = null;  // Clear session when user logs out
     }
 
+    // Getters and Setters for all session variables
+
     public String getUid() {
         return uid;
     }

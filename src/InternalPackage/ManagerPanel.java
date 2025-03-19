@@ -219,7 +219,7 @@ public class ManagerPanel extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(manager_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 150, 630, 370));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 590, 350));
 
         jButton1.setBackground(new java.awt.Color(153, 153, 153));
         jButton1.setText("REFRESH");

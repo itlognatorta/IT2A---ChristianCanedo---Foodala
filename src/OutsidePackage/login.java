@@ -96,14 +96,11 @@ public class login extends javax.swing.JFrame {
     
     // Constructing the query manually (⚠️ NOT SECURE)
     String query = "SELECT * FROM customer WHERE cs_user = '" + username + "' AND cs_pass = '" + password + "'";
-    
+
     try {
         ResultSet resultSet = db.getData(query); // Assuming getData() executes the query
-        
-        if (resultSet.next()) {  
-            // Debugging output
-            System.out.println("DEBUG: User found, ID = " + resultSet.getInt("id"));
-            
+
+        if (resultSet.next()) {
             // Set session values
             Session sess = Session.getInstance();
             sess.setUid(resultSet.getString("id"));
@@ -115,10 +112,14 @@ public class login extends javax.swing.JFrame {
             sess.setUser(resultSet.getString("cs_user"));
             sess.setType(resultSet.getString("cs_type"));
             sess.setStatus(resultSet.getString("cs_status"));
+
+            // Debugging: Output session data to ensure it's set
+            System.out.println("DEBUG: Session data after login");
+            System.out.println("DEBUG: First Name: " + sess.getFname());
+            System.out.println("DEBUG: Last Name: " + sess.getLname());
             
-            System.out.println("Session UID after login: " + sess.getUid()); // Debugging
             return true;
-        } else { 
+        } else {
             System.out.println("DEBUG: No user found with provided credentials.");
             return false;
         }
@@ -127,6 +128,7 @@ public class login extends javax.swing.JFrame {
         return false;
     }
 }
+
   
     
     /**

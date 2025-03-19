@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 import net.proteanit.sql.DbUtils;
 import InsideAdminDB.AddUsersForm;
+import InsideAdminDB.EditUsers;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
@@ -420,11 +421,13 @@ public class Dashboard extends javax.swing.JFrame {
             TableModel tbl = users_table.getModel();
             ResultSet rs = db.getData("SELECT * FROM customer WHERE id = "+tbl.getValueAt(rowindex, 0)+"");
             if(rs.next()){
-            AddUsersForm af = new AddUsersForm();
-            af.add_fname.setText(""+rs.getString("cs_fname"));                      
-            af.add_email.setText(""+rs.getString("cs_email"));  
-            af.add_contact.setText(""+rs.getString("cs_contact"));  
-            af.setVisible(true);
+            EditUsers eu = new EditUsers();
+            eu.add_fname.setText(""+rs.getString("cs_fname"));                      
+            eu.add_email.setText(""+rs.getString("cs_email"));  
+            eu.add_contact.setText(""+rs.getString("cs_contact"));  
+            eu.status.setText(""+rs.getString("cs_status"));
+            
+            eu.setVisible(true);
             this.dispose();
                     }
         }catch(SQLException ex){
