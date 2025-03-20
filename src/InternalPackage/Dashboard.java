@@ -110,6 +110,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        adminname = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -242,7 +243,11 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2.add(cs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 240, 60));
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 150));
+
+        adminname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        adminname.setText("ADMIN");
+        jPanel2.add(adminname, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 570));
 
@@ -300,6 +305,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel1.add(csno, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 90, 150, 120));
 
+        add_user.setBackground(new java.awt.Color(0, 0, 255));
         add_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_user.setText("ADD");
         add_user.addActionListener(new java.awt.event.ActionListener() {
@@ -309,6 +315,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jPanel1.add(add_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 100, 40));
 
+        edit_user.setBackground(new java.awt.Color(0, 255, 0));
         edit_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         edit_user.setText("EDIT");
         edit_user.addActionListener(new java.awt.event.ActionListener() {
@@ -318,6 +325,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jPanel1.add(edit_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 100, 100, 40));
 
+        refresh.setBackground(new java.awt.Color(255, 255, 51));
         refresh.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         refresh.setText("REFRESH");
         refresh.addActionListener(new java.awt.event.ActionListener() {
@@ -327,6 +335,7 @@ public class Dashboard extends javax.swing.JFrame {
         });
         jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 150, 100, 40));
 
+        delete_user.setBackground(new java.awt.Color(255, 0, 0));
         delete_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         delete_user.setText("DELETE");
         jPanel1.add(delete_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 100, 40));
@@ -444,7 +453,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
-        
+        adminname.setText(""+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
     private void add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_userActionPerformed
@@ -493,6 +502,7 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JLabel ManagersLabel;
     private javax.swing.JPanel acc;
     private javax.swing.JButton add_user;
+    private javax.swing.JLabel adminname;
     private javax.swing.JPanel cs;
     private javax.swing.JPanel csno;
     private javax.swing.JPanel db;

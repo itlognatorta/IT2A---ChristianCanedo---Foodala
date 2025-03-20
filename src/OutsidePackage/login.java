@@ -1,6 +1,7 @@
 package OutsidePackage;
 
 
+import InsideAdminDB.AccountsPanel;
 import InternalPackage.CustomersDB;
 import InternalPackage.Dashboard;
 import InternalPackage.ManagersDB;
@@ -30,8 +31,44 @@ public class login extends javax.swing.JFrame {
   
     public login() {
         initComponents();
+        
        
     }
+    
+   public static boolean loginUser(String username, String password) {
+    dbconnect db = new dbconnect(); 
+    String query = "SELECT * FROM customer WHERE cs_user = '" + username + "' AND cs_pass = '" + password + "'";
+
+    try {
+        ResultSet resultSet = db.getData(query); 
+     
+
+        if (resultSet.next()) {
+            // Set session values
+            Session sess = Session.getInstance();
+            sess.setUid(resultSet.getString("id"));
+            sess.setFname(resultSet.getString("cs_fname"));
+            sess.setLname(resultSet.getString("cs_lname"));
+            sess.setEmail(resultSet.getString("cs_email"));
+            sess.setContact(resultSet.getString("cs_contact"));
+            sess.setAddress(resultSet.getString("cs_address"));
+            sess.setUser(resultSet.getString("cs_user"));
+            sess.setType(resultSet.getString("cs_type"));
+            sess.setStatus(resultSet.getString("cs_status"));    
+
+            // Debugging output
+            System.out.println("User logged in: " + sess.getFname() + " " + sess.getLname());
+
+            return true;
+        } else {
+            System.out.println("Login failed: Incorrect username or password.");
+            return false;
+        }
+    } catch (SQLException ex) {
+        ex.printStackTrace();
+        return false;
+    }
+}
     
     Color hover = new Color(153,153,153);  
     Color defbutton = new Color(102,102,102);  
@@ -89,48 +126,6 @@ public class login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-     
-    
-  public static boolean login(String username, String password) {
-    dbconnect db = new dbconnect();
-    
-    // Constructing the query manually (⚠️ NOT SECURE)
-    String query = "SELECT * FROM customer WHERE cs_user = '" + username + "' AND cs_pass = '" + password + "'";
-
-    try {
-        ResultSet resultSet = db.getData(query); // Assuming getData() executes the query
-
-        if (resultSet.next()) {
-            // Set session values
-            Session sess = Session.getInstance();
-            sess.setUid(resultSet.getString("id"));
-            sess.setFname(resultSet.getString("cs_fname"));
-            sess.setLname(resultSet.getString("cs_lname"));
-            sess.setEmail(resultSet.getString("cs_email"));
-            sess.setContact(resultSet.getString("cs_contact"));
-            sess.setAddress(resultSet.getString("cs_address"));
-            sess.setUser(resultSet.getString("cs_user"));
-            sess.setType(resultSet.getString("cs_type"));
-            sess.setStatus(resultSet.getString("cs_status"));
-
-            // Debugging: Output session data to ensure it's set
-            System.out.println("DEBUG: Session data after login");
-            System.out.println("DEBUG: First Name: " + sess.getFname());
-            System.out.println("DEBUG: Last Name: " + sess.getLname());
-            
-            return true;
-        } else {
-            System.out.println("DEBUG: No user found with provided credentials.");
-            return false;
-        }
-    } catch (SQLException ex) {
-        ex.printStackTrace(); // Prints full error details
-        return false;
-    }
-}
-
-  
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -366,6 +361,18 @@ public class login extends javax.swing.JFrame {
     private void Signin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Signin1ActionPerformed
             loginUser();
             
+    String user = username.getText();
+    String password = new String(logpass.getPassword()); // If using JPasswordField
+    AccountsPanel ap = new AccountsPanel();
+    
+    if (loginUser(user, password)) {
+        System.out.println("Login successful, loading account info...");
+        ap.loadAccountInformation(); // Load user details after login
+    } else {
+        System.out.println("Invalid login credentials.");
+        JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+    }
+                
     }//GEN-LAST:event_Signin1ActionPerformed
 
     private void loghideMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghideMouseReleased
@@ -462,4 +469,5 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JLabel logshow;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
+
 }

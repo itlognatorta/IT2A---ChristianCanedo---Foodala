@@ -32,9 +32,23 @@ public class AccountsPanel extends javax.swing.JFrame {
     public AccountsPanel() {
         initComponents();
         
-        accountInformation();
+        loadAccountInformation();
+    }
+    
+
+      public void loadAccountInformation() {
+        Session sess = Session.getInstance();
+
+        // Check if session is valid
+
+        String firstName = sess.getFname();
+        String lastName = sess.getLname();
+        
+        adname.setText("First Name: " + firstName);
+        adlname.setText ("Last Name: " + lastName);
     }
 
+   
     Color hover = new Color(102,102,102);  
      Color defbutton = new Color(204,204,204);  
     
@@ -44,26 +58,7 @@ public class AccountsPanel extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
-   public void accountInformation() {
-    // Get session instance
-    Session sess = Session.getInstance();
-
-    // Debugging output
-    System.out.println("DEBUG: Account Info - First Name: " + sess.getFname());
-    System.out.println("DEBUG: Account Info - Last Name: " + sess.getLname());
-    System.out.println("DEBUG: Account Info - Username: " + sess.getUser());
-
-    // Retrieve user details
-    String firstName = sess.getFname();
-    String lastName = sess.getLname();
-    String username = sess.getUser(); // Retrieve username
-
-    // Construct full display name
-    String fullNameWithUsername = firstName + " " + lastName + " (" + username + ")";
-
-    // Display full name with username
-    adname.setText(fullNameWithUsername);
-}
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -93,6 +88,7 @@ public class AccountsPanel extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         adname = new javax.swing.JLabel();
+        adlname = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -246,8 +242,12 @@ public class AccountsPanel extends javax.swing.JFrame {
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 210, 50));
 
         adname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        adname.setText("awaw");
-        jPanel1.add(adname, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 130, 140, 30));
+        adname.setText("First Name:");
+        jPanel1.add(adname, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 220, 30));
+
+        adlname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        adlname.setText("Last Name:");
+        jPanel1.add(adlname, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 220, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,6 +374,7 @@ public class AccountsPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acc;
+    private javax.swing.JLabel adlname;
     private javax.swing.JLabel adname;
     private javax.swing.JPanel cs;
     private javax.swing.JPanel db;

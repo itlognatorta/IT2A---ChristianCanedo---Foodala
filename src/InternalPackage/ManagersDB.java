@@ -2,16 +2,11 @@ package InternalPackage;
 
 
 import InsideManagerDB.AccManagerDB;
-import OutsidePackage.login;
 import InsideManagerDB.FoodsDB;
 import config.Session;
-import config.dbconnect;
 import java.awt.Color;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /*
@@ -32,8 +27,6 @@ public class ManagersDB extends javax.swing.JFrame {
     public ManagersDB() {
         initComponents();
         
-        accountInformation();
-        
     }
 
    Color hover = new Color(102,102,102);  
@@ -44,28 +37,6 @@ public class ManagersDB extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
-   
-    
-    public void accountInformation() {
-    // Get session instance
-    Session sess = Session.getInstance();
-
-    // Debugging output
-    System.out.println("DEBUG: Account Info - First Name: " + sess.getFname());
-    System.out.println("DEBUG: Account Info - Last Name: " + sess.getLname());
-    System.out.println("DEBUG: Account Info - Username: " + sess.getUser());
-
-    // Retrieve user details
-    String firstName = sess.getFname();
-    String lastName = sess.getLname();
-    String username = sess.getUser(); // Retrieve username
-
-    // Construct full display name
-    String fullNameWithUsername = firstName + " " + lastName + " (" + username + ")";
-
-    // Display full name with username
-    mgname.setText(fullNameWithUsername);
-}
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -98,6 +69,11 @@ public class ManagersDB extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -264,8 +240,7 @@ public class ManagersDB extends javax.swing.JFrame {
     }//GEN-LAST:event_accMouseExited
 
     private void dbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbMouseClicked
-
-        
+    
     }//GEN-LAST:event_dbMouseClicked
 
     private void dbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dbMouseEntered
@@ -315,6 +290,11 @@ public class ManagersDB extends javax.swing.JFrame {
       adb.setVisible(true);
       this.dispose();
     }//GEN-LAST:event_accMouseClicked
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+      Session sess = Session.getInstance();
+      mgname.setText(""+sess.getFname());
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

@@ -14,21 +14,19 @@ public class Session {
     private String status;
 
     // Private constructor to prevent external instantiation
-    private Session() {
+    public Session() {
     }
 
     public static synchronized Session getInstance() {
-        if (instance == null) {
-            instance = new Session();
-        }
-        return instance;
+       if(instance == null){
+          instance = new Session();   
+       }
+       return instance;
     }
 
-    public static void resetSession() {
-        instance = null;  // Clear session when user logs out
+    public static boolean isInstanceEmpty() {
+        return instance == null;
     }
-
-    // Getters and Setters for all session variables
 
     public String getUid() {
         return uid;
@@ -101,4 +99,7 @@ public class Session {
     public void setStatus(String status) {
         this.status = status;
     }
+     
+    
+    
 }
