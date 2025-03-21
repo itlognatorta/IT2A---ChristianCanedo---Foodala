@@ -1,11 +1,7 @@
 package InsideAdminDB;
 
 
-import InsideAdminDB.CustomerPanel;
 import InternalPackage.Dashboard;
-import InternalPackage.Dashboard;
-import InternalPackage.ManagerPanel;
-import InternalPackage.ManagerPanel;
 import OutsidePackage.login;
 import config.Session;
 import java.awt.Color;
@@ -43,9 +39,17 @@ public class AccountsPanel extends javax.swing.JFrame {
 
         String firstName = sess.getFname();
         String lastName = sess.getLname();
+        String email = sess.getEmail();
+        String address = sess.getAddress();
+        String contact = sess.getContact();
+        String type = sess.getType();
         
-        adname.setText("First Name: " + firstName);
-        adlname.setText ("Last Name: " + lastName);
+        adname.setText("" + firstName);
+        adlname.setText ("" + lastName);
+        ademail.setText ("" + email);
+        adaddress.setText ("" + address);
+        adcontact.setText ("" + contact);
+        adtype.setText ("" + type);
     }
 
    
@@ -87,7 +91,25 @@ public class AccountsPanel extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jPanel11 = new javax.swing.JPanel();
+        jLabel25 = new javax.swing.JLabel();
+        jPanel10 = new javax.swing.JPanel();
+        jLabel11 = new javax.swing.JLabel();
         adname = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        ademail = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        adaddress = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        adcontact = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        adtype = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel21 = new javax.swing.JLabel();
         adlname = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -241,13 +263,93 @@ public class AccountsPanel extends javax.swing.JFrame {
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 210, 50));
 
+        jPanel11.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel11.setForeground(new java.awt.Color(255, 255, 255));
+        jPanel11.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel25.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+        jLabel25.setText("Personal Information");
+        jPanel11.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 380, 60));
+
+        jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel10.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel11.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel11.setText("First Name: ");
+        jPanel10.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
         adname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         adname.setText("First Name:");
-        jPanel1.add(adname, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 120, 220, 30));
+        jPanel10.add(adname, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 100, -1));
+
+        jPanel1.add(jPanel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 180, 280, 40));
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        ademail.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        ademail.setText("EMAIL");
+        jPanel7.add(ademail, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 10, -1, -1));
+
+        jLabel24.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel24.setText("Email:");
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 230, 280, 40));
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        adaddress.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        adaddress.setText("ADDRESS");
+        jPanel8.add(adaddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 10, -1, -1));
+
+        jLabel23.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel23.setText("Address:");
+        jPanel8.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 230, 280, 40));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        adcontact.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        adcontact.setText("CONTACT");
+        jPanel5.add(adcontact, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, -1, -1));
+
+        jLabel22.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel22.setText("Contact no. :");
+        jPanel5.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 280, 280, 40));
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        adtype.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        adtype.setText("TYPE");
+        jPanel9.add(adtype, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
+
+        jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel18.setText("Type:");
+        jPanel9.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, 280, 40));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel21.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel21.setText("Last Name: ");
+        jPanel6.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         adlname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         adlname.setText("Last Name:");
-        jPanel1.add(adlname, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 170, 220, 30));
+        jPanel6.add(adlname, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 10, 100, -1));
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 180, 280, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -374,19 +476,30 @@ public class AccountsPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acc;
+    private javax.swing.JLabel adaddress;
+    private javax.swing.JLabel adcontact;
+    private javax.swing.JLabel ademail;
     private javax.swing.JLabel adlname;
     private javax.swing.JLabel adname;
+    private javax.swing.JLabel adtype;
     private javax.swing.JPanel cs;
     private javax.swing.JPanel db;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -395,9 +508,16 @@ public class AccountsPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel mg;
     // End of variables declaration//GEN-END:variables
 }

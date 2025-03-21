@@ -2,11 +2,16 @@ package OutsidePackage;
 
 
 import config.dbconnect;
+import config.passwordHasher;
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.border.Border;
 
@@ -473,31 +478,46 @@ if (regconfirmpass.getPassword().length == 0) {
 } else {
     regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 }
+       try {
+    // Final Validation Check (Do this before inserting into the database)
+    if (!isValid) {
+        JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+        return; // Stop execution if validation fails
+    }
 
-// Final Validation Check
-if (!isValid) {
-    // Show all error messages in a single JOptionPane dialog
-    JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-} else {
-    JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+    // Hash the password properly
+    char[] passwordChars = regpass.getPassword();
+    String pass = passwordHasher.hashPassword(new String(passwordChars));
+    Arrays.fill(passwordChars, ' '); // Clear password from memory for security
+
+    // Use the hashed password correctly in the SQL query
+    String sql = "INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status) "
+            + "VALUES ('" + fname.getText().replace("'", "''") + "','" 
+            + lname.getText().replace("'", "''") + "','" 
+            + email.getText().replace("'", "''") + "','" 
+            + contact.getText().replace("'", "''") + "','" 
+            + reguname.getText().replace("'", "''") + "','" 
+            + pass + "','"  // Use hashed password instead of plain text
+            + address.getText().replace("'", "''") + "','" 
+            + type.getSelectedItem().toString().replace("'", "''") + "','Pending')";
 
     // Database Insertion
-    if (dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status) "
-            + "VALUES ('" + fname.getText() + "','" + lname.getText() + "','" + email.getText() + "','" 
-            + contact.getText() + "','" + reguname.getText() + "','" + String.valueOf(regpass.getPassword()) + "','" 
-            + address.getText() + "','" + type.getSelectedItem() + "','Pending')") == 1) {
-
+    if (dbc.insertData(sql) == 1) {
+        JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
         login lg = new login();
         this.dispose();
         lg.setVisible(true);
     } else {
         JOptionPane.showMessageDialog(null, "Database insertion failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
+
+} catch (NoSuchAlgorithmException ex) {
+    Logger.getLogger(regform.class.getName()).log(Level.SEVERE, "Password hashing error", ex);
+    JOptionPane.showMessageDialog(null, "An error occurred while processing your password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+} catch (HeadlessException ex) { // Catch general exceptions to avoid unexpected crashes
+    Logger.getLogger(regform.class.getName()).log(Level.SEVERE, "Unexpected error", ex);
+    JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
-    
-      
-       
-        
     
     }//GEN-LAST:event_RegDoneButtonActionPerformed
 

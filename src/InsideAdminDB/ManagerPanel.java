@@ -1,8 +1,9 @@
-package InternalPackage;
+package InsideAdminDB;
 
 
 import InsideAdminDB.AccountsPanel;
 import InsideAdminDB.CustomerPanel;
+import InternalPackage.Dashboard;
 import config.dbconnect;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -219,24 +220,25 @@ public class ManagerPanel extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(manager_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 590, 350));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 600, 350));
 
-        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setBackground(new java.awt.Color(255, 255, 51));
         jButton1.setText("REFRESH");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 110, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 100, 110, 40));
 
+        jPanel4.setBackground(new java.awt.Color(204, 204, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setText("List of Managers");
         jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 160, 30));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 170, 30));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, 170, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

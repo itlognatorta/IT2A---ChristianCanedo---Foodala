@@ -6,11 +6,10 @@
 package InsideManagerDB;
 
 import InternalPackage.ManagersDB;
-import OutsidePackage.login;
+import config.Session;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /**
@@ -74,6 +73,11 @@ public class FoodsDB extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -192,16 +196,16 @@ public class FoodsDB extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Lucida Sans Unicode", 1, 18)); // NOI18N
         jLabel1.setText("DASHBOARD");
-        db.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, 20));
+        db.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 20, -1, 20));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/icons8-dashboard-layout-96 (1).png"))); // NOI18N
-        db.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, -1));
+        db.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel2.add(db, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 190, 40));
+        jPanel2.add(db, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 190, 50));
 
         mgname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        mgname.setText("Hello Manager!");
-        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 140, 40));
+        mgname.setText("Hello ");
+        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/mgpp-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 110));
@@ -235,6 +239,7 @@ public class FoodsDB extends javax.swing.JFrame {
         jLabel3.setText("Overall Menu");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, -1, -1));
 
+        jButton1.setBackground(new java.awt.Color(0, 0, 255));
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
         jButton1.setText("ADD");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -324,6 +329,11 @@ public class FoodsDB extends javax.swing.JFrame {
         ff.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+       Session sess = Session.getInstance();
+       mgname.setText("Hello "+sess.getFname());
+    }//GEN-LAST:event_formWindowActivated
 
     /**
      * @param args the command line arguments

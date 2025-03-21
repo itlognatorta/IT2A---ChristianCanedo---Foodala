@@ -46,12 +46,12 @@ public class FoodForm extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        f_name = new javax.swing.JPanel();
+        f_price = new javax.swing.JPanel();
+        f_cat = new javax.swing.JPanel();
         addbot = new javax.swing.JButton();
         canbot = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        f_status = new javax.swing.JComboBox<>();
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
 
@@ -67,16 +67,16 @@ public class FoodForm extends javax.swing.JFrame {
         jLabel1.setText("Add Food To Menu");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 240, 50));
+        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 50));
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
-        jPanel3.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 230, 60));
+        f_name.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
+        jPanel3.add(f_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 230, 60));
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
-        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 230, 60));
+        f_price.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
+        jPanel3.add(f_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 230, 60));
 
-        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
-        jPanel3.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 230, 60));
+        f_cat.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
+        jPanel3.add(f_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 230, 60));
 
         addbot.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         addbot.setText("ADD");
@@ -115,11 +115,11 @@ public class FoodForm extends javax.swing.JFrame {
         });
         jPanel3.add(canbot, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 110, 40));
 
-        jComboBox1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose status", "Available", "Unavailable", " ", " " }));
-        jPanel3.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 230, 50));
+        f_status.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        f_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose status", "Available", "Unavailable", " ", " " }));
+        jPanel3.add(f_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 230, 50));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 340, 570));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 570));
 
         pack();
         setLocationRelativeTo(null);
@@ -194,13 +194,13 @@ public class FoodForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addbot;
     private javax.swing.JButton canbot;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JPanel f_cat;
+    private javax.swing.JPanel f_name;
+    private javax.swing.JPanel f_price;
+    private javax.swing.JComboBox<String> f_status;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
     // End of variables declaration//GEN-END:variables
 }

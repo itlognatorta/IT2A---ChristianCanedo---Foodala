@@ -1,6 +1,7 @@
 package InternalPackage;
 
 
+import InsideAdminDB.ManagerPanel;
 import InsideAdminDB.AccountsPanel;
 import InsideAdminDB.CustomerPanel;
 import config.Session;
@@ -247,7 +248,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         adminname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         adminname.setText("ADMIN");
-        jPanel2.add(adminname, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 190, -1, -1));
+        jPanel2.add(adminname, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 190, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 570));
 
@@ -281,7 +282,7 @@ public class Dashboard extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(users_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 590, 250));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 260, 600, 250));
 
         mgno.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -453,7 +454,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
-        adminname.setText(""+sess.getFname());
+        adminname.setText("Hello "+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
     private void add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_userActionPerformed

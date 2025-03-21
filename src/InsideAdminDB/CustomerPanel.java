@@ -3,8 +3,6 @@ package InsideAdminDB;
 
 import InternalPackage.Dashboard;
 import InternalPackage.Dashboard;
-import InternalPackage.ManagerPanel;
-import InternalPackage.ManagerPanel;
 import config.dbconnect;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -85,8 +83,8 @@ public class CustomerPanel extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         customer_table = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -225,33 +223,39 @@ public class CustomerPanel extends javax.swing.JFrame {
 
         jScrollPane1.setViewportView(customer_table);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 160, 590, 340));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 600, 350));
 
-        jButton1.setBackground(new java.awt.Color(153, 153, 153));
+        jButton1.setBackground(new java.awt.Color(255, 255, 51));
         jButton1.setText("REFRESH");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 100, 110, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 100, 110, 40));
+
+        jPanel4.setBackground(new java.awt.Color(204, 204, 255));
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setText("List of Customers");
-        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 110, 160, 30));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 180, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 30, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 110, 180, 30));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 100, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

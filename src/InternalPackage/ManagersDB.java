@@ -200,8 +200,8 @@ public class ManagersDB extends javax.swing.JFrame {
         jPanel2.add(db, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 190, 50));
 
         mgname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        mgname.setText("Hello Manager!");
-        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 140, 40));
+        mgname.setText("Hello");
+        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/mgpp-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 110));
@@ -293,7 +293,7 @@ public class ManagersDB extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
       Session sess = Session.getInstance();
-      mgname.setText(""+sess.getFname());
+      mgname.setText("Hello "+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
     /**
