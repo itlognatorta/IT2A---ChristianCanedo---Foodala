@@ -363,11 +363,10 @@ public class login extends javax.swing.JFrame {
             
     String user = username.getText();
     String password = new String(logpass.getPassword()); // If using JPasswordField
-    AccountsPanel ap = new AccountsPanel();
+ 
     
     if (loginUser(user, password)) {
         System.out.println("Login successful, loading account info...");
-        ap.loadAccountInformation(); // Load user details after login
     } else {
         System.out.println("Invalid login credentials.");
         JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);

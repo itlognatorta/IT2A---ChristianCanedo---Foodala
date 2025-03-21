@@ -28,28 +28,7 @@ public class AccountsPanel extends javax.swing.JFrame {
     public AccountsPanel() {
         initComponents();
         
-        loadAccountInformation();
-    }
-    
-
-      public void loadAccountInformation() {
-        Session sess = Session.getInstance();
-
-        // Check if session is valid
-
-        String firstName = sess.getFname();
-        String lastName = sess.getLname();
-        String email = sess.getEmail();
-        String address = sess.getAddress();
-        String contact = sess.getContact();
-        String type = sess.getType();
         
-        adname.setText("" + firstName);
-        adlname.setText ("" + lastName);
-        ademail.setText ("" + email);
-        adaddress.setText ("" + address);
-        adcontact.setText ("" + contact);
-        adtype.setText ("" + type);
     }
 
    
@@ -86,6 +65,7 @@ public class AccountsPanel extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        adminname = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -113,6 +93,11 @@ public class AccountsPanel extends javax.swing.JFrame {
         adlname = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -219,7 +204,11 @@ public class AccountsPanel extends javax.swing.JFrame {
         jPanel2.add(cs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 240, 60));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 150));
+
+        adminname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        adminname.setText("ADMIN");
+        jPanel2.add(adminname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 560));
 
@@ -439,6 +428,17 @@ public class AccountsPanel extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jPanel4MouseClicked
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+       Session sess = Session.getInstance();
+        adminname.setText("Hello "+sess.getFname());
+        adname.setText(""+sess.getFname());
+        adlname.setText(""+sess.getLname());
+        ademail.setText(""+sess.getEmail());
+        adcontact.setText(""+sess.getContact());
+        adaddress.setText(""+sess.getAddress());
+        adtype.setText(""+sess.getType());
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -480,6 +480,7 @@ public class AccountsPanel extends javax.swing.JFrame {
     private javax.swing.JLabel adcontact;
     private javax.swing.JLabel ademail;
     private javax.swing.JLabel adlname;
+    private javax.swing.JLabel adminname;
     private javax.swing.JLabel adname;
     private javax.swing.JLabel adtype;
     private javax.swing.JPanel cs;
