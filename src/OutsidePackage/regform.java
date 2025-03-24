@@ -511,9 +511,6 @@ if (regconfirmpass.getPassword().length == 0) {
         JOptionPane.showMessageDialog(null, "Database insertion failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
     }
 
-} catch (NoSuchAlgorithmException ex) {
-    Logger.getLogger(regform.class.getName()).log(Level.SEVERE, "Password hashing error", ex);
-    JOptionPane.showMessageDialog(null, "An error occurred while processing your password. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
 } catch (HeadlessException ex) { // Catch general exceptions to avoid unexpected crashes
     Logger.getLogger(regform.class.getName()).log(Level.SEVERE, "Unexpected error", ex);
     JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);

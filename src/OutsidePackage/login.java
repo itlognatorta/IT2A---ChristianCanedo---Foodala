@@ -1,13 +1,14 @@
 package OutsidePackage;
 
 
-import InsideAdminDB.AccountsPanel;
+import ForgotPassword.EnterID;
 import InternalPackage.CustomersDB;
 import InternalPackage.Dashboard;
 import InternalPackage.ManagersDB;
 import com.sun.glass.events.KeyEvent;
 import config.Session;
 import config.dbconnect;
+import static config.passwordHasher.hashPassword;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -35,37 +36,63 @@ public class login extends javax.swing.JFrame {
        
     }
     
-   public static boolean loginUser(String username, String password) {
+  public static boolean login(String username, String password) {
     dbconnect db = new dbconnect(); 
-    String query = "SELECT * FROM customer WHERE cs_user = '" + username + "' AND cs_pass = '" + password + "'";
+    String query = "SELECT * FROM customer WHERE cs_user = ?";
 
-    try {
-        ResultSet resultSet = db.getData(query); 
-     
+    try (Connection conn = db.getConnection(); // Assuming dbconnect has a getConnection method
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
+
+        pstmt.setString(1, username);
+        ResultSet resultSet = pstmt.executeQuery();
 
         if (resultSet.next()) {
-            // Set session values
-            Session sess = Session.getInstance();
-            sess.setUid(resultSet.getString("id"));
-            sess.setFname(resultSet.getString("cs_fname"));
-            sess.setLname(resultSet.getString("cs_lname"));
-            sess.setEmail(resultSet.getString("cs_email"));
-            sess.setContact(resultSet.getString("cs_contact"));
-            sess.setAddress(resultSet.getString("cs_address"));
-            sess.setUser(resultSet.getString("cs_user"));
-            sess.setType(resultSet.getString("cs_type"));
-            sess.setStatus(resultSet.getString("cs_status"));    
+       
+            String storedPassword = resultSet.getString("cs_pass");
+      
+           
+            String hashedInputPassword = hashPassword(password);
 
-            // Debugging output
-            System.out.println("User logged in: " + sess.getFname() + " " + sess.getLname());
+            // If stored password is **not hashed**, update it with a hashed version
+            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {  // Check if it's plaintext
+              
 
-            return true;
+                String newHashedPassword = hashPassword(storedPassword);
+                String updateQuery = "UPDATE customer SET cs_pass = ? WHERE cs_user = ?";
+
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                    updateStmt.setString(1, newHashedPassword);
+                    updateStmt.setString(2, username);
+                    updateStmt.executeUpdate();
+                }
+
+                // Use the new hashed password for comparison
+                storedPassword = newHashedPassword;
+            }
+
+          
+            if (hashedInputPassword.equals(storedPassword)) {
+            
+                Session sess = Session.getInstance();
+                sess.setUid(resultSet.getString("id"));
+                sess.setFname(resultSet.getString("cs_fname"));
+                sess.setLname(resultSet.getString("cs_lname"));
+                sess.setEmail(resultSet.getString("cs_email"));
+                sess.setContact(resultSet.getString("cs_contact"));
+                sess.setAddress(resultSet.getString("cs_address"));
+                sess.setUser(resultSet.getString("cs_user"));
+                sess.setType(resultSet.getString("cs_type"));
+                sess.setStatus(resultSet.getString("cs_status"));    
+                return true;
+            } else {
+                System.out.println("Login failed: Password does not match.");
+                return false;
+            }
         } else {
-            System.out.println("Login failed: Incorrect username or password.");
+            System.out.println("Login failed: Username not found.");
             return false;
         }
-    } catch (SQLException ex) {
-        ex.printStackTrace();
+    } catch (SQLException ex) {   
         return false;
     }
 }
@@ -81,51 +108,73 @@ public class login extends javax.swing.JFrame {
     }
     
     private void loginUser() {
-        String url = "jdbc:mysql://localhost:3306/christian";
-        String user = "root";
-        String password = "";
+    String url = "jdbc:mysql://localhost:3306/christian";
+    String user = "root";
+    String password = "";
 
-        String query = "SELECT cs_pass, cs_type FROM customer WHERE cs_user = ? AND cs_status = 'active'";
+    String query = "SELECT cs_pass, cs_type FROM customer WHERE cs_user = ? AND cs_status = 'active'";
 
-        try (Connection conn = DriverManager.getConnection(url, user, password);
-             PreparedStatement pstmt = conn.prepareStatement(query)) {
+    try (Connection conn = DriverManager.getConnection(url, user, password);
+         PreparedStatement pstmt = conn.prepareStatement(query)) {
 
-            pstmt.setString(1, username.getText());
-            ResultSet rs = pstmt.executeQuery();
+        pstmt.setString(1, username.getText());
+        ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                String storedPassword = rs.getString("cs_pass");
-                String userType = rs.getString("cs_type"); 
+        if (rs.next()) {
+            String storedPassword = rs.getString("cs_pass");
+            String userType = rs.getString("cs_type");
 
-                if (logpass.getText().equals(storedPassword)) {
-                    JOptionPane.showMessageDialog(null, "Login Successful!");
+            // Hash the input password for comparison
+            String hashedInputPassword = hashPassword(logpass.getText());
 
-                    // Redirect based on user type
-                    if ("customer".equalsIgnoreCase(userType)) {
-                        CustomersDB csdb = new CustomersDB();
-                        this.dispose();
-                        csdb.setVisible(true);
-                    } else if ("manager".equalsIgnoreCase(userType)) {
-                        ManagersDB mgdb = new ManagersDB();
-                        this.dispose();
-                        mgdb.setVisible(true);
-                    } else if ("admin".equalsIgnoreCase(userType)) {
-                        Dashboard dbd = new Dashboard();
-                        this.dispose();
-                        dbd.setVisible(true);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
-                    }
+            // Check if stored password is still plaintext (not hashed)
+            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {  // SHA-256 hashes are 64 hex characters
+                System.out.println("Rehashing old plaintext password...");
+
+                // Hash the plaintext password and update the database
+                String newHashedPassword = hashPassword(storedPassword);
+                String updateQuery = "UPDATE customer SET cs_pass = ? WHERE cs_user = ?";
+                
+                try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                    updateStmt.setString(1, newHashedPassword);
+                    updateStmt.setString(2, username.getText());
+                    updateStmt.executeUpdate();
+                }
+                
+                // Use the new hashed password for comparison
+                storedPassword = newHashedPassword;
+            }
+
+            // Compare hashed input password with stored hash
+            if (hashedInputPassword.equals(storedPassword)) {
+                JOptionPane.showMessageDialog(null, "Login Successful!");
+
+                // Redirect based on user type
+                if ("customer".equalsIgnoreCase(userType)) {
+                    CustomersDB csdb = new CustomersDB();
+                    this.dispose();
+                    csdb.setVisible(true);
+                } else if ("manager".equalsIgnoreCase(userType)) {
+                    ManagersDB mgdb = new ManagersDB();
+                    this.dispose();
+                    mgdb.setVisible(true);
+                } else if ("admin".equalsIgnoreCase(userType)) {
+                    Dashboard dbd = new Dashboard();
+                    this.dispose();
+                    dbd.setVisible(true);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
     }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,9 +200,11 @@ public class login extends javax.swing.JFrame {
         logshow = new javax.swing.JLabel();
         loghide = new javax.swing.JLabel();
         logpass = new javax.swing.JPasswordField();
+        loghide1 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        forgot = new javax.swing.JLabel();
 
         jInternalFrame1.setVisible(true);
 
@@ -268,10 +319,10 @@ public class login extends javax.swing.JFrame {
                 usernameKeyPressed(evt);
             }
         });
-        jPanel2.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 290, 70));
+        jPanel2.add(username, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 290, 70));
 
         logshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
-        jPanel2.add(logshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, -1, -1));
+        jPanel2.add(logshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, -1, -1));
 
         loghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
         loghide.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -282,7 +333,7 @@ public class login extends javax.swing.JFrame {
                 loghideMouseReleased(evt);
             }
         });
-        jPanel2.add(loghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, -1, -1));
+        jPanel2.add(loghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, -1, -1));
 
         logpass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         logpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "Password", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
@@ -294,9 +345,20 @@ public class login extends javax.swing.JFrame {
                 logpassKeyTyped(evt);
             }
         });
-        jPanel2.add(logpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 290, 70));
+        jPanel2.add(logpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 290, 70));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 310, 200));
+        loghide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
+        loghide1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                loghide1MousePressed(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                loghide1MouseReleased(evt);
+            }
+        });
+        jPanel2.add(loghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, -1, -1));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 310, 160));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/grubgo background (2).jpg"))); // NOI18N
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-260, 0, 690, 480));
@@ -309,11 +371,26 @@ public class login extends javax.swing.JFrame {
         jLabel5.setText("Please enter your details");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 80, -1, -1));
 
+        forgot.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        forgot.setText("Forgot Password?");
+        forgot.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                forgotMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                forgotMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                forgotMouseExited(evt);
+            }
+        });
+        jPanel1.add(forgot, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 280, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 781, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,15 +439,14 @@ public class login extends javax.swing.JFrame {
             loginUser();
             
     String user = username.getText();
-    String password = new String(logpass.getPassword()); // If using JPasswordField
- 
-    
-    if (loginUser(user, password)) {
-        System.out.println("Login successful, loading account info...");
-    } else {
-        System.out.println("Invalid login credentials.");
-        JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
-    }
+    String password = new String(logpass.getPassword()); 
+   
+    if (login(user, password)) {  
+      System.out.println("Login successful, loading account info...");
+}   else {
+      System.out.println("Invalid login credentials.");
+      JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
+}
                 
     }//GEN-LAST:event_Signin1ActionPerformed
 
@@ -412,6 +488,28 @@ public class login extends javax.swing.JFrame {
             loginUser();
     }//GEN-LAST:event_usernameKeyPressed
 
+    private void forgotMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotMouseClicked
+       EnterID eid = new EnterID();
+       eid.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_forgotMouseClicked
+
+    private void forgotMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotMouseEntered
+     
+    }//GEN-LAST:event_forgotMouseEntered
+
+    private void forgotMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotMouseExited
+  
+    }//GEN-LAST:event_forgotMouseExited
+
+    private void loghide1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghide1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loghide1MousePressed
+
+    private void loghide1MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loghide1MouseReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_loghide1MouseReleased
+
     /**
      * @param args the command line arguments
      */
@@ -450,6 +548,7 @@ public class login extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RegAccButton;
     private javax.swing.JButton Signin1;
+    private javax.swing.JLabel forgot;
     private javax.swing.JButton jButton2;
     private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
@@ -464,6 +563,7 @@ public class login extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JLabel loghide;
+    private javax.swing.JLabel loghide1;
     private javax.swing.JPasswordField logpass;
     private javax.swing.JLabel logshow;
     private javax.swing.JTextField username;
