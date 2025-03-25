@@ -445,7 +445,6 @@ public class login extends javax.swing.JFrame {
       System.out.println("Login successful, loading account info...");
 }   else {
       System.out.println("Invalid login credentials.");
-      JOptionPane.showMessageDialog(null, "Invalid username or password", "Login Failed", JOptionPane.ERROR_MESSAGE);
 }
                 
     }//GEN-LAST:event_Signin1ActionPerformed

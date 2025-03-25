@@ -1,6 +1,8 @@
 package InternalPackage;
 
 
+import InsideCustomerDB.AccCustomerDB;
+import InsideCustomerDB.OrderDB;
 import OutsidePackage.login;
 import config.Session;
 import config.dbconnect;
@@ -115,6 +117,9 @@ public class CustomersDB extends javax.swing.JFrame {
 
         acc.setBackground(new java.awt.Color(204, 204, 204));
         acc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                accMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 accMouseEntered(evt);
             }
@@ -209,6 +214,9 @@ public class CustomersDB extends javax.swing.JFrame {
 
         cs_order.setBackground(new java.awt.Color(204, 204, 204));
         cs_order.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cs_orderMouseClicked(evt);
+            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 cs_orderMouseEntered(evt);
             }
@@ -316,11 +324,11 @@ public class CustomersDB extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void cs_orderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cs_orderMouseEntered
-        // TODO add your handling code here:
+        cs_order.setBackground(hover);
     }//GEN-LAST:event_cs_orderMouseEntered
 
     private void cs_orderMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cs_orderMouseExited
-        // TODO add your handling code here:
+        cs_order.setBackground(defbutton);
     }//GEN-LAST:event_cs_orderMouseExited
 
     private void acc3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acc3MouseEntered
@@ -338,6 +346,18 @@ public class CustomersDB extends javax.swing.JFrame {
     private void acc2MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acc2MouseExited
         // TODO add your handling code here:
     }//GEN-LAST:event_acc2MouseExited
+
+    private void accMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_accMouseClicked
+       AccCustomerDB acb = new AccCustomerDB();
+       acb.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_accMouseClicked
+
+    private void cs_orderMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cs_orderMouseClicked
+       OrderDB odb = new OrderDB();
+       odb.setVisible(true);
+       this.dispose();
+    }//GEN-LAST:event_cs_orderMouseClicked
 
     /**
      * @param args the command line arguments

@@ -6,6 +6,13 @@
 package ForgotPassword;
 
 import OutsidePackage.login;
+import config.Session;
+import config.dbconnect;
+import config.passwordHasher;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -45,6 +52,9 @@ public class NewPass extends javax.swing.JFrame {
         newhide = new javax.swing.JLabel();
         newpass = new javax.swing.JPasswordField();
         jLabel3 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        idfield = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
 
         loghide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
         loghide1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -89,11 +99,11 @@ public class NewPass extends javax.swing.JFrame {
         connewpass.setText("jPasswordField2");
         jPanel3.add(connewpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 50));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 240, 240, 70));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 330, 240, 70));
 
         jLabel2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         jLabel2.setText("Confirm new password*");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 220, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 310, -1, -1));
 
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton1.setText("Cancel");
@@ -102,11 +112,16 @@ public class NewPass extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 340, 120, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 430, 120, 40));
 
         jButton2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton2.setText("Save");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 340, 120, 40));
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 120, 40));
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -127,22 +142,39 @@ public class NewPass extends javax.swing.JFrame {
         newpass.setText("jPasswordField1");
         jPanel4.add(newpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 50));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 240, 70));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, 240, 70));
 
         jLabel3.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel3.setText("New password*");
+        jLabel3.setText("Enter Id for newpassword*");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
+
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        idfield.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                idfieldActionPerformed(evt);
+            }
+        });
+        jPanel5.add(idfield, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 50));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 130, 240, 70));
+
+        jLabel4.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel4.setText("New password*");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 210, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 430, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -192,6 +224,74 @@ public class NewPass extends javax.swing.JFrame {
         connewpass.setEchoChar('*');
     }//GEN-LAST:event_connewhideMouseReleased
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+     try {          
+    dbconnect dbc = new dbconnect();
+
+    // Ensure password fields are initialized
+    if (idfield == null || newpass == null || connewpass == null) {
+        JOptionPane.showMessageDialog(null, "Error: Fields not initialized!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Get user input
+    String userId = idfield.getText().trim();
+    String newPass = new String(newpass.getPassword()); 
+    String confirmPass = new String(connewpass.getPassword());
+
+    // Validate input fields
+    if (userId.isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Please enter your User ID!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    if (newPass.length() < 8) {
+        JOptionPane.showMessageDialog(null, "New password must be at least 8 characters long!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    if (!newPass.equals(confirmPass)) {
+        JOptionPane.showMessageDialog(null, "Password does not match!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Hash new password
+    String newpassHash = passwordHasher.hashPassword(newPass); 
+
+    // SQL query to update password securely
+    String updateQuery = "UPDATE customer SET cs_pass = ? WHERE id = ?";  
+
+    try (Connection conn = dbconnect.getConnection();
+         PreparedStatement pst = conn.prepareStatement(updateQuery)) {
+
+        pst.setString(1, newpassHash);
+        pst.setString(2, userId);
+
+        int rowsUpdated = pst.executeUpdate();
+        
+        if (rowsUpdated > 0) {
+            JOptionPane.showMessageDialog(null, "Password updated successfully!");
+            
+            // Redirect to login page after successful update
+            login lg = new login();
+            lg.setVisible(true);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "User ID not found!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(null, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    ex.printStackTrace();
+}
+                
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void idfieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idfieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_idfieldActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -231,15 +331,18 @@ public class NewPass extends javax.swing.JFrame {
     private javax.swing.JLabel connewhide;
     private javax.swing.JPasswordField connewpass;
     private javax.swing.JLabel connewshow;
+    private javax.swing.JTextField idfield;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JLabel loghide1;
     private javax.swing.JLabel newhide;
     private javax.swing.JPasswordField newpass;
