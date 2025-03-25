@@ -3,6 +3,7 @@ package InsideAdminDB;
 
 import InternalPackage.Dashboard;
 import InternalPackage.Dashboard;
+import config.Session;
 import config.dbconnect;
 import java.awt.Color;
 import java.sql.ResultSet;
@@ -78,6 +79,7 @@ public class CustomerPanel extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        adminname = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -87,6 +89,11 @@ public class CustomerPanel extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
         jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -193,7 +200,11 @@ public class CustomerPanel extends javax.swing.JFrame {
         jPanel2.add(cs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 240, 60));
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, -1));
+        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 150));
+
+        adminname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        adminname.setText("ADMIN");
+        jPanel2.add(adminname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 560));
 
@@ -330,6 +341,11 @@ public class CustomerPanel extends javax.swing.JFrame {
         ap.setVisible(true);
     }//GEN-LAST:event_accMouseClicked
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+         Session sess = Session.getInstance();
+         adminname.setText("Hello "+sess.getFname());  
+    }//GEN-LAST:event_formWindowActivated
+
     /**
      * @param args the command line arguments
      */
@@ -367,6 +383,7 @@ public class CustomerPanel extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel acc;
+    private javax.swing.JLabel adminname;
     private javax.swing.JPanel cs;
     private javax.swing.JTable customer_table;
     private javax.swing.JPanel db;

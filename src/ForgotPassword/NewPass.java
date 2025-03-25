@@ -80,6 +80,7 @@ public class NewPass extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 30, 270, 50));
 
+        jPanel3.setBackground(new java.awt.Color(153, 153, 255));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         connewshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
@@ -123,6 +124,7 @@ public class NewPass extends javax.swing.JFrame {
         });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 120, 40));
 
+        jPanel4.setBackground(new java.awt.Color(153, 153, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         newshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
@@ -148,6 +150,7 @@ public class NewPass extends javax.swing.JFrame {
         jLabel3.setText("Enter Id for newpassword*");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 110, -1, -1));
 
+        jPanel5.setBackground(new java.awt.Color(153, 153, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         idfield.addActionListener(new java.awt.event.ActionListener() {

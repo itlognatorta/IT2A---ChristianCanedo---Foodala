@@ -58,9 +58,10 @@ public class FoodForm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
+        jPanel3.setBackground(new java.awt.Color(153, 153, 153));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Bell MT", 1, 24)); // NOI18N
@@ -69,13 +70,19 @@ public class FoodForm extends javax.swing.JFrame {
 
         jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 50));
 
+        f_name.setBackground(new java.awt.Color(153, 153, 153));
         f_name.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
+        f_name.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jPanel3.add(f_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 230, 60));
 
+        f_price.setBackground(new java.awt.Color(153, 153, 153));
         f_price.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
+        f_price.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jPanel3.add(f_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 230, 60));
 
+        f_cat.setBackground(new java.awt.Color(153, 153, 153));
         f_cat.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
+        f_cat.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jPanel3.add(f_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 230, 60));
 
         addbot.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N

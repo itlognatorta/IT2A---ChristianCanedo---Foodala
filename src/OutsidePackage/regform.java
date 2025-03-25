@@ -251,7 +251,7 @@ public class regform extends javax.swing.JFrame {
         jLabel20.setText("Password*");
         jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, -1, -1));
 
-        noteaddress.setFont(new java.awt.Font("Century Gothic", 0, 18)); // NOI18N
+        noteaddress.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         noteaddress.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         noteaddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
