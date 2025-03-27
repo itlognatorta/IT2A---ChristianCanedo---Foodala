@@ -19,12 +19,25 @@ import javax.swing.JOptionPane;
  */
 public class Verification extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Verification
-     */
-    public Verification() {
+    private String verifiedUserId;
+    
+    public Verification(String verifiedUserId) {
+ 
+     this.verifiedUserId = verifiedUserId;
         initComponents();
     }
+    
+       public void setVerifiedUserId(String verifiedUserId) {
+        this.verifiedUserId = verifiedUserId;
+    }
+
+    // Getter method to retrieve the verified user ID
+    public String getVerifiedUserId() {
+        return this.verifiedUserId;
+    }
+    
+
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -188,10 +201,15 @@ public class Verification extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
       
-     String userId = Id.getText().trim();
-     String inputFname = FnameField.getText().trim();
-     String inputLname = LnameField.getText().trim();
-     String inputEmail = EmailField.getText().trim();
+   String userId = Id.getText().trim();
+String inputFname = FnameField.getText().trim();
+String inputLname = LnameField.getText().trim();
+String inputEmail = EmailField.getText().trim();
+
+if (!userId.equals(verifiedUserId)) {  
+    JOptionPane.showMessageDialog(null, "ID does not match! Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+    return;
+}
 
 try (Connection conn = dbconnect.getConnection();
      PreparedStatement pst = conn.prepareStatement(
@@ -201,7 +219,7 @@ try (Connection conn = dbconnect.getConnection();
     ResultSet rs = pst.executeQuery();
 
     if (rs.next()) {
-        // Retrieve stored values from the database
+       
         String dbFname = rs.getString("cs_fname");
         String dbLname = rs.getString("cs_lname");
         String dbEmail = rs.getString("cs_email");
@@ -215,12 +233,12 @@ try (Connection conn = dbconnect.getConnection();
                                           "Success", JOptionPane.INFORMATION_MESSAGE);
 
             // Open the NewPassword frame
-            NewPass np = new NewPass();
+            NewPass np = new NewPass(verifiedUserId);
             np.setVisible(true);
-           this.dispose(); // Close current frame
+            this.dispose(); // Close current frame
 
         } else {
-            JOptionPane.showMessageDialog(null, "Credentials is incorrect!", 
+            JOptionPane.showMessageDialog(null, "Credentials are incorrect!", 
                                           "Error", JOptionPane.ERROR_MESSAGE);
         }
 
@@ -230,7 +248,7 @@ try (Connection conn = dbconnect.getConnection();
     }
 
 } catch (SQLException ex) {
-    ex.printStackTrace(); // Debugging: Print full error details
+    ex.printStackTrace();
     JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
 
@@ -267,10 +285,11 @@ try (Connection conn = dbconnect.getConnection();
         }
         //</editor-fold>
 
-        /* Create and display the form */
+       String verifiedUserId = "someUserId"; 
+       
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Verification().setVisible(true);
+                new Verification(verifiedUserId).setVisible(true);
             }
         });
     }

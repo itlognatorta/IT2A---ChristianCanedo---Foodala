@@ -118,39 +118,36 @@ public class EnterID extends javax.swing.JFrame {
 
     private void probuttActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_probuttActionPerformed
      
-       try (Connection conn = dbconnect.getConnection();
+ String enteredUserId = id.getText().trim(); // Get user input
+
+if (enteredUserId.isEmpty()) {
+    JOptionPane.showMessageDialog(null, "Please enter a User ID!", "Warning", JOptionPane.WARNING_MESSAGE);
+    return;
+}
+
+try (Connection conn = dbconnect.getConnection();
      PreparedStatement pst = conn.prepareStatement("SELECT cs_user FROM customer WHERE id = ?")) {
 
-    String userId = id.getText().trim(); // Get user input
-
-    if (userId.isEmpty()) {
-        JOptionPane.showMessageDialog(null, "Please enter a User ID!", "Warning", JOptionPane.WARNING_MESSAGE);
-        return; // Stop execution if input is empty
-    }
-
-    pst.setString(1, userId); // Set the user input in the query
+    pst.setString(1, enteredUserId);
     ResultSet rs = pst.executeQuery();
 
     if (rs.next()) {
-        String retrievedUsername = rs.getString("cs_user");
-
-        JOptionPane.showMessageDialog(null, "User ID Exists!\nUsername: " + retrievedUsername, 
+        JOptionPane.showMessageDialog(null, "User ID Exists!\nUsername: " + rs.getString("cs_user"),
                                       "Success", JOptionPane.INFORMATION_MESSAGE);
 
-        // Open verification window
-        Verification vf = new Verification();
+     
+        Verification vf = new Verification(enteredUserId); 
         vf.setVisible(true);
-       this.dispose(); // Close current window
-
+        this.dispose(); // Close current window
+        
     } else {
-        JOptionPane.showMessageDialog(null, "User ID doesn't Exist!", "Failed", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "User ID doesn't exist!", "Failed", JOptionPane.ERROR_MESSAGE);
     }
 
 } catch (SQLException ex) {
-    ex.printStackTrace(); // Debugging: print the full error details
+    ex.printStackTrace();
     JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 }
-
 
     }//GEN-LAST:event_probuttActionPerformed
 
