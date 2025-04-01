@@ -5,8 +5,15 @@ import InsideManagerDB.AccManagerDB;
 import InsideManagerDB.FoodsDB;
 import config.Session;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /*
@@ -26,6 +33,7 @@ public class ManagersDB extends javax.swing.JFrame {
      */
     public ManagersDB() {
         initComponents();
+        ProfilePicture();
         
     }
 
@@ -38,6 +46,22 @@ public class ManagersDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
 
+    public void ProfilePicture() {
+    File pathFile = new File("profile_pictures/image_path.txt");
+
+    if (pathFile.exists()) { // Check if the saved path exists
+        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
+            String imagePath = reader.readLine();
+            if (imagePath != null && new File(imagePath).exists()) {
+                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                        .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+                pfp.setIcon(ii); // ✅ Set the saved image
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+        }
+    }
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -64,7 +88,7 @@ public class ManagersDB extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         mgname = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        pfp = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
 
@@ -72,6 +96,9 @@ public class ManagersDB extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -203,8 +230,8 @@ public class ManagersDB extends javax.swing.JFrame {
         mgname.setText("Hello");
         jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/mgpp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 110));
+        pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/mgpp-removebg-preview (1).png"))); // NOI18N
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 110));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 520));
 
@@ -296,6 +323,10 @@ public class ManagersDB extends javax.swing.JFrame {
       mgname.setText("Hello "+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       ProfilePicture();
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -347,7 +378,6 @@ public class ManagersDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -357,5 +387,6 @@ public class ManagersDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel mgname;
+    private javax.swing.JLabel pfp;
     // End of variables declaration//GEN-END:variables
 }

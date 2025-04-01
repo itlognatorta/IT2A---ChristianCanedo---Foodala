@@ -5,13 +5,25 @@
  */
 package InsideCustomerDB;
 
-import InsideManagerDB.ChangePassword;
 import InternalPackage.CustomersDB;
 import OutsidePackage.login;
 import config.Session;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
@@ -20,12 +32,16 @@ import javax.swing.border.Border;
  * @author Administrator
  */
 public class AccCustomerDB extends javax.swing.JFrame {
+    
+    String filename;
+    byte[] person_image;
 
     /**
      * Creates new form AccCustomerDB
      */
     public AccCustomerDB() {
         initComponents();
+        loadProfilePicture();
     }
 
     Color hover = new Color(102,102,102);  
@@ -36,6 +52,23 @@ public class AccCustomerDB extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
+   public void loadProfilePicture() {
+    File pathFile = new File("profile_pictures/image_path.txt");
+
+    if (pathFile.exists()) { // Check if the saved path exists
+        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
+            String imagePath = reader.readLine();
+            if (imagePath != null && new File(imagePath).exists()) {
+                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
+                pfpimage.setIcon(ii); // ✅ Set the saved image
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+        }
+    }
+}
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -63,7 +96,8 @@ public class AccCustomerDB extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         csname = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
+        pfpimage = new javax.swing.JLabel();
+        changepp = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
@@ -98,6 +132,9 @@ public class AccCustomerDB extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -229,8 +266,26 @@ public class AccCustomerDB extends javax.swing.JFrame {
         csname.setText("Hello ");
         jPanel2.add(csname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
 
-        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        pfpimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
+        jPanel2.add(pfpimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        changepp.setBackground(new java.awt.Color(102, 102, 102));
+        changepp.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        changepp.setText("Change Profile Picture");
+        changepp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                changeppMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                changeppMouseExited(evt);
+            }
+        });
+        changepp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeppActionPerformed(evt);
+            }
+        });
+        jPanel2.add(changepp, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 170, 40));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 520));
 
@@ -366,22 +421,19 @@ public class AccCustomerDB extends javax.swing.JFrame {
                 jLabel26MouseClicked(evt);
             }
         });
-        jPanel1.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 400, -1, -1));
+        jPanel1.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -397,7 +449,9 @@ public class AccCustomerDB extends javax.swing.JFrame {
     }//GEN-LAST:event_acc3MouseExited
 
     private void orderdbMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderdbMouseClicked
-       
+        OrderDB odb = new OrderDB();
+        odb.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_orderdbMouseClicked
 
     private void orderdbMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderdbMouseEntered
@@ -460,7 +514,7 @@ public class AccCustomerDB extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel4MouseClicked
 
     private void jLabel26MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel26MouseClicked
-        ChangePassword cps = new ChangePassword();
+        ChangePass cps = new ChangePass();
         cps.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jLabel26MouseClicked
@@ -480,6 +534,64 @@ public class AccCustomerDB extends javax.swing.JFrame {
         csaddress.setText(""+sess.getAddress());
         cstype.setText(""+sess.getType());
     }//GEN-LAST:event_formWindowActivated
+
+    private void changeppMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changeppMouseEntered
+        changepp.setBackground(hover);
+    }//GEN-LAST:event_changeppMouseEntered
+
+    private void changeppMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changeppMouseExited
+        changepp.setBackground(defbutton);
+    }//GEN-LAST:event_changeppMouseExited
+
+    private void changeppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeppActionPerformed
+        
+        JFileChooser chooser = new JFileChooser();
+        int result = chooser.showOpenDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+          File selectedFile = chooser.getSelectedFile();
+          String filename = selectedFile.getAbsolutePath();
+
+    // Set the image to the existing JLabel
+        ImageIcon ii = new ImageIcon(new ImageIcon(filename)
+        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
+        pfpimage.setIcon(ii); // ✅ Update the existing JLabel instead of creating a new one
+
+    // Define the target directory and file name
+        File destination = new File("profile_pictures", selectedFile.getName());
+
+    // Ensure the directory exists
+        destination.getParentFile().mkdirs();
+
+    // Save the image
+    try (InputStream fis = new FileInputStream(selectedFile);
+         OutputStream fos = new FileOutputStream(destination)) {
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        while ((bytesRead = fis.read(buffer)) != -1) {
+            fos.write(buffer, 0, bytesRead);
+        }
+
+        // ✅ Save the image path to a file for persistence
+        try (PrintWriter out = new PrintWriter(new FileWriter("profile_pictures/image_path.txt"))) {
+            out.println(destination.getAbsolutePath()); // Save the full path
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error saving image path: " + e.getMessage());
+        }
+
+        JOptionPane.showMessageDialog(null, "Profile Picture Updated Successfully!");
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error saving image: " + e.getMessage());
+    }
+}
+
+        
+    }//GEN-LAST:event_changeppActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+         loadProfilePicture();
+
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -520,6 +632,7 @@ public class AccCustomerDB extends javax.swing.JFrame {
     private javax.swing.JPanel acc1;
     private javax.swing.JPanel acc3;
     private javax.swing.JPanel accdb;
+    private javax.swing.JButton changepp;
     private javax.swing.JLabel csaddress;
     private javax.swing.JLabel cscontact;
     private javax.swing.JLabel csemail;
@@ -548,7 +661,6 @@ public class AccCustomerDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -568,6 +680,7 @@ public class AccCustomerDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel orderdb;
+    private javax.swing.JLabel pfpimage;
     private javax.swing.JLabel u_id;
     // End of variables declaration//GEN-END:variables
 }

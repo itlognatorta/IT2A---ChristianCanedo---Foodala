@@ -7,9 +7,15 @@ import OutsidePackage.login;
 import config.Session;
 import config.dbconnect;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
@@ -30,7 +36,7 @@ public class CustomersDB extends javax.swing.JFrame {
     public CustomersDB() {
         initComponents();
         
-        displayUserGreeting();
+        loadProfilePicture();
         
     }
 
@@ -44,22 +50,22 @@ public class CustomersDB extends javax.swing.JFrame {
     }
     
    
-    public void displayUserGreeting() {
-    try {
-        dbconnect dbc = new dbconnect();
-        ResultSet rs = dbc.getData("SELECT cs_fname FROM customer WHERE cs_user = 1");
+    
+    public void loadProfilePicture() {
+    File pathFile = new File("profile_pictures/image_path.txt");
 
-        if (rs.next()) {
-            String firstName = rs.getString("cs_fname");
-            cs_name.setText("Hi " + firstName + "!");
-        } else {
-            cs_name.setText("Hi User!");
+    if (pathFile.exists()) { // Check if the saved path exists
+        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
+            String imagePath = reader.readLine();
+            if (imagePath != null && new File(imagePath).exists()) {
+                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
+                pfpimage.setIcon(ii); // ✅ Set the saved image
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
         }
-
-    } catch (SQLException ex) {
-        System.out.println("Error: " + ex.getMessage());
     }
-
 }
 
     
@@ -86,7 +92,7 @@ public class CustomersDB extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cs_name = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        pfpimage = new javax.swing.JLabel();
         cs_order = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -101,6 +107,9 @@ public class CustomersDB extends javax.swing.JFrame {
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
 
@@ -206,11 +215,11 @@ public class CustomersDB extends javax.swing.JFrame {
         jPanel2.add(db, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 240, 180, 50));
 
         cs_name.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        cs_name.setText("Hello Customer!");
-        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, -1, -1));
+        cs_name.setText("Hello");
+        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 130, -1));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        pfpimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
+        jPanel2.add(pfpimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
 
         cs_order.setBackground(new java.awt.Color(204, 204, 204));
         cs_order.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -320,7 +329,7 @@ public class CustomersDB extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
        Session sess = Session.getInstance();     
-        cs_name.setText(sess.getFname()); 
+        cs_name.setText("Hello " +sess.getFname()); 
     }//GEN-LAST:event_formWindowActivated
 
     private void cs_orderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cs_orderMouseEntered
@@ -358,6 +367,10 @@ public class CustomersDB extends javax.swing.JFrame {
        odb.setVisible(true);
        this.dispose();
     }//GEN-LAST:event_cs_orderMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+       loadProfilePicture();
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -411,7 +424,6 @@ public class CustomersDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -424,5 +436,6 @@ public class CustomersDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel pfpimage;
     // End of variables declaration//GEN-END:variables
 }

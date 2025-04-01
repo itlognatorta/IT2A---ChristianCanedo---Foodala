@@ -6,9 +6,17 @@
 package InsideCustomerDB;
 
 import InternalPackage.CustomersDB;
+import config.Session;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /**
@@ -22,6 +30,7 @@ public class OrderDB extends javax.swing.JFrame {
      */
     public OrderDB() {
         initComponents();
+        loadProfilePicture();
     }
 
     Color hover = new Color(102,102,102);  
@@ -32,6 +41,23 @@ public class OrderDB extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
+    public void loadProfilePicture() {
+    File pathFile = new File("profile_pictures/image_path.txt");
+
+    if (pathFile.exists()) { // Check if the saved path exists
+        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
+            String imagePath = reader.readLine();
+            if (imagePath != null && new File(imagePath).exists()) {
+                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
+                pfpimage.setIcon(ii); // ✅ Set the saved image
+            }
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+        }
+    }
+}
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -59,13 +85,21 @@ public class OrderDB extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         csname = new javax.swing.JLabel();
-        jLabel30 = new javax.swing.JLabel();
+        pfpimage = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowActivated(java.awt.event.WindowEvent evt) {
+                formWindowActivated(evt);
+            }
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(153, 153, 153));
@@ -198,10 +232,10 @@ public class OrderDB extends javax.swing.JFrame {
 
         csname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         csname.setText("Hello ");
-        jPanel2.add(csname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
+        jPanel2.add(csname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 30));
 
-        jLabel30.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        pfpimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
+        jPanel2.add(pfpimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 520));
 
@@ -294,6 +328,15 @@ public class OrderDB extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel1MouseClicked
 
+    private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
+       Session sess = Session.getInstance();
+        csname.setText("Hello "+sess.getFname());
+    }//GEN-LAST:event_formWindowActivated
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        loadProfilePicture();
+    }//GEN-LAST:event_formWindowOpened
+
     /**
      * @param args the command line arguments
      */
@@ -347,7 +390,6 @@ public class OrderDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
@@ -358,5 +400,6 @@ public class OrderDB extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel orderdb;
+    private javax.swing.JLabel pfpimage;
     // End of variables declaration//GEN-END:variables
 }

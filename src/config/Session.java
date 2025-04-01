@@ -13,6 +13,7 @@ public class Session {
     private String type;
     private String status;
 
+    
     // Private constructor to prevent external instantiation
     public Session() {
     }

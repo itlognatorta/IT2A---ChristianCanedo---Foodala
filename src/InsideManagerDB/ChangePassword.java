@@ -9,7 +9,6 @@ import config.Session;
 import config.dbconnect;
 import config.passwordHasher;
 import java.awt.Color;
-import java.security.NoSuchAlgorithmException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
@@ -286,7 +285,7 @@ public class ChangePassword extends javax.swing.JFrame {
                 amb.setVisible(true);
                 this.dispose();
         } else {    
-            JOptionPane.showMessageDialog(null, "Old Password is Incorrect!");
+            JOptionPane.showMessageDialog(null, "Old Password is Incorrect!", "Error",JOptionPane.ERROR_MESSAGE);
         }
     } else {
         JOptionPane.showMessageDialog(null, "User not found!");
