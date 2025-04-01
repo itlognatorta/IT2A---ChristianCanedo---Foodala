@@ -27,6 +27,9 @@ public class dbconnect {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/christian";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "";
+    
+          public static String loggedInUsername; 
+          
        // constructor to connect to our database
         public dbconnect(){
             try{

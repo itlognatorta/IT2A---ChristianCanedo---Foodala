@@ -12,6 +12,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.BorderFactory;
@@ -52,19 +54,48 @@ public class CustomersDB extends javax.swing.JFrame {
    
     
     public void loadProfilePicture() {
-    File pathFile = new File("profile_pictures/image_path.txt");
+    String username = dbconnect.loggedInUsername;  
 
-    if (pathFile.exists()) { // Check if the saved path exists
-        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
-            String imagePath = reader.readLine();
-            if (imagePath != null && new File(imagePath).exists()) {
-                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
-                pfpimage.setIcon(ii); // ✅ Set the saved image
+   
+    if (username == null || username.isEmpty()) {
+        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if no user is logged in
+        return;
+    }
+
+    
+    try (Connection con = dbconnect.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
+
+        pst.setString(1, username);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                String imagePath = rs.getString("profile_picture");
+
+            
+                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
+                    try {
+                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+                        pfp.setIcon(ii); // Set the profile picture if exists
+                    } catch (Exception e) {
+                     
+                        pfp.setIcon(new ImageIcon("default_profile.png"));
+                    }
+                } else {
+                
+                    pfp.setIcon(new ImageIcon("default_profile.png"));
+                }
+            } else {
+            
+                pfp.setIcon(new ImageIcon("default_profile.png"));
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png")); 
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png")); 
     }
 }
 
@@ -92,7 +123,7 @@ public class CustomersDB extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         cs_name = new javax.swing.JLabel();
-        pfpimage = new javax.swing.JLabel();
+        pfp = new javax.swing.JLabel();
         cs_order = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
@@ -216,10 +247,10 @@ public class CustomersDB extends javax.swing.JFrame {
 
         cs_name.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         cs_name.setText("Hello");
-        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 160, 130, -1));
+        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 130, -1));
 
-        pfpimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(pfpimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, -1));
+        pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         cs_order.setBackground(new java.awt.Color(204, 204, 204));
         cs_order.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -436,6 +467,6 @@ public class CustomersDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JLabel pfpimage;
+    private javax.swing.JLabel pfp;
     // End of variables declaration//GEN-END:variables
 }

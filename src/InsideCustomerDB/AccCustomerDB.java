@@ -8,6 +8,7 @@ package InsideCustomerDB;
 import InternalPackage.CustomersDB;
 import OutsidePackage.login;
 import config.Session;
+import config.dbconnect;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.BufferedReader;
@@ -20,6 +21,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -54,19 +59,48 @@ public class AccCustomerDB extends javax.swing.JFrame {
     }
     
    public void loadProfilePicture() {
-    File pathFile = new File("profile_pictures/image_path.txt");
+    String username = dbconnect.loggedInUsername;  
 
-    if (pathFile.exists()) { // Check if the saved path exists
-        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
-            String imagePath = reader.readLine();
-            if (imagePath != null && new File(imagePath).exists()) {
-                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
-                pfpimage.setIcon(ii); // ✅ Set the saved image
+    // If there's no logged-in user, exit early
+    if (username == null || username.isEmpty()) {
+        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if no user is logged in
+        return;
+    }
+
+   
+    try (Connection con = dbconnect.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
+
+        pst.setString(1, username);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                String imagePath = rs.getString("profile_picture");
+
+             
+                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
+                    try {
+                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+                        pfp.setIcon(ii);
+                    } catch (Exception e) {
+                     
+                        pfp.setIcon(new ImageIcon("default_profile.png"));
+                    }
+                } else {
+                   
+                    pfp.setIcon(new ImageIcon("default_profile.png"));
+                }
+            } else {
+             
+                pfp.setIcon(new ImageIcon("default_profile.png"));
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png"));  
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png"));  
     }
 }
     
@@ -96,7 +130,7 @@ public class AccCustomerDB extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         csname = new javax.swing.JLabel();
-        pfpimage = new javax.swing.JLabel();
+        pfp = new javax.swing.JLabel();
         changepp = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
@@ -266,8 +300,8 @@ public class AccCustomerDB extends javax.swing.JFrame {
         csname.setText("Hello ");
         jPanel2.add(csname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
 
-        pfpimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(pfpimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         changepp.setBackground(new java.awt.Color(102, 102, 102));
         changepp.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -427,13 +461,11 @@ public class AccCustomerDB extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 880, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -545,23 +577,23 @@ public class AccCustomerDB extends javax.swing.JFrame {
 
     private void changeppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeppActionPerformed
         
-        JFileChooser chooser = new JFileChooser();
-        int result = chooser.showOpenDialog(null);
+         JFileChooser chooser = new JFileChooser();
+    int result = chooser.showOpenDialog(null);
 
-        if (result == JFileChooser.APPROVE_OPTION) {
-          File selectedFile = chooser.getSelectedFile();
-          String filename = selectedFile.getAbsolutePath();
+    if (result == JFileChooser.APPROVE_OPTION) {
+        File selectedFile = chooser.getSelectedFile();
+        String filename = selectedFile.getAbsolutePath();
 
-    // Set the image to the existing JLabel
-        ImageIcon ii = new ImageIcon(new ImageIcon(filename)
-        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
-        pfpimage.setIcon(ii); // ✅ Update the existing JLabel instead of creating a new one
+    // Set the image to the existing JLabel (pfp)
+    ImageIcon ii = new ImageIcon(new ImageIcon(filename)
+            .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+    pfp.setIcon(ii); // Update the existing JLabel
 
     // Define the target directory and file name
-        File destination = new File("profile_pictures", selectedFile.getName());
+    File destination = new File("profile_pictures", selectedFile.getName());
 
     // Ensure the directory exists
-        destination.getParentFile().mkdirs();
+    destination.getParentFile().mkdirs();
 
     // Save the image
     try (InputStream fis = new FileInputStream(selectedFile);
@@ -572,10 +604,18 @@ public class AccCustomerDB extends javax.swing.JFrame {
             fos.write(buffer, 0, bytesRead);
         }
 
-        // ✅ Save the image path to a file for persistence
-        try (PrintWriter out = new PrintWriter(new FileWriter("profile_pictures/image_path.txt"))) {
-            out.println(destination.getAbsolutePath()); // Save the full path
-        } catch (IOException e) {
+        // Now update the database with the image path (after successful save)
+        String username = dbconnect.loggedInUsername; // Use the logged-in username from dbconnect
+
+        try {
+            Connection con = dbconnect.getConnection(); // Use your existing dbconnect method
+            String sql = "UPDATE customer SET profile_picture = ? WHERE cs_user = ?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, destination.getAbsolutePath()); // Save the image path
+            pst.setString(2, username); // Update the profile picture for the logged-in user
+            pst.executeUpdate();
+            con.close();
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error saving image path: " + e.getMessage());
         }
 
@@ -680,7 +720,7 @@ public class AccCustomerDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel orderdb;
-    private javax.swing.JLabel pfpimage;
+    private javax.swing.JLabel pfp;
     private javax.swing.JLabel u_id;
     // End of variables declaration//GEN-END:variables
 }

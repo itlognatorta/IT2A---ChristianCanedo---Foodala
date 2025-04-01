@@ -4,12 +4,17 @@ package InternalPackage;
 import InsideManagerDB.AccManagerDB;
 import InsideManagerDB.FoodsDB;
 import config.Session;
+import config.dbconnect;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,7 +38,7 @@ public class ManagersDB extends javax.swing.JFrame {
      */
     public ManagersDB() {
         initComponents();
-        ProfilePicture();
+        loadProfilePicture();
         
     }
 
@@ -46,22 +51,53 @@ public class ManagersDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
 
-    public void ProfilePicture() {
-    File pathFile = new File("profile_pictures/image_path.txt");
+    public void loadProfilePicture() {
+    String username = dbconnect.loggedInUsername;  
 
-    if (pathFile.exists()) { // Check if the saved path exists
-        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
-            String imagePath = reader.readLine();
-            if (imagePath != null && new File(imagePath).exists()) {
-                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                        .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-                pfp.setIcon(ii); // ✅ Set the saved image
+  
+    if (username == null || username.isEmpty()) {
+        pfp.setIcon(new ImageIcon("default_profile.png"));  
+        return;
+    }
+
+   
+    try (Connection con = dbconnect.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
+
+        pst.setString(1, username);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                String imagePath = rs.getString("profile_picture");
+
+                
+                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
+                    try {
+                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+                        pfp.setIcon(ii); 
+                    } catch (Exception e) {
+                        
+                        pfp.setIcon(new ImageIcon("default_profile.png"));
+                    }
+                } else {
+                   
+                    pfp.setIcon(new ImageIcon("default_profile.png"));
+                }
+            } else {
+               
+                pfp.setIcon(new ImageIcon("default_profile.png"));
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png"));  
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png")); 
     }
 }
+
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -324,7 +360,7 @@ public class ManagersDB extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-       ProfilePicture();
+       loadProfilePicture();
     }//GEN-LAST:event_formWindowOpened
 
     /**

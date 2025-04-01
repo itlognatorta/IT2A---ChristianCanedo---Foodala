@@ -36,43 +36,45 @@ public class login extends javax.swing.JFrame {
        
     }
     
+    
   public static boolean login(String username, String password) {
-    dbconnect db = new dbconnect(); 
-    String query = "SELECT * FROM customer WHERE cs_user = ?";
+    dbconnect db = new dbconnect();
+    String query = "SELECT * FROM customer WHERE cs_user = ? AND cs_status = 'active'";
 
-    try (Connection conn = db.getConnection(); // Assuming dbconnect has a getConnection method
+    try (Connection conn = db.getConnection();
          PreparedStatement pstmt = conn.prepareStatement(query)) {
 
         pstmt.setString(1, username);
         ResultSet resultSet = pstmt.executeQuery();
 
         if (resultSet.next()) {
-       
             String storedPassword = resultSet.getString("cs_pass");
-      
-           
+            String userType = resultSet.getString("cs_type");
             String hashedInputPassword = hashPassword(password);
 
-            // If stored password is **not hashed**, update it with a hashed version
-            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {  // Check if it's plaintext
-              
-
+            // If stored password is plaintext, hash and update it
+            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {
+                System.out.println("Rehashing old plaintext password...");
                 String newHashedPassword = hashPassword(storedPassword);
-                String updateQuery = "UPDATE customer SET cs_pass = ? WHERE cs_user = ?";
 
-                try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
+                try (PreparedStatement updateStmt = conn.prepareStatement(
+                        "UPDATE customer SET cs_pass = ? WHERE cs_user = ?")) {
                     updateStmt.setString(1, newHashedPassword);
                     updateStmt.setString(2, username);
                     updateStmt.executeUpdate();
                 }
 
-                // Use the new hashed password for comparison
                 storedPassword = newHashedPassword;
             }
 
-          
+            // Validate password
             if (hashedInputPassword.equals(storedPassword)) {
-            
+                JOptionPane.showMessageDialog(null, "Login Successful!");
+
+                // ✅ Store the logged-in username in dbconnect for later use
+                dbconnect.loggedInUsername = username;  // Store the username after successful login
+
+                // ✅ Load user details into Session class
                 Session sess = Session.getInstance();
                 sess.setUid(resultSet.getString("id"));
                 sess.setFname(resultSet.getString("cs_fname"));
@@ -80,24 +82,41 @@ public class login extends javax.swing.JFrame {
                 sess.setEmail(resultSet.getString("cs_email"));
                 sess.setContact(resultSet.getString("cs_contact"));
                 sess.setAddress(resultSet.getString("cs_address"));
-                sess.setUser(resultSet.getString("cs_user"));
-                sess.setType(resultSet.getString("cs_type"));
-                sess.setStatus(resultSet.getString("cs_status"));    
+                sess.setUser(username);
+                sess.setType(userType);
+                sess.setStatus(resultSet.getString("cs_status"));
+                                
+                
+                // ✅ Redirect user based on their type
+                if ("customer".equalsIgnoreCase(userType)) {
+                    new CustomersDB().setVisible(true);
+                } else if ("manager".equalsIgnoreCase(userType)) {
+                    new ManagersDB().setVisible(true);
+                } else if ("admin".equalsIgnoreCase(userType)) {
+                    new Dashboard().setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return false;
+                }
+             
+              
                 return true;
             } else {
-                System.out.println("Login failed: Password does not match.");
+                JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
                 return false;
             }
         } else {
-            System.out.println("Login failed: Username not found.");
+            JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-    } catch (SQLException ex) {   
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         return false;
     }
 }
-    
-    Color hover = new Color(153,153,153);  
+  
+  
+     Color hover = new Color(153,153,153);  
     Color defbutton = new Color(102,102,102);  
     
     Border empty = BorderFactory.createEmptyBorder();
@@ -106,75 +125,6 @@ public class login extends javax.swing.JFrame {
         button.setBackground(defbutton);
             
     }
-    
-    private void loginUser() {
-    String url = "jdbc:mysql://localhost:3306/christian";
-    String user = "root";
-    String password = "";
-
-    String query = "SELECT cs_pass, cs_type FROM customer WHERE cs_user = ? AND cs_status = 'active'";
-
-    try (Connection conn = DriverManager.getConnection(url, user, password);
-         PreparedStatement pstmt = conn.prepareStatement(query)) {
-
-        pstmt.setString(1, username.getText());
-        ResultSet rs = pstmt.executeQuery();
-
-        if (rs.next()) {
-            String storedPassword = rs.getString("cs_pass");
-            String userType = rs.getString("cs_type");
-
-            // Hash the input password for comparison
-            String hashedInputPassword = hashPassword(logpass.getText());
-
-            // Check if stored password is still plaintext (not hashed)
-            if (!storedPassword.matches("[a-fA-F0-9]{64}")) {  // SHA-256 hashes are 64 hex characters
-                System.out.println("Rehashing old plaintext password...");
-
-                // Hash the plaintext password and update the database
-                String newHashedPassword = hashPassword(storedPassword);
-                String updateQuery = "UPDATE customer SET cs_pass = ? WHERE cs_user = ?";
-                
-                try (PreparedStatement updateStmt = conn.prepareStatement(updateQuery)) {
-                    updateStmt.setString(1, newHashedPassword);
-                    updateStmt.setString(2, username.getText());
-                    updateStmt.executeUpdate();
-                }
-                
-                // Use the new hashed password for comparison
-                storedPassword = newHashedPassword;
-            }
-
-            // Compare hashed input password with stored hash
-            if (hashedInputPassword.equals(storedPassword)) {
-                JOptionPane.showMessageDialog(null, "Login Successful!");
-
-                // Redirect based on user type
-                if ("customer".equalsIgnoreCase(userType)) {
-                    CustomersDB csdb = new CustomersDB();
-                    this.dispose();
-                    csdb.setVisible(true);
-                } else if ("manager".equalsIgnoreCase(userType)) {
-                    ManagersDB mgdb = new ManagersDB();
-                    this.dispose();
-                    mgdb.setVisible(true);
-                } else if ("admin".equalsIgnoreCase(userType)) {
-                    Dashboard dbd = new Dashboard();
-                    this.dispose();
-                    dbd.setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "User not found or inactive!", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-    }
-}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -436,8 +386,7 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_Signin1MouseExited
 
     private void Signin1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Signin1ActionPerformed
-            loginUser();
-            
+                      
     String user = username.getText();
     String password = new String(logpass.getPassword()); 
    
@@ -471,20 +420,17 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_Signin1KeyPressed
 
     private void logpassKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_logpassKeyTyped
-        // TODO add your handling code here:
-        
+        // TODO add your handling code here:       
     }//GEN-LAST:event_logpassKeyTyped
 
     private void logpassKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_logpassKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            loginUser();
+                 
     }//GEN-LAST:event_logpassKeyPressed
 
     private void usernameKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_usernameKeyPressed
-        // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER)
-            loginUser();
+    
+       
     }//GEN-LAST:event_usernameKeyPressed
 
     private void forgotMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_forgotMouseClicked

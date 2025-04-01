@@ -7,12 +7,17 @@ package InsideCustomerDB;
 
 import InternalPackage.CustomersDB;
 import config.Session;
+import config.dbconnect;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -43,19 +48,48 @@ public class OrderDB extends javax.swing.JFrame {
     }
     
     public void loadProfilePicture() {
-    File pathFile = new File("profile_pictures/image_path.txt");
+    String username = dbconnect.loggedInUsername;  // Retrieve the logged-in username from dbconnect
 
-    if (pathFile.exists()) { // Check if the saved path exists
-        try (BufferedReader reader = new BufferedReader(new FileReader(pathFile))) {
-            String imagePath = reader.readLine();
-            if (imagePath != null && new File(imagePath).exists()) {
-                ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                        .getImage().getScaledInstance(pfpimage.getWidth(), pfpimage.getHeight(), Image.SCALE_SMOOTH));
-                pfpimage.setIcon(ii); // ✅ Set the saved image
+    // If there's no logged-in user, exit early
+    if (username == null || username.isEmpty()) {
+        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if no user is logged in
+        return;
+    }
+
+    // Use try-with-resources to automatically close resources
+    try (Connection con = dbconnect.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
+
+        pst.setString(1, username);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                String imagePath = rs.getString("profile_picture");
+
+                // Check if the imagePath is not null, not empty, and points to a valid file
+                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
+                    try {
+                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
+                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+                        pfp.setIcon(ii); // Set the profile picture if exists
+                    } catch (Exception e) {
+                        // If there's an error loading the image, set a default one
+                        pfp.setIcon(new ImageIcon("default_profile.png"));
+                    }
+                } else {
+                    // Set a default profile picture if no image is found or the path is invalid
+                    pfp.setIcon(new ImageIcon("default_profile.png"));
+                }
+            } else {
+                // If no result is found for the username, set a default profile picture
+                pfp.setIcon(new ImageIcon("default_profile.png"));
             }
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
         }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if SQL fails
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if there are other errors
     }
 }
     @SuppressWarnings("unchecked")
@@ -85,7 +119,7 @@ public class OrderDB extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         csname = new javax.swing.JLabel();
-        pfpimage = new javax.swing.JLabel();
+        pfp = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -234,8 +268,8 @@ public class OrderDB extends javax.swing.JFrame {
         csname.setText("Hello ");
         jPanel2.add(csname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 30));
 
-        pfpimage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(pfpimage, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 520));
 
@@ -400,6 +434,6 @@ public class OrderDB extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel orderdb;
-    private javax.swing.JLabel pfpimage;
+    private javax.swing.JLabel pfp;
     // End of variables declaration//GEN-END:variables
 }
