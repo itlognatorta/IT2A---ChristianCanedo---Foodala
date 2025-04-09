@@ -8,14 +8,15 @@ import config.Session;
 import config.dbconnect;
 import java.awt.Color;
 import java.awt.Image;
-import java.io.BufferedReader;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -51,51 +52,70 @@ public class CustomersDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
-   
-    
-    public void loadProfilePicture() {
-    String username = dbconnect.loggedInUsername;  
+           public void loadProfilePicture() {
+    String username = dbconnect.loggedInUsername;
 
-   
     if (username == null || username.isEmpty()) {
-        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if no user is logged in
+        setDefaultProfilePicture();
         return;
     }
 
-    
     try (Connection con = dbconnect.getConnection();
          PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
 
         pst.setString(1, username);
-        try (ResultSet rs = pst.executeQuery()) {
-            if (rs.next()) {
-                String imagePath = rs.getString("profile_picture");
+        ResultSet rs = pst.executeQuery();
 
-            
-                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
-                    try {
-                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-                        pfp.setIcon(ii); // Set the profile picture if exists
-                    } catch (Exception e) {
-                     
-                        pfp.setIcon(new ImageIcon("default_profile.png"));
-                    }
-                } else {
-                
-                    pfp.setIcon(new ImageIcon("default_profile.png"));
+        if (rs.next()) {
+            String imagePath = rs.getString("profile_picture");
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
                 }
-            } else {
-            
-                pfp.setIcon(new ImageIcon("default_profile.png"));
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
+                }
             }
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png")); 
+
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png")); 
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback to default if anything fails
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
+    }
+}
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/pfpimage/default.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+            pfp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pfp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pfp.setIcon(null);
     }
 }
 

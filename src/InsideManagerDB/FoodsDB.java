@@ -10,14 +10,14 @@ import config.Session;
 import config.dbconnect;
 import java.awt.Color;
 import java.awt.Image;
-import java.io.BufferedReader;
+import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -46,16 +46,15 @@ public class FoodsDB extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
-    public void loadProfilePicture() {
+   public void loadProfilePicture() {
     String username = dbconnect.loggedInUsername;  
 
-    // If there's no logged-in user, exit early
+    
     if (username == null || username.isEmpty()) {
-        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if no user is logged in
+        setDefaultProfilePicture();
         return;
     }
 
-    
     try (Connection con = dbconnect.getConnection();
          PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
 
@@ -64,31 +63,52 @@ public class FoodsDB extends javax.swing.JFrame {
             if (rs.next()) {
                 String imagePath = rs.getString("profile_picture");
 
-               
-                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
-                    try {
-                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-                        pfp.setIcon(ii); 
-                    } catch (Exception e) {
+              
+                if (imagePath != null && !imagePath.isEmpty()) {
+                    File imgFile = new File(imagePath);
+                    
+                    if (!imgFile.isAbsolute()) {  
                        
-                        pfp.setIcon(new ImageIcon("default_profile.png"));
+                        imgFile = new File("src/" + imagePath);
                     }
-                } else {
-                
-                    pfp.setIcon(new ImageIcon("default_profile.png"));
+
+                    if (imgFile.exists()) {
+                        setProfilePicture(imgFile);
+                        return; 
+                    }
                 }
-            } else {
-             
-                pfp.setIcon(new ImageIcon("default_profile.png"));
             }
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png")); 
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png")); 
+    }
+
+    
+    setDefaultProfilePicture();
+}
+
+
+    private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon ii = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(ii);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error processing image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        setDefaultProfilePicture();
+    }
+}
+
+
+    private void setDefaultProfilePicture() {
+        File defaultImage = new File("src/pfpimage/default_profile.png"); 
+    if (defaultImage.exists()) {
+        setProfilePicture(defaultImage);
+    } else {
+        JOptionPane.showMessageDialog(null, "Default image missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+        pfp.setIcon(null); 
     }
 }
     @SuppressWarnings("unchecked")

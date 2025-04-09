@@ -11,10 +11,17 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 import config.dbconnect;
 import InternalPackage.Dashboard;
+import config.Session;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
 
 /**
  *
@@ -24,8 +31,11 @@ public class AddUsersForm extends javax.swing.JFrame {
 
    List<String> existingUsernames = Arrays.asList("cs_user");
    List<String> existingEmails = Arrays.asList("cs_email");
+   
     public AddUsersForm() {
-        initComponents();
+    initComponents();
+    add_noteadd.setText("Optional");
+    add_noteadd.setForeground(new Color(153, 153, 153));
     }
     
 
@@ -78,6 +88,8 @@ public class AddUsersForm extends javax.swing.JFrame {
         regshow1 = new javax.swing.JLabel();
         add_conpass = new javax.swing.JPasswordField();
         add_pass = new javax.swing.JPasswordField();
+        jPanel4 = new javax.swing.JPanel();
+        profilePicture = new javax.swing.JLabel();
         cancelregformButton1 = new javax.swing.JButton();
         RegDoneButton = new javax.swing.JButton();
 
@@ -124,7 +136,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_lnameActionPerformed(evt);
             }
         });
-        jPanel3.add(add_lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 30, 240, 50));
+        jPanel3.add(add_lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 30, 190, 50));
 
         add_address.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_address.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -133,7 +145,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_addressActionPerformed(evt);
             }
         });
-        jPanel3.add(add_address, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 110, 240, 50));
+        jPanel3.add(add_address, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 110, 190, 50));
 
         add_noteadd.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_noteadd.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -142,7 +154,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_noteaddActionPerformed(evt);
             }
         });
-        jPanel3.add(add_noteadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 190, 240, 50));
+        jPanel3.add(add_noteadd, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 110, 190, 50));
 
         add_uname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_uname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -151,7 +163,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_unameActionPerformed(evt);
             }
         });
-        jPanel3.add(add_uname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 240, 50));
+        jPanel3.add(add_uname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 190, 50));
 
         add_contact.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_contact.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -160,7 +172,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_contactActionPerformed(evt);
             }
         });
-        jPanel3.add(add_contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 190, 240, 50));
+        jPanel3.add(add_contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 190, 50));
 
         add_email.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_email.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -169,7 +181,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_emailActionPerformed(evt);
             }
         });
-        jPanel3.add(add_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 110, 240, 50));
+        jPanel3.add(add_email, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 30, 190, 50));
 
         add_fname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_fname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -178,7 +190,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_fnameActionPerformed(evt);
             }
         });
-        jPanel3.add(add_fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 240, 50));
+        jPanel3.add(add_fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 190, 50));
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel13.setText("First Name*");
@@ -186,35 +198,35 @@ public class AddUsersForm extends javax.swing.JFrame {
 
         jLabel14.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel14.setText("Email Address*");
-        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
+        jPanel3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, -1, -1));
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel15.setText("Contact Number*");
-        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
+        jPanel3.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, -1, -1));
 
         jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel17.setText("Username*");
-        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, -1, -1));
+        jPanel3.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, -1, -1));
 
         jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel18.setText("Last Name*");
-        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 10, -1, -1));
+        jPanel3.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, -1, -1));
 
         jLabel19.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel19.setText("Address*");
-        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 90, -1, -1));
+        jPanel3.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 90, -1, -1));
 
         jLabel20.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel20.setText("Note Address*");
-        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 170, -1, -1));
+        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 90, -1, -1));
 
         jLabel21.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel21.setText("Password*");
-        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 250, -1, -1));
+        jPanel3.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 170, -1, -1));
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel7.setText("Confirm Password*");
-        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 330, -1, -1));
+        jPanel3.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 250, -1, -1));
 
         add_type.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select\t", "Customer", "Manager" }));
@@ -224,14 +236,14 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_typeActionPerformed(evt);
             }
         });
-        jPanel3.add(add_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 350, 240, 50));
+        jPanel3.add(add_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 270, 190, 50));
 
         regshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
-        jPanel3.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 280, -1, -1));
+        jPanel3.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setText("Type*");
-        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, -1, -1));
+        jPanel3.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 250, -1, -1));
 
         reghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
         reghide.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -242,7 +254,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 reghideMouseReleased(evt);
             }
         });
-        jPanel3.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 280, -1, -1));
+        jPanel3.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 200, -1, -1));
 
         reghide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
         reghide1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -253,10 +265,10 @@ public class AddUsersForm extends javax.swing.JFrame {
                 reghide1MouseReleased(evt);
             }
         });
-        jPanel3.add(reghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 360, -1, -1));
+        jPanel3.add(reghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 280, -1, -1));
 
         regshow1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
-        jPanel3.add(regshow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 360, -1, -1));
+        jPanel3.add(regshow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 280, -1, -1));
 
         add_conpass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_conpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -265,7 +277,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_conpassActionPerformed(evt);
             }
         });
-        jPanel3.add(add_conpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, 240, 50));
+        jPanel3.add(add_conpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 270, 190, 50));
 
         add_pass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         add_pass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -274,9 +286,17 @@ public class AddUsersForm extends javax.swing.JFrame {
                 add_passActionPerformed(evt);
             }
         });
-        jPanel3.add(add_pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 270, 240, 50));
+        jPanel3.add(add_pass, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 190, 190, 50));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 540, 420));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        profilePicture.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        profilePicture.setText("ProfilePicture");
+        jPanel4.add(profilePicture, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, 180, 130));
+
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 630, 340));
 
         cancelregformButton1.setBackground(new java.awt.Color(102, 102, 102));
         cancelregformButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -294,7 +314,7 @@ public class AddUsersForm extends javax.swing.JFrame {
                 cancelregformButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(cancelregformButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 530, 128, 49));
+        jPanel1.add(cancelregformButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 440, 128, 49));
 
         RegDoneButton.setBackground(new java.awt.Color(102, 102, 102));
         RegDoneButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -312,20 +332,18 @@ public class AddUsersForm extends javax.swing.JFrame {
                 RegDoneButtonActionPerformed(evt);
             }
         });
-        jPanel1.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 530, 128, 49));
+        jPanel1.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 440, 128, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 688, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 600, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 510, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -404,182 +422,162 @@ public class AddUsersForm extends javax.swing.JFrame {
     private void RegDoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegDoneButtonActionPerformed
         dbconnect dbc = new dbconnect();
         boolean isValid = true;
-
-        String username = add_uname.getText().trim();
-        String emails = add_email.getText().trim();
-
         StringBuilder errorMessages = new StringBuilder();
 
-        // First Name Validation
-       
-        if (add_fname.getText().isEmpty()) {
-            add_fname.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("First name is required.\n");
-            isValid = false;
-        } else {
-            add_fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Get trimmed input values
+    String fname = add_fname.getText().trim();
+    String lname = add_lname.getText().trim();
+    String email = add_email.getText().trim();
+    String contact = add_contact.getText().trim();
+    String username = add_uname.getText().trim();
+    String password = new String(add_pass.getPassword());
+    String confirmPassword = new String(add_conpass.getPassword());
+    String address = add_address.getText().trim();
+    String noteAddress = add_noteadd.getText().trim();
+    String accountType = add_type.getSelectedItem().toString();
 
-        // Last Name Validation
-        if (add_lname.getText().isEmpty()) {
-            add_lname.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Last name is required.\n");
-            isValid = false;
-        } else {
-            add_lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Validate First Name
+    if (fname.isEmpty()) {
+        add_fname.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("First name is required.\n");
+        isValid = false;
+    } else {
+        add_fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        // Email Validation
-        if (add_email.getText().isEmpty()) {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Email is required.\n");
-            isValid = false;
-        } else {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Validate Last Name
+    if (lname.isEmpty()) {
+        add_lname.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Last name is required.\n");
+        isValid = false;
+    } else {
+        add_lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        // Check if Email already exists in the list
-        if (existingEmails.contains(add_email.getText())) {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Email is already registered.\n");
-            isValid = false;
-        }
+    // Validate Email
+    if (email.isEmpty()) {
+        add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Email is required.\n");
+        isValid = false;
+    } else if (!email.matches("^[\\w._%+-]+@[\\w.-]+\\.[a-zA-Z]{2,6}$")) {
+        add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Invalid email format.\n");
+        isValid = false;
+    } else {
+        add_email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        // Email Format Validation
-        if (!add_email.getText().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Email must be in the format 'username@domain.com'.\n");
-            isValid = false;
-        } else {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
-        
-        if (add_type.getSelectedIndex() == 0) {
-            add_type.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Account type must be selected.\n");
-            isValid = false;
-        }   else {
-            add_type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Validate Account Type
+    if (add_type.getSelectedIndex() == 0) {
+        add_type.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Please select an account type.\n");
+        isValid = false;
+    } else {
+        add_type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        // Contact Number Validation
-        if (add_contact.getText().isEmpty()) {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Contact number is required.\n");
-            isValid = false;
-        } else {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Validate Contact Number
+    if (!contact.matches("\\d{11}")) {
+        add_contact.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Contact number must be 11 digits.\n");
+        isValid = false;
+    } else {
+        add_contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        String contactNumber = add_contact.getText().trim();
-        if (!contactNumber.matches("\\d{11}")) {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Contact number must contain exactly 11 digits.\n");
-            isValid = false;
-        } else {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Validate Username
+    if (username.isEmpty()) {
+        add_uname.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Username is required.\n");
+        isValid = false;
+    } else {
+        add_uname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        // Username Validation
-        if (username.isEmpty()) {
-            add_uname.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Username is required.\n");
-            isValid = false;
-        } else {
-            add_uname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Validate Password
+    if (password.length() < 8) {
+        add_pass.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Password must be at least 8 characters.\n");
+        isValid = false;
+    } else {
+        add_pass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        // Check if Username already exists
-        if (existingUsernames.contains(username)) {
-            add_uname.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Username is already taken.\n");
-            isValid = false;
-        }
+    // Validate Confirm Password
+    if (!password.equals(confirmPassword)) {
+        add_conpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Passwords do not match.\n");
+        isValid = false;
+    } else {
+        add_conpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
 
-        // Password Length Validation
-        if (add_pass.getPassword().length < 8) {
-            add_pass.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Password must contain at least 8 characters.\n");
-            isValid = false;
-        } else {
-            add_pass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Validate Address
+    if (address.isEmpty()) {
+        add_address.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Address is required.\n");
+        isValid = false;
+    } else {
+        add_address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }   
 
-        // Password Match Validation
-        if (!String.valueOf(add_conpass.getPassword()).equals(String.valueOf(add_conpass.getPassword()))) {
-            add_conpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Passwords do not match.\n");
-            isValid = false;
-        } else {
-            add_conpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-            add_conpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Show errors if any
+    if (!isValid) {
+        JOptionPane.showMessageDialog(null, errorMessages.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Address Validation
-        if (add_address.getText().isEmpty()) {
-            add_address.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Address is required.\n");
-            isValid = false;
-        } else {
-            add_address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
-        
-        // Note Address Validation
-        if (add_noteadd.getText().isEmpty()) {
-            add_noteadd.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Note Address is required.\n");
-            isValid = false;
-        }   else {
-            add_noteadd.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+    // Insert into database
+    try {
+        Connection conn = dbc.getConnection();
 
-        // Account Type Validation
-        if (add_type.getSelectedIndex() == 0) {
-            add_type.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Account type must be selected.\n");
-            isValid = false;
-        } else {
-            add_type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+        // Path to default profile picture
+        String profilePicture = "pfpimage/default.jpg";  // use relative path inside the "profile_picture" folder
 
-        // Password Empty Check
-        if (add_conpass.getPassword().length == 0) {
-            add_conpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Password is required.\n");
-            isValid = false;
-        } else {
-            add_conpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+        String sql = "INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status, profile_picture) "
+                   + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Confirm Password Empty Check
-        if (add_conpass.getPassword().length == 0) {
-            add_conpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Confirm password is required.\n");
-            isValid = false;
-        } else {
-            add_conpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+        PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+        pst.setString(1, fname);
+        pst.setString(2, lname);
+        pst.setString(3, email);
+        pst.setString(4, contact);
+        pst.setString(5, username);
+        pst.setString(6, password);  // Consider hashing passwords in real applications
+        pst.setString(7, address);
+        pst.setString(8, accountType);
+        pst.setString(9, "Active");
+        pst.setString(10, profilePicture);  // Use the default image path
 
-        // Final Validation Check
-        if (!isValid) {
-            // Show all error messages in a single JOptionPane dialog
-            JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+        int rows = pst.executeUpdate();
+        if (rows > 0) {
+            ResultSet keys = pst.getGeneratedKeys();
+            int lastId = -1;
+            if (keys.next()) {
+                lastId = keys.getInt(1);
+            }
 
-            // Database Insertion
-            if (dbc.insertData("INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status) "
-                + "VALUES ('" + add_fname.getText() + "','" + add_lname.getText() + "','" + add_email.getText() + "','"
-                + add_contact.getText() + "','" + add_uname.getText() + "','" + String.valueOf(add_conpass.getPassword()) + "','"
-                + add_address.getText() + "','" + add_type.getSelectedItem() + "','Active')") == 1) {
+            // Log action
+            Session sess = Session.getInstance();
+            String logMsg = "Created New User Account! ID: " + lastId;
 
+            PreparedStatement logPst = conn.prepareStatement("INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)");
+            logPst.setString(1, sess.getUid());
+            logPst.setString(2, logMsg);
+            logPst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            logPst.executeUpdate();
+
+            JOptionPane.showMessageDialog(null, "Registration successful!");
+
+            // Go to dashboard
             Dashboard db = new Dashboard();
             this.dispose();
             db.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "Database insertion failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        }
+
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+    }
 
     }//GEN-LAST:event_RegDoneButtonActionPerformed
 
@@ -683,6 +681,8 @@ public class AddUsersForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JLabel profilePicture;
     private javax.swing.JLabel reghide;
     private javax.swing.JLabel reghide1;
     private javax.swing.JLabel regshow;

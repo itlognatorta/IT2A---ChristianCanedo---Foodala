@@ -11,20 +11,21 @@ import config.Session;
 import config.dbconnect;
 import java.awt.Color;
 import java.awt.Image;
-import java.io.BufferedReader;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -47,6 +48,7 @@ public class AccCustomerDB extends javax.swing.JFrame {
     public AccCustomerDB() {
         initComponents();
         loadProfilePicture();
+        
     }
 
     Color hover = new Color(102,102,102);  
@@ -58,51 +60,73 @@ public class AccCustomerDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
-   public void loadProfilePicture() {
-    String username = dbconnect.loggedInUsername;  
+    public void loadProfilePicture() {
+    String username = dbconnect.loggedInUsername;
 
-    // If there's no logged-in user, exit early
     if (username == null || username.isEmpty()) {
-        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if no user is logged in
+        setDefaultProfilePicture();
         return;
     }
 
-   
     try (Connection con = dbconnect.getConnection();
          PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
 
         pst.setString(1, username);
-        try (ResultSet rs = pst.executeQuery()) {
-            if (rs.next()) {
-                String imagePath = rs.getString("profile_picture");
+        ResultSet rs = pst.executeQuery();
 
-             
-                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
-                    try {
-                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-                        pfp.setIcon(ii);
-                    } catch (Exception e) {
-                     
-                        pfp.setIcon(new ImageIcon("default_profile.png"));
-                    }
-                } else {
-                   
-                    pfp.setIcon(new ImageIcon("default_profile.png"));
+        if (rs.next()) {
+            String imagePath = rs.getString("profile_picture");
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
                 }
-            } else {
-             
-                pfp.setIcon(new ImageIcon("default_profile.png"));
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
+                }
             }
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png"));  
+
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png"));  
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback to default if anything fails
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
     }
 }
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/pfpimage/default.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+            pfp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pfp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pfp.setIcon(null);
+    }
+}
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -577,20 +601,20 @@ public class AccCustomerDB extends javax.swing.JFrame {
 
     private void changeppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeppActionPerformed
         
-         JFileChooser chooser = new JFileChooser();
-    int result = chooser.showOpenDialog(null);
+       JFileChooser chooser = new JFileChooser();
+int result = chooser.showOpenDialog(null);
 
-    if (result == JFileChooser.APPROVE_OPTION) {
-        File selectedFile = chooser.getSelectedFile();
-        String filename = selectedFile.getAbsolutePath();
+if (result == JFileChooser.APPROVE_OPTION) {
+    File selectedFile = chooser.getSelectedFile();
+    String filename = selectedFile.getAbsolutePath();
 
     // Set the image to the existing JLabel (pfp)
     ImageIcon ii = new ImageIcon(new ImageIcon(filename)
             .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-    pfp.setIcon(ii); // Update the existing JLabel
+    pfp.setIcon(ii); // Update the JLabel
 
-    // Define the target directory and file name
-    File destination = new File("profile_pictures", selectedFile.getName());
+    // Define the target directory within the NetBeans project (src/pfpimage)
+    File destination = new File("src/pfpimage", selectedFile.getName());
 
     // Ensure the directory exists
     destination.getParentFile().mkdirs();
@@ -604,19 +628,21 @@ public class AccCustomerDB extends javax.swing.JFrame {
             fos.write(buffer, 0, bytesRead);
         }
 
-        // Now update the database with the image path (after successful save)
-        String username = dbconnect.loggedInUsername; // Use the logged-in username from dbconnect
+        // Now update the database with the relative image path
+        String username = dbconnect.loggedInUsername; // Use logged-in username
 
         try {
-            Connection con = dbconnect.getConnection(); // Use your existing dbconnect method
+            Connection con = dbconnect.getConnection(); // Get DB connection
             String sql = "UPDATE customer SET profile_picture = ? WHERE cs_user = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, destination.getAbsolutePath()); // Save the image path
-            pst.setString(2, username); // Update the profile picture for the logged-in user
+            String relativePath = "pfpimage/" + selectedFile.getName(); // Store relative path
+            pst.setString(1, relativePath); 
+            pst.setString(2, username); 
             pst.executeUpdate();
             con.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error saving image path: " + e.getMessage());
+            return;
         }
 
         JOptionPane.showMessageDialog(null, "Profile Picture Updated Successfully!");
@@ -629,7 +655,7 @@ public class AccCustomerDB extends javax.swing.JFrame {
     }//GEN-LAST:event_changeppActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-         loadProfilePicture();
+        loadProfilePicture();
 
     }//GEN-LAST:event_formWindowOpened
 

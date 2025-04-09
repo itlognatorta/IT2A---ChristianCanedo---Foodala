@@ -5,7 +5,8 @@ import config.dbconnect;
 import config.passwordHasher;
 import java.awt.Color;
 import java.awt.HeadlessException;
-import java.security.NoSuchAlgorithmException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Arrays;
 import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
@@ -25,7 +26,11 @@ public class regform extends javax.swing.JFrame {
     
     public regform() {
         initComponents();
+        noteaddress.setText("Optional");
+    noteaddress.setForeground(new Color(153, 153, 153));
     }
+    
+    
 
     Color hover = new Color(153,153,153);  
     Color defbutton = new Color(102,102,102);  
@@ -35,6 +40,7 @@ public class regform extends javax.swing.JFrame {
     void resetButtonColor(JButton button){
         button.setBackground(defbutton);
     }
+    
     
     
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -73,6 +79,9 @@ public class regform extends javax.swing.JFrame {
         jLabel16 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         type = new javax.swing.JComboBox<>();
+        jPanel3 = new javax.swing.JPanel();
+        profilePicture = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel21 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -98,7 +107,7 @@ public class regform extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
         jLabel2.setText("Create Account");
-        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, 280, 50));
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, 280, 50));
 
         cancelregformButton.setBackground(new java.awt.Color(102, 102, 102));
         cancelregformButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -116,7 +125,7 @@ public class regform extends javax.swing.JFrame {
                 cancelregformButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(cancelregformButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 530, 128, 49));
+        jPanel2.add(cancelregformButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 430, 128, 49));
 
         RegDoneButton.setBackground(new java.awt.Color(102, 102, 102));
         RegDoneButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -134,7 +143,7 @@ public class regform extends javax.swing.JFrame {
                 RegDoneButtonActionPerformed(evt);
             }
         });
-        jPanel2.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 530, 128, 49));
+        jPanel2.add(RegDoneButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 430, 128, 49));
 
         reghide1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
         reghide1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -145,10 +154,10 @@ public class regform extends javax.swing.JFrame {
                 reghide1MouseReleased(evt);
             }
         });
-        jPanel2.add(reghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 450, 30, -1));
+        jPanel2.add(reghide1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 370, 30, -1));
 
         regshow1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
-        jPanel2.add(regshow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 450, -1, -1));
+        jPanel2.add(regshow1, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 370, -1, -1));
 
         regconfirmpass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         regconfirmpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -157,11 +166,11 @@ public class regform extends javax.swing.JFrame {
                 regconfirmpassActionPerformed(evt);
             }
         });
-        jPanel2.add(regconfirmpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 440, 240, 50));
+        jPanel2.add(regconfirmpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 360, 190, 50));
 
         jLabel7.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel7.setText("Confirm Password*");
-        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 420, -1, -1));
+        jPanel2.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 340, -1, -1));
 
         reguname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         reguname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -170,11 +179,11 @@ public class regform extends javax.swing.JFrame {
                 regunameActionPerformed(evt);
             }
         });
-        jPanel2.add(reguname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 240, 50));
+        jPanel2.add(reguname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 190, 50));
 
         jLabel17.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel17.setText("Username*");
-        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
+        jPanel2.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
 
         contact.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         contact.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -183,11 +192,11 @@ public class regform extends javax.swing.JFrame {
                 contactActionPerformed(evt);
             }
         });
-        jPanel2.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 240, 50));
+        jPanel2.add(contact, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 190, 50));
 
         jLabel15.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel15.setText("Contact Number*");
-        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, -1, -1));
+        jPanel2.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
 
         email.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         email.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -196,11 +205,11 @@ public class regform extends javax.swing.JFrame {
                 emailActionPerformed(evt);
             }
         });
-        jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 240, 50));
+        jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 120, 190, 50));
 
         jLabel14.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel14.setText("Email Address*");
-        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, -1, -1));
+        jPanel2.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 100, -1, -1));
 
         fname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         fname.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -209,7 +218,7 @@ public class regform extends javax.swing.JFrame {
                 fnameActionPerformed(evt);
             }
         });
-        jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 240, 50));
+        jPanel2.add(fname, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 190, 50));
 
         jLabel13.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel13.setText("First Name*");
@@ -222,7 +231,7 @@ public class regform extends javax.swing.JFrame {
                 lnameActionPerformed(evt);
             }
         });
-        jPanel2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 120, 240, 50));
+        jPanel2.add(lname, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 120, 190, 50));
 
         reghide.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/hideeye-removebg-preview (1).png"))); // NOI18N
         reghide.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -233,10 +242,10 @@ public class regform extends javax.swing.JFrame {
                 reghideMouseReleased(evt);
             }
         });
-        jPanel2.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 370, -1, -1));
+        jPanel2.add(reghide, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 290, -1, -1));
 
         regshow.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/showeye-removebg-preview (2).png"))); // NOI18N
-        jPanel2.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 370, -1, -1));
+        jPanel2.add(regshow, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 290, -1, -1));
 
         regpass.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         regpass.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -245,24 +254,32 @@ public class regform extends javax.swing.JFrame {
                 regpassActionPerformed(evt);
             }
         });
-        jPanel2.add(regpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 360, 240, 50));
+        jPanel2.add(regpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 280, 190, 50));
 
         jLabel20.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel20.setText("Password*");
-        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 340, -1, -1));
+        jPanel2.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, -1, -1));
 
         noteaddress.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         noteaddress.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        noteaddress.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                noteaddressFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                noteaddressFocusLost(evt);
+            }
+        });
         noteaddress.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 noteaddressActionPerformed(evt);
             }
         });
-        jPanel2.add(noteaddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 280, 240, 50));
+        jPanel2.add(noteaddress, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 200, 190, 50));
 
         jLabel19.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel19.setText("Note Address*");
-        jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 260, -1, -1));
+        jPanel2.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 180, -1, -1));
 
         address.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         address.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
@@ -271,19 +288,19 @@ public class regform extends javax.swing.JFrame {
                 addressActionPerformed(evt);
             }
         });
-        jPanel2.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 240, 50));
+        jPanel2.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 200, 190, 50));
 
         jLabel18.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel18.setText("Address*");
-        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 180, -1, -1));
+        jPanel2.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 180, -1, -1));
 
         jLabel16.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel16.setText("Last Name*");
-        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 100, -1, -1));
+        jPanel2.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 100, -1, -1));
 
         jLabel3.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel3.setText("Type*");
-        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, -1, -1));
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, -1, -1));
 
         type.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select\t", "Customer", "Manager" }));
@@ -293,19 +310,32 @@ public class regform extends javax.swing.JFrame {
                 typeActionPerformed(evt);
             }
         });
-        jPanel2.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 440, 240, 50));
+        jPanel2.add(type, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 360, 190, 50));
+
+        jPanel3.setBackground(new java.awt.Color(204, 255, 255));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        profilePicture.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        profilePicture.setText("Profile Picture");
+        jPanel3.add(profilePicture, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, -1, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/pfpimage/default.jpg"))); // NOI18N
+        jLabel6.setText("jLabel6");
+        jPanel3.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 170, 130));
+
+        jPanel2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(440, 280, 170, 130));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/gradientbackground.jpg"))); // NOI18N
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 620));
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 510));
 
         jLabel21.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         jLabel21.setText("First Name*");
         jPanel2.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 20, 540, 620));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 640, 510));
 
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/background (2).jpg"))); // NOI18N
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, -20, 730, 720));
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-30, -20, 740, 590));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -327,194 +357,193 @@ public class regform extends javax.swing.JFrame {
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void RegDoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegDoneButtonActionPerformed
-    dbconnect dbc = new dbconnect();
-    boolean isValid = true;
+        dbconnect dbc = new dbconnect();
+        boolean isValid = true;
 
-String username = reguname.getText().trim();
-String emails = email.getText().trim();
+    String username = reguname.getText().trim();
+    String emails = email.getText().trim();
 
+    StringBuilder errorMessages = new StringBuilder();
 
-
-StringBuilder errorMessages = new StringBuilder();
-
-
-// First Name Validation
-if (fname.getText().isEmpty()) {
-    fname.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("First name is required.\n");
-    isValid = false;
-} else {
-    fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Last Name Validation
-if (lname.getText().isEmpty()) {
-    lname.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Last name is required.\n");
-    isValid = false;
-} else {
-    lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Email Validation
-if (email.getText().isEmpty()) {
-    email.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Email is required.\n");
-    isValid = false;
-} else {
-    email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Check if Email already exists in the list
-if (existingEmails.contains(email.getText())) {
-    email.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Email is already registered.\n");
-    isValid = false;
-}
-
-// Email Format Validation
-if (!email.getText().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-    email.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Email must be in the format 'username@domain.com'.\n");
-    isValid = false;
-} else {
-    email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Contact Number Validation
-if (contact.getText().isEmpty()) {
-    contact.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Contact number is required.\n");
-    isValid = false;
-} else {
-    contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-String contactNumber = contact.getText().trim();
-if (!contactNumber.matches("\\d{11}")) {
-    contact.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Contact number must contain exactly 11 digits.\n");
-    isValid = false;
-} else {
-    contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Username Validation
-if (username.isEmpty()) {
-    reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Username is required.\n");
-    isValid = false;
-} else {
-    reguname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Check if Username already exists
-if (existingUsernames.contains(username)) {
-    reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Username is already taken.\n");
-    isValid = false;
-}
-
-// Password Length Validation
-if (regpass.getPassword().length < 8) {
-    regpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Password must contain at least 8 characters.\n");
-    isValid = false;
-} else {
-    regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Password Match Validation
-if (!String.valueOf(regpass.getPassword()).equals(String.valueOf(regconfirmpass.getPassword()))) {
-    regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Passwords do not match.\n");
-    isValid = false;
-} else {
-    regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-    regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Address Validation
-if (address.getText().isEmpty()) {
-    address.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Address is required.\n");
-    isValid = false;
-} else {
-    address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Note Address Validation
-if (noteaddress.getText().isEmpty()) {
-    noteaddress.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Note Address is required.\n");
-    isValid = false;
-} else {
-    noteaddress.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Account Type Validation
-if (type.getSelectedIndex() == 0) {
-    type.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Account type must be selected.\n");
-    isValid = false;
-} else {
-    type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Password Empty Check
-if (regpass.getPassword().length == 0) {
-    regpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Password is required.\n");
-    isValid = false;
-} else {
-    regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-
-// Confirm Password Empty Check
-if (regconfirmpass.getPassword().length == 0) {
-    regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.RED));
-    errorMessages.append("Confirm password is required.\n");
-    isValid = false;
-} else {
-    regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-}
-       try {
-    // Final Validation Check (Do this before inserting into the database)
-    if (!isValid) {
-        JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-        return; // Stop execution if validation fails
-    }
-
-    // Hash the password properly
-    char[] passwordChars = regpass.getPassword();
-    String pass = passwordHasher.hashPassword(new String(passwordChars));
-    Arrays.fill(passwordChars, ' '); // Clear password from memory for security
-
-    // Use the hashed password correctly in the SQL query
-    String sql = "INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status) "
-            + "VALUES ('" + fname.getText().replace("'", "''") + "','" 
-            + lname.getText().replace("'", "''") + "','" 
-            + email.getText().replace("'", "''") + "','" 
-            + contact.getText().replace("'", "''") + "','" 
-            + reguname.getText().replace("'", "''") + "','" 
-            + pass + "','"  // Use hashed password instead of plain text
-            + address.getText().replace("'", "''") + "','" 
-            + type.getSelectedItem().toString().replace("'", "''") + "','Pending')";
-
-    // Database Insertion
-    if (dbc.insertData(sql) == 1) {
-        JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
-        login lg = new login();
-        this.dispose();
-        lg.setVisible(true);
+    // First Name Validation
+    if (fname.getText().isEmpty()) {
+        fname.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("First name is required.\n");
+        isValid = false;
     } else {
-        JOptionPane.showMessageDialog(null, "Database insertion failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+        fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
     }
 
-} catch (HeadlessException ex) { // Catch general exceptions to avoid unexpected crashes
-    Logger.getLogger(regform.class.getName()).log(Level.SEVERE, "Unexpected error", ex);
-    JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
+    // Last Name Validation
+    if (lname.getText().isEmpty()) {
+        lname.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Last name is required.\n");
+        isValid = false;
+    } else {
+        lname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Email Validation
+    if (email.getText().isEmpty()) {
+        email.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Email is required.\n");
+        isValid = false;
+    } else {
+        email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Check if Email already exists in the list
+    if (existingEmails.contains(email.getText())) {
+        email.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Email is already registered.\n");
+        isValid = false;
+    }
+
+    // Email Format Validation
+    if (!email.getText().matches("^[a-zA-Z0-9._%+-]+@[a-zAZ0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+        email.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Email must be in the format 'username@domain.com'.\n");
+        isValid = false;
+    } else {
+        email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Contact Number Validation
+    if (contact.getText().isEmpty()) {
+        contact.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Contact number is required.\n");
+        isValid = false;
+    } else {
+        contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    String contactNumber = contact.getText().trim();
+    if (!contactNumber.matches("\\d{11}")) {
+        contact.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Contact number must contain exactly 11 digits.\n");
+        isValid = false;
+    } else {
+        contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Username Validation
+    if (username.isEmpty()) {
+        reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Username is required.\n");
+        isValid = false;
+    } else {
+        reguname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Check if Username already exists
+    if (existingUsernames.contains(username)) {
+        reguname.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Username is already taken.\n");
+        isValid = false;
+    }
+
+    // Password Length Validation
+    if (regpass.getPassword().length < 8) {
+        regpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Password must contain at least 8 characters.\n");
+        isValid = false;
+    } else {
+        regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Password Match Validation
+    if (!String.valueOf(regpass.getPassword()).equals(String.valueOf(regconfirmpass.getPassword()))) {
+        regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Passwords do not match.\n");
+        isValid = false;
+    } else {
+        regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Address Validation
+    if (address.getText().isEmpty()) {
+        address.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Address is required.\n");
+        isValid = false;
+    } else {
+        address.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Account Type Validation
+    if (type.getSelectedIndex() == 0) {
+        type.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Account type must be selected.\n");
+        isValid = false;
+    } else {
+        type.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Password Empty Check
+    if (regpass.getPassword().length == 0) {
+        regpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Password is required.\n");
+        isValid = false;
+    } else {
+        regpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    // Confirm Password Empty Check
+    if (regconfirmpass.getPassword().length == 0) {
+        regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.RED));
+        errorMessages.append("Confirm password is required.\n");
+        isValid = false;
+    } else {
+        regconfirmpass.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+    }
+
+    try {
+        // Final Validation Check (Do this before inserting into the database)
+        if (!isValid) {
+            JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+            return; // Stop execution if validation fails
+        }
+
+        // Hash the password properly
+        char[] passwordChars = regpass.getPassword();
+        String pass = passwordHasher.hashPassword(new String(passwordChars));
+        Arrays.fill(passwordChars, ' '); // Clear password from memory for security
+
+        // Set the default profile picture
+        String profilePicture = "pfpimage/default.jpg";  // Set the path to the default profile picture
+
+        // SQL Query with profile picture path
+        String sql = "INSERT INTO customer (cs_fname, cs_lname, cs_email, cs_contact, cs_user, cs_pass, cs_address, cs_type, cs_status, profile_picture) "
+                + "VALUES ('" + fname.getText().replace("'", "''") + "','" 
+                + lname.getText().replace("'", "''") + "','" 
+                + email.getText().replace("'", "''") + "','" 
+                + contact.getText().replace("'", "''") + "','" 
+                + reguname.getText().replace("'", "''") + "','" 
+                + pass + "','"  // Use hashed password instead of plain text
+                + address.getText().replace("'", "''") + "','" 
+                + type.getSelectedItem().toString().replace("'", "''") + "','Pending', ?)";
+
+        // Database Insertion
+        try (PreparedStatement pst = dbc.getConnection().prepareStatement(sql)) {
+            pst.setString(1, profilePicture); // Set the profile picture column
+            int result = pst.executeUpdate();
+
+            if (result == 1) {
+                JOptionPane.showMessageDialog(null, "Registration Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+                login lg = new login();
+                this.dispose();
+                lg.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(null, "Database insertion failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Database Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    } catch (HeadlessException ex) { // Catch general exceptions to avoid unexpected crashes
+        Logger.getLogger(regform.class.getName()).log(Level.SEVERE, "Unexpected error", ex);
+        JOptionPane.showMessageDialog(null, "An unexpected error occurred: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
     
     }//GEN-LAST:event_RegDoneButtonActionPerformed
 
@@ -543,7 +572,7 @@ if (regconfirmpass.getPassword().length == 0) {
     }//GEN-LAST:event_regunameActionPerformed
 
     private void noteaddressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noteaddressActionPerformed
-        // TODO add your handling code here:
+     
     }//GEN-LAST:event_noteaddressActionPerformed
 
     private void addressActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addressActionPerformed
@@ -606,6 +635,23 @@ if (regconfirmpass.getPassword().length == 0) {
         // TODO add your handling code here:
     }//GEN-LAST:event_typeActionPerformed
 
+    private void noteaddressFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_noteaddressFocusGained
+      
+          if (noteaddress.getText().equals("Optional")) {
+                noteaddress.setText("");
+                noteaddress.setForeground(Color.BLACK);
+            }
+        
+    }//GEN-LAST:event_noteaddressFocusGained
+
+    private void noteaddressFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_noteaddressFocusLost
+       if (noteaddress.getText().isEmpty()) {
+                noteaddress.setText("Optional");
+                noteaddress.setForeground(new Color(153, 153, 153));
+            }
+    
+    }//GEN-LAST:event_noteaddressFocusLost
+
     /**
      * @param args the command line arguments
      */
@@ -661,15 +707,18 @@ if (regconfirmpass.getPassword().length == 0) {
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JTextField lname;
     private javax.swing.JTextField noteaddress;
+    private javax.swing.JLabel profilePicture;
     private javax.swing.JPasswordField regconfirmpass;
     private javax.swing.JLabel reghide;
     private javax.swing.JLabel reghide1;

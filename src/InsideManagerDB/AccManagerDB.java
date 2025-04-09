@@ -11,6 +11,7 @@ import config.Session;
 import config.dbconnect;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -21,6 +22,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -42,6 +44,7 @@ public class AccManagerDB extends javax.swing.JFrame {
     public AccManagerDB() {
         initComponents();
         loadProfilePicture();
+       
     }
     
     Color hover = new Color(102,102,102);  
@@ -53,12 +56,12 @@ public class AccManagerDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
-    public void loadProfilePicture() {
+  public void loadProfilePicture() {
     String username = dbconnect.loggedInUsername;  
 
-    // If there's no logged-in user, exit early
+    
     if (username == null || username.isEmpty()) {
-        pfp.setIcon(new ImageIcon("default_profile.png"));  // Set a default image if no user is logged in
+        setDefaultProfilePicture();
         return;
     }
 
@@ -71,30 +74,51 @@ public class AccManagerDB extends javax.swing.JFrame {
                 String imagePath = rs.getString("profile_picture");
 
               
-                if (imagePath != null && !imagePath.isEmpty() && new File(imagePath).exists()) {
-                    try {
-                        ImageIcon ii = new ImageIcon(new ImageIcon(imagePath)
-                                .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-                        pfp.setIcon(ii); 
-                    } catch (Exception e) {
-                      
-                        pfp.setIcon(new ImageIcon("default_profile.png"));
+                if (imagePath != null && !imagePath.isEmpty()) {
+                    File imgFile = new File(imagePath);
+                    
+                    if (!imgFile.isAbsolute()) {  
+                       
+                        imgFile = new File("src/" + imagePath);
                     }
-                } else {
-                  
-                    pfp.setIcon(new ImageIcon("default_profile.png"));
+
+                    if (imgFile.exists()) {
+                        setProfilePicture(imgFile);
+                        return; 
+                    }
                 }
-            } else {
-         
-                pfp.setIcon(new ImageIcon("default_profile.png"));
             }
         }
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png"));  
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        pfp.setIcon(new ImageIcon("default_profile.png")); 
+    }
+
+    
+    setDefaultProfilePicture();
+}
+
+
+    private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon ii = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(ii);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error processing image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        setDefaultProfilePicture();
+    }
+}
+
+
+    private void setDefaultProfilePicture() {
+        File defaultImage = new File("src/pfpimage/default_profile.png"); 
+    if (defaultImage.exists()) {
+        setProfilePicture(defaultImage);
+    } else {
+        JOptionPane.showMessageDialog(null, "Default image missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+        pfp.setIcon(null); 
     }
 }
     @SuppressWarnings("unchecked")
@@ -581,10 +605,10 @@ if (result == JFileChooser.APPROVE_OPTION) {
     // Set the image to the existing JLabel (pfp)
     ImageIcon ii = new ImageIcon(new ImageIcon(filename)
             .getImage().getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-    pfp.setIcon(ii); // Update the existing JLabel
+    pfp.setIcon(ii); // Update the JLabel
 
-    // Define the target directory and file name
-    File destination = new File("profile_pictures", selectedFile.getName());
+    // Define the target directory within the NetBeans project (src/pfpimage)
+    File destination = new File("src/pfpimage", selectedFile.getName());
 
     // Ensure the directory exists
     destination.getParentFile().mkdirs();
@@ -598,19 +622,21 @@ if (result == JFileChooser.APPROVE_OPTION) {
             fos.write(buffer, 0, bytesRead);
         }
 
-        // Now update the database with the image path (after successful save)
-        String username = dbconnect.loggedInUsername; // Use the logged-in username from dbconnect
+        // Now update the database with the relative image path
+        String username = dbconnect.loggedInUsername; // Use logged-in username
 
         try {
-            Connection con = dbconnect.getConnection(); // Use your existing dbconnect method
+            Connection con = dbconnect.getConnection(); // Get DB connection
             String sql = "UPDATE customer SET profile_picture = ? WHERE cs_user = ?";
             PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, destination.getAbsolutePath()); // Save the image path
-            pst.setString(2, username); // Update the profile picture for the logged-in user
+            String relativePath = "pfpimage/" + selectedFile.getName(); // Store relative path
+            pst.setString(1, relativePath); 
+            pst.setString(2, username); 
             pst.executeUpdate();
             con.close();
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Error saving image path: " + e.getMessage());
+            return;
         }
 
         JOptionPane.showMessageDialog(null, "Profile Picture Updated Successfully!");

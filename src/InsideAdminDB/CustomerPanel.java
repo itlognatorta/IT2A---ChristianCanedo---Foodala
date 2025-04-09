@@ -2,7 +2,6 @@ package InsideAdminDB;
 
 
 import InternalPackage.Dashboard;
-import InternalPackage.Dashboard;
 import config.Session;
 import config.dbconnect;
 import java.awt.Color;
@@ -11,7 +10,6 @@ import java.sql.SQLException;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.Border;
-import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 
 

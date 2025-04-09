@@ -2,10 +2,10 @@ package OutsidePackage;
 
 
 import ForgotPassword.EnterID;
+import InsideCustomerDB.AccCustomerDB;
 import InternalPackage.CustomersDB;
 import InternalPackage.Dashboard;
 import InternalPackage.ManagersDB;
-import com.sun.glass.events.KeyEvent;
 import config.Session;
 import config.dbconnect;
 import static config.passwordHasher.hashPassword;
@@ -37,7 +37,7 @@ public class login extends javax.swing.JFrame {
     }
     
     
-  public static boolean login(String username, String password) {
+ public static boolean login(String username, String password) {
     dbconnect db = new dbconnect();
     String query = "SELECT * FROM customer WHERE cs_user = ? AND cs_status = 'active'";
 
@@ -85,8 +85,9 @@ public class login extends javax.swing.JFrame {
                 sess.setUser(username);
                 sess.setType(userType);
                 sess.setStatus(resultSet.getString("cs_status"));
-                                
-                
+
+               
+
                 // ✅ Redirect user based on their type
                 if ("customer".equalsIgnoreCase(userType)) {
                     new CustomersDB().setVisible(true);
@@ -98,8 +99,7 @@ public class login extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
                     return false;
                 }
-             
-              
+
                 return true;
             } else {
                 JOptionPane.showMessageDialog(null, "Wrong Username or Password!", "Error", JOptionPane.ERROR_MESSAGE);
