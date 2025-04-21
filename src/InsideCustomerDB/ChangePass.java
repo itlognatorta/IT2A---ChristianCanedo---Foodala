@@ -5,12 +5,17 @@
  */
 package InsideCustomerDB;
 
+import InsideManagerDB.AccManagerDB;
 import config.Session;
 import config.dbconnect;
 import config.passwordHasher;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -221,62 +226,69 @@ public class ChangePass extends javax.swing.JFrame {
     }//GEN-LAST:event_SaveMouseExited
 
     private void SaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveActionPerformed
-        try {
-            dbconnect dbc = new dbconnect();
-            Session sess = Session.getInstance();
+      try {          
+    dbconnect dbc = new dbconnect();
+    Session sess = Session.getInstance();
 
-            // Ensure password fields are initialized
-            if (oldpass == null || newpass == null || newpass1 == null) {
-                JOptionPane.showMessageDialog(null, "Error: Password fields not initialized!", "Error", JOptionPane.ERROR_MESSAGE);
+    // Ensure password fields are initialized
+    if (oldpass == null || newpass == null || newpass1 == null) {
+        JOptionPane.showMessageDialog(null, "Error: Password fields not initialized!", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    String query = "SELECT cs_pass FROM customer WHERE id = '" + sess.getUid() + "'";    
+    ResultSet rs = dbc.getData(query);
+
+    if (rs.next()) {
+        String storedPasswordHash = rs.getString("cs_pass");  // Password stored in DB
+        
+        String oldInput = new String(oldpass.getPassword()); 
+        String oldHash = passwordHasher.hashPassword(oldInput); // Hash user input
+
+        if (storedPasswordHash.equals(oldHash)) {    
+            String newInput = new String(newpass.getPassword()); 
+            String confirmInput = new String(newpass1.getPassword());
+
+            if (newInput.length() < 8) {
+                JOptionPane.showMessageDialog(null, "New password must be at least 8 characters long!", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            String query = "SELECT cs_pass FROM customer WHERE id = '" + sess.getUid() + "'";
-            ResultSet rs = dbc.getData(query);
-
-            if (rs.next()) {
-                String storedPasswordHash = rs.getString("cs_pass");  // Password stored in DB
-
-                // Get old password from JPasswordField
-                String oldInput = new String(oldpass.getPassword());
-                String oldHash = passwordHasher.hashPassword(oldInput); // Hash user input
-
-                if (storedPasswordHash.equals(oldHash)) {
-                    // Get new password and confirm password from JPasswordField
-                    String newInput = new String(newpass.getPassword());
-                    String confirmInput = new String(newpass1.getPassword());
-
-                    // Validate new password length
-                    if (newInput.length() < 8) {
-                        JOptionPane.showMessageDialog(null, "New password must be at least 8 characters long!", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    // Validate if new password matches confirm password
-                    if (!newInput.equals(confirmInput)) {
-                        JOptionPane.showMessageDialog(null, "New password and confirm password do not match!", "Error", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-
-                    // Hash new password
-                    String newpassHash = passwordHasher.hashPassword(newInput);
-
-                    String updateQuery = "UPDATE customer SET cs_pass = '" + newpassHash + "' WHERE id = '" + sess.getUid() + "'";
-                    dbc.updateData(updateQuery);
-
-                    JOptionPane.showMessageDialog(null, "Password updated successfully!");
-                    AccCustomerDB amb = new AccCustomerDB();
-                    amb.setVisible(true);
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(null, "Old Password is Incorrect!", "Error",JOptionPane.ERROR_MESSAGE);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "User not found!");
+            if (!newInput.equals(confirmInput)) {
+                JOptionPane.showMessageDialog(null, "New password and confirm password do not match!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
             }
-        } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
+
+            String newpassHash = passwordHasher.hashPassword(newInput); 
+            
+            String updateQuery = "UPDATE customer SET cs_pass = '" + newpassHash + "' WHERE id = '" + sess.getUid() + "'";  
+            dbc.updateData(updateQuery);
+
+            String actions = "Password Change!";
+            try (Connection conn = dbc.getConnection();
+                 PreparedStatement logStmt = conn.prepareStatement(
+                     "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)")) {
+
+                logStmt.setString(1, sess.getUid());
+                logStmt.setString(2, actions);
+                logStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                logStmt.executeUpdate();
+            }
+
+            JOptionPane.showMessageDialog(null, "Password updated successfully!");
+            AccCustomerDB acb = new AccCustomerDB();
+            acb.setVisible(true);
+            this.dispose(); // if you're inside a JFrame or JDialog
+
+        } else {    
+            JOptionPane.showMessageDialog(null, "Old Password is Incorrect!", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    } else {
+        JOptionPane.showMessageDialog(null, "User not found!");
+    }    
+} catch (SQLException ex) {
+    System.out.println("Error: " + ex.getMessage());
+}
 
     }//GEN-LAST:event_SaveActionPerformed
 

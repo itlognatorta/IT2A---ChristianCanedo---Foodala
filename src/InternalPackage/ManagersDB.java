@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -51,10 +52,9 @@ public class ManagersDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
 
-     public void loadProfilePicture() {
-    String username = dbconnect.loggedInUsername;  
+      public void loadProfilePicture() {
+    String username = dbconnect.loggedInUsername;
 
-    
     if (username == null || username.isEmpty()) {
         setDefaultProfilePicture();
         return;
@@ -64,56 +64,58 @@ public class ManagersDB extends javax.swing.JFrame {
          PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
 
         pst.setString(1, username);
-        try (ResultSet rs = pst.executeQuery()) {
-            if (rs.next()) {
-                String imagePath = rs.getString("profile_picture");
+        ResultSet rs = pst.executeQuery();
 
-              
-                if (imagePath != null && !imagePath.isEmpty()) {
-                    File imgFile = new File(imagePath);
-                    
-                    if (!imgFile.isAbsolute()) {  
-                       
-                        imgFile = new File("src/" + imagePath);
-                    }
+        if (rs.next()) {
+            String imagePath = rs.getString("profile_picture");
 
-                    if (imgFile.exists()) {
-                        setProfilePicture(imgFile);
-                        return; 
-                    }
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
                 }
             }
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
     }
 
-    
-    setDefaultProfilePicture();
+    setDefaultProfilePicture(); // fallback to default if anything fails
 }
 
-
-    private void setProfilePicture(File imageFile) {
+private void setProfilePicture(File imageFile) {
     try {
         BufferedImage img = ImageIO.read(imageFile);
-        ImageIcon ii = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-        pfp.setIcon(ii);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(icon);
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(null, "Error processing image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
         setDefaultProfilePicture();
     }
 }
 
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/pfpimage/default.png");
 
-    private void setDefaultProfilePicture() {
-        File defaultImage = new File("src/pfpimage/default_profile.png"); 
-    if (defaultImage.exists()) {
-        setProfilePicture(defaultImage);
-    } else {
-        JOptionPane.showMessageDialog(null, "Default image missing!", "Warning", JOptionPane.WARNING_MESSAGE);
-        pfp.setIcon(null); 
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+            pfp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pfp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pfp.setIcon(null);
     }
 }
 
@@ -147,6 +149,17 @@ public class ManagersDB extends javax.swing.JFrame {
         pfp = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jPanel6 = new javax.swing.JPanel();
+        jLabel9 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -299,6 +312,46 @@ public class ManagersDB extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 700, 100));
 
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel2.setText("Total Orders");
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 140, 90));
+
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel3.setText("Pending Orders");
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 120, 170, 90));
+
+        jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel6.setText("List of Order");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, -1, -1));
+
+        jScrollPane1.setViewportView(jTable1);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, 670, 240));
+
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel9.setText("Earned Funds");
+        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 140, 90));
+
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel10.setText("Successful Orders");
+        jPanel7.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 170, 90));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -376,7 +429,7 @@ public class ManagersDB extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
       Session sess = Session.getInstance();
-      mgname.setText("Hello "+sess.getFname());
+      mgname.setText(""+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -425,6 +478,7 @@ public class ManagersDB extends javax.swing.JFrame {
     private javax.swing.JPanel db;
     private javax.swing.JPanel foods_db;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -434,14 +488,24 @@ public class ManagersDB extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     private javax.swing.JLabel mgname;
     private javax.swing.JLabel pfp;
     // End of variables declaration//GEN-END:variables

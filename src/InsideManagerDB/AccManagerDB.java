@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -56,10 +57,9 @@ public class AccManagerDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
-  public void loadProfilePicture() {
-    String username = dbconnect.loggedInUsername;  
+   public void loadProfilePicture() {
+    String username = dbconnect.loggedInUsername;
 
-    
     if (username == null || username.isEmpty()) {
         setDefaultProfilePicture();
         return;
@@ -69,62 +69,65 @@ public class AccManagerDB extends javax.swing.JFrame {
          PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
 
         pst.setString(1, username);
-        try (ResultSet rs = pst.executeQuery()) {
-            if (rs.next()) {
-                String imagePath = rs.getString("profile_picture");
+        ResultSet rs = pst.executeQuery();
 
-              
-                if (imagePath != null && !imagePath.isEmpty()) {
-                    File imgFile = new File(imagePath);
-                    
-                    if (!imgFile.isAbsolute()) {  
-                       
-                        imgFile = new File("src/" + imagePath);
-                    }
+        if (rs.next()) {
+            String imagePath = rs.getString("profile_picture");
 
-                    if (imgFile.exists()) {
-                        setProfilePicture(imgFile);
-                        return; 
-                    }
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
                 }
             }
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
     }
 
-    
-    setDefaultProfilePicture();
+    setDefaultProfilePicture(); // fallback to default if anything fails
 }
 
-
-    private void setProfilePicture(File imageFile) {
+private void setProfilePicture(File imageFile) {
     try {
         BufferedImage img = ImageIO.read(imageFile);
-        ImageIcon ii = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-        pfp.setIcon(ii);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(icon);
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(null, "Error processing image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
         setDefaultProfilePicture();
     }
 }
 
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/pfpimage/default.png");
 
-    private void setDefaultProfilePicture() {
-        File defaultImage = new File("src/pfpimage/default_profile.png"); 
-    if (defaultImage.exists()) {
-        setProfilePicture(defaultImage);
-    } else {
-        JOptionPane.showMessageDialog(null, "Default image missing!", "Warning", JOptionPane.WARNING_MESSAGE);
-        pfp.setIcon(null); 
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+            pfp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pfp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pfp.setIcon(null);
     }
 }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         foods_db = new javax.swing.JPanel();
@@ -178,6 +181,8 @@ public class AccManagerDB extends javax.swing.JFrame {
         u_id = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
+
+        jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -315,7 +320,7 @@ public class AccManagerDB extends javax.swing.JFrame {
 
         mgname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         mgname.setText("Hello ");
-        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
+        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 120, 40));
 
         pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/mgpp-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 110));
@@ -569,7 +574,7 @@ public class AccManagerDB extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
-        mgname.setText("Hello "+sess.getFname());
+        mgname.setText(""+sess.getFname());
         u_id.setText(""+sess.getUid());
         mgfname.setText(""+sess.getFname());
         mglname.setText(""+sess.getLname());
@@ -704,6 +709,7 @@ if (result == JFileChooser.APPROVE_OPTION) {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;

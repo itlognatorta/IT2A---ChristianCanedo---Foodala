@@ -89,6 +89,7 @@ public class AddUsersForm extends javax.swing.JFrame {
         add_conpass = new javax.swing.JPasswordField();
         add_pass = new javax.swing.JPasswordField();
         jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         profilePicture = new javax.swing.JLabel();
         cancelregformButton1 = new javax.swing.JButton();
         RegDoneButton = new javax.swing.JButton();
@@ -290,11 +291,14 @@ public class AddUsersForm extends javax.swing.JFrame {
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/default.jpg"))); // NOI18N
+        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 190, 120, 120));
+
         profilePicture.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         profilePicture.setText("ProfilePicture");
-        jPanel4.add(profilePicture, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
-
-        jPanel3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 190, 180, 130));
+        jPanel3.add(profilePicture, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 170, -1, -1));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 630, 340));
 
@@ -674,6 +678,7 @@ public class AddUsersForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel3;

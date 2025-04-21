@@ -14,6 +14,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.border.Border;
 import java.sql.*;
+import java.time.LocalDateTime;
 import javax.swing.JOptionPane;
 
 /*
@@ -35,9 +36,8 @@ public class login extends javax.swing.JFrame {
         
        
     }
-    
-    
- public static boolean login(String username, String password) {
+       
+public static boolean login(String username, String password) {
     dbconnect db = new dbconnect();
     String query = "SELECT * FROM customer WHERE cs_user = ? AND cs_status = 'active'";
 
@@ -52,7 +52,7 @@ public class login extends javax.swing.JFrame {
             String userType = resultSet.getString("cs_type");
             String hashedInputPassword = hashPassword(password);
 
-            // If stored password is plaintext, hash and update it
+            // Rehash if old password is plaintext
             if (!storedPassword.matches("[a-fA-F0-9]{64}")) {
                 System.out.println("Rehashing old plaintext password...");
                 String newHashedPassword = hashPassword(storedPassword);
@@ -67,14 +67,13 @@ public class login extends javax.swing.JFrame {
                 storedPassword = newHashedPassword;
             }
 
-            // Validate password
             if (hashedInputPassword.equals(storedPassword)) {
                 JOptionPane.showMessageDialog(null, "Login Successful!");
 
-                // ✅ Store the logged-in username in dbconnect for later use
-                dbconnect.loggedInUsername = username;  // Store the username after successful login
+                // Store logged-in username
+                dbconnect.loggedInUsername = username;
 
-                // ✅ Load user details into Session class
+                // Load user session details
                 Session sess = Session.getInstance();
                 sess.setUid(resultSet.getString("id"));
                 sess.setFname(resultSet.getString("cs_fname"));
@@ -86,18 +85,29 @@ public class login extends javax.swing.JFrame {
                 sess.setType(userType);
                 sess.setStatus(resultSet.getString("cs_status"));
 
-               
+                String actions = "Log in!";
+                try (PreparedStatement logStmt = conn.prepareStatement(
+                        "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)")) {
+                    logStmt.setString(1, sess.getUid());
+                    logStmt.setString(2, actions);
+                    logStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                    logStmt.executeUpdate();
+                }
 
-                // ✅ Redirect user based on their type
-                if ("customer".equalsIgnoreCase(userType)) {
-                    new CustomersDB().setVisible(true);
-                } else if ("manager".equalsIgnoreCase(userType)) {
-                    new ManagersDB().setVisible(true);
-                } else if ("admin".equalsIgnoreCase(userType)) {
-                    new Dashboard().setVisible(true);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
-                    return false;
+                // Open appropriate dashboard
+                switch (userType.toLowerCase()) {
+                    case "customer":
+                        new CustomersDB().setVisible(true);
+                        break;
+                    case "manager":
+                        new ManagersDB().setVisible(true);
+                        break;
+                    case "admin":
+                        new Dashboard().setVisible(true);
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Unknown user type!", "Error", JOptionPane.ERROR_MESSAGE);
+                        return false;
                 }
 
                 return true;
@@ -344,7 +354,7 @@ public class login extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 474, Short.MAX_VALUE)
         );
 
         pack();

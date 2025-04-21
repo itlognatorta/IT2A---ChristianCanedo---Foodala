@@ -424,7 +424,7 @@ public class AccountsPanel extends javax.swing.JFrame {
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
        Session sess = Session.getInstance();
         uid.setText(""+sess.getUid());
-        adminname.setText("Hello "+sess.getFname());
+        adminname.setText(""+sess.getFname());
         adname.setText(""+sess.getFname());
         adlname.setText(""+sess.getLname());
         ademail.setText(""+sess.getEmail());

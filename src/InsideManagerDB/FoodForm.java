@@ -6,9 +6,19 @@
 package InsideManagerDB;
 
 import InternalPackage.ManagersDB;
+import config.Session;
+import config.dbconnect;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
 /**
@@ -46,12 +56,12 @@ public class FoodForm extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        f_name = new javax.swing.JPanel();
-        f_price = new javax.swing.JPanel();
-        f_cat = new javax.swing.JPanel();
         addbot = new javax.swing.JButton();
         canbot = new javax.swing.JButton();
         f_status = new javax.swing.JComboBox<>();
+        f_name = new javax.swing.JTextField();
+        f_price = new javax.swing.JTextField();
+        f_cat = new javax.swing.JTextField();
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
 
@@ -69,21 +79,6 @@ public class FoodForm extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 50));
-
-        f_name.setBackground(new java.awt.Color(153, 153, 153));
-        f_name.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
-        f_name.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jPanel3.add(f_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 230, 60));
-
-        f_price.setBackground(new java.awt.Color(153, 153, 153));
-        f_price.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
-        f_price.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jPanel3.add(f_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 200, 230, 60));
-
-        f_cat.setBackground(new java.awt.Color(153, 153, 153));
-        f_cat.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 18))); // NOI18N
-        f_cat.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
-        jPanel3.add(f_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 230, 60));
 
         addbot.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         addbot.setText("ADD");
@@ -126,14 +121,147 @@ public class FoodForm extends javax.swing.JFrame {
         f_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose status", "Available", "Unavailable", " ", " " }));
         jPanel3.add(f_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 370, 230, 50));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 330, 570));
+        f_name.setBackground(new java.awt.Color(153, 153, 153));
+        f_name.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        f_name.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "Name", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        f_name.setCaretColor(new java.awt.Color(255, 255, 255));
+        f_name.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                f_nameActionPerformed(evt);
+            }
+        });
+        jPanel3.add(f_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 240, 70));
+
+        f_price.setBackground(new java.awt.Color(153, 153, 153));
+        f_price.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        f_price.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        jPanel3.add(f_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 190, 240, 70));
+
+        f_cat.setBackground(new java.awt.Color(153, 153, 153));
+        f_cat.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        f_cat.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
+        jPanel3.add(f_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 240, 70));
+
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 570));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addbotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbotActionPerformed
-        // TODO add your handling code here:
+       dbconnect dbc = new dbconnect();
+boolean isValid = true;
+StringBuilder errorMessages = new StringBuilder();
+
+// Get input values
+String foodName = f_name.getText().trim();
+String foodPriceText = f_price.getText().trim();
+String foodCategory = f_cat.getText().trim();                       // JTextField
+String foodStatus = f_status.getSelectedItem().toString().trim();  // JComboBox
+
+// Validate Food Name
+if (foodName.isEmpty()) {
+    f_name.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Food name is required.\n");
+    isValid = false;
+} else {
+    f_name.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Validate Food Price
+double foodPrice = 0.0;
+try {
+    foodPrice = Double.parseDouble(foodPriceText);
+    if (foodPrice < 0) throw new NumberFormatException();
+    f_price.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+} catch (NumberFormatException e) {
+    f_price.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Enter a valid positive number for food price.\n");
+    isValid = false;
+}
+
+// Validate Category
+if (foodCategory.isEmpty()) {
+    f_cat.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Food category is required.\n");
+    isValid = false;
+} else {
+    f_cat.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Validate Status
+if (f_status.getSelectedIndex() == 0) {
+    f_status.setBorder(BorderFactory.createLineBorder(Color.RED));
+    errorMessages.append("Please select a food status.\n");
+    isValid = false;
+} else {
+    f_status.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+}
+
+// Show validation errors if any
+if (!isValid) {
+    JOptionPane.showMessageDialog(null, errorMessages.toString(), "Validation Errors", JOptionPane.ERROR_MESSAGE);
+    return;
+}
+
+// Insert into database
+try {
+    Connection conn = dbc.getConnection();
+
+    String sql = "INSERT INTO food_tbl (f_name, f_price, f_category, f_status) VALUES (?, ?, ?, ?)";
+    PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+    pst.setString(1, foodName);
+    pst.setDouble(2, foodPrice);
+    pst.setString(3, foodCategory);
+    pst.setString(4, foodStatus);
+
+    int rows = pst.executeUpdate();
+
+    if (rows > 0) {
+        ResultSet keys = pst.getGeneratedKeys();
+        int lastId = -1;
+        if (keys.next()) {
+            lastId = keys.getInt(1);
+        }
+
+        // Log the action
+        Session sess = Session.getInstance();
+        String userId = sess.getUid();
+
+        if (userId != null && !userId.trim().isEmpty()) {
+            String actions = "Added New Food Item! ID: " + lastId;
+
+            PreparedStatement logPst = conn.prepareStatement(
+                "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)"
+            );
+            logPst.setString(1, userId);
+            logPst.setString(2, actions);
+            logPst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+            logPst.executeUpdate();
+        } else {
+            System.out.println("Warning: Session UID is null or empty. Log not inserted.");
+        }
+
+        JOptionPane.showMessageDialog(null, "Food item added successfully!");
+
+        // Clear inputs
+        f_name.setText("");
+        f_price.setText("");
+        f_cat.setText("");
+        f_status.setSelectedIndex(0);
+
+        // Redirect to FoodsDB
+        FoodsDB fdb = new FoodsDB();
+        this.dispose();
+        fdb.setVisible(true);
+    }
+
+} catch (SQLException e) {
+    JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+}
+
+
+
     }//GEN-LAST:event_addbotActionPerformed
 
     private void canbotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_canbotActionPerformed
@@ -162,6 +290,10 @@ public class FoodForm extends javax.swing.JFrame {
         this.dispose();
         
     }//GEN-LAST:event_canbotMouseClicked
+
+    private void f_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_f_nameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_f_nameActionPerformed
 
     /**
      * @param args the command line arguments
@@ -201,9 +333,9 @@ public class FoodForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addbot;
     private javax.swing.JButton canbot;
-    private javax.swing.JPanel f_cat;
-    private javax.swing.JPanel f_name;
-    private javax.swing.JPanel f_price;
+    private javax.swing.JTextField f_cat;
+    private javax.swing.JTextField f_name;
+    private javax.swing.JTextField f_price;
     private javax.swing.JComboBox<String> f_status;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

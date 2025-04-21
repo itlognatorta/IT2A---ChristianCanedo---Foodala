@@ -6,8 +6,14 @@
 package InsideAdminDB;
 
 import InternalPackage.Dashboard;
+import config.Session;
 import config.dbconnect;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.BorderFactory;
@@ -221,88 +227,102 @@ public class EditUsers extends javax.swing.JFrame {
     private void RegDoneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegDoneButtonActionPerformed
         dbconnect dbc = new dbconnect();
         boolean isValid = true;
-        
-        String emails = add_email.getText().trim();
 
-        StringBuilder errorMessages = new StringBuilder();
+     String emails = add_email.getText().trim();
+     StringBuilder errorMessages = new StringBuilder();
 
-        // First Name Validation
+     // First Name Validation
+     if (add_fname.getText().isEmpty()) {
+         add_fname.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("First name is required.\n");
+         isValid = false;
+     } else {
+         add_fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
 
-        if (add_fname.getText().isEmpty()) {
-            add_fname.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("First name is required.\n");
-            isValid = false;
-        } else {
-            add_fname.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+     // Email Validation
+     if (add_email.getText().isEmpty()) {
+         add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Email is required.\n");
+         isValid = false;
+     } else {
+         add_email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
 
-    
+     // Check if Email already exists in the list
+     if (existingEmails.contains(add_email.getText())) {
+         add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Email is already registered.\n");
+         isValid = false;
+     }
 
-        // Email Validation
-        if (add_email.getText().isEmpty()) {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Email is required.\n");
-            isValid = false;
-        } else {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+     // Email Format Validation
+     if (!add_email.getText().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
+         add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Email must be in the format 'username@domain.com'.\n");
+         isValid = false;
+     } else {
+         add_email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
 
-        // Check if Email already exists in the list
-        if (existingEmails.contains(add_email.getText())) {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Email is already registered.\n");
-            isValid = false;
-        }
+     // Contact Number Validation
+     if (add_contact.getText().isEmpty()) {
+         add_contact.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Contact number is required.\n");
+         isValid = false;
+     } else {
+         add_contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
 
-        // Email Format Validation
-        if (!add_email.getText().matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")) {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Email must be in the format 'username@domain.com'.\n");
-            isValid = false;
-        } else {
-            add_email.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+     String contactNumber = add_contact.getText().trim();
+     if (!contactNumber.matches("\\d{11}")) {
+         add_contact.setBorder(BorderFactory.createLineBorder(Color.RED));
+         errorMessages.append("Contact number must contain exactly 11 digits.\n");
+         isValid = false;
+     } else {
+         add_contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+     }
 
 
-        // Contact Number Validation
-        if (add_contact.getText().isEmpty()) {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Contact number is required.\n");
-            isValid = false;
-        } else {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+     if (!isValid) {
+         JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+     } else {
 
-        String contactNumber = add_contact.getText().trim();
-        if (!contactNumber.matches("\\d{11}")) {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.RED));
-            errorMessages.append("Contact number must contain exactly 11 digits.\n");
-            isValid = false;
-        } else {
-            add_contact.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-        }
+         String userStatus = status.getText().trim(); 
 
-      
-        if (!isValid) {
-            // Show all error messages in a single JOptionPane dialog
-            JOptionPane.showMessageDialog(null, errorMessages.toString(), "Error", JOptionPane.ERROR_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(null, "Update Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
+         JOptionPane.showMessageDialog(null, "Update Completed", "Success", JOptionPane.INFORMATION_MESSAGE);
 
-            // Database Insertion
-           if (dbc.insertData("UPDATE customer SET cs_fname = '" + add_fname.getText() + "', "
-                + "cs_email = '" + add_email.getText() + "', "
-                + "cs_contact = '" + add_contact.getText() + "', "
-                + "cs_status = 'Active' "
-                + "WHERE cs_email = '" + add_email.getText() + "'") == 1) {
+         // ✅ Correct SQL statement
+         if (dbc.insertData("UPDATE customer SET cs_fname = '" + add_fname.getText() + "', "
+                 + "cs_email = '" + add_email.getText() + "', "
+                 + "cs_contact = '" + add_contact.getText() + "', "
+                 + "cs_status = '" + userStatus + "' "
+                 + "WHERE cs_email = '" + add_email.getText() + "'") == 1) {
 
-            Dashboard db = new Dashboard();
-            this.dispose();
-            db.setVisible(true);
-        } else {
-            JOptionPane.showMessageDialog(null, "Database insertion failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-        }
+             String actions = "Updated account Information!";
+             try (Connection conn = dbc.getConnection();
+                  PreparedStatement logStmt = conn.prepareStatement(
+                          "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)")) {
+
+                 Session sess = Session.getInstance();
+                 logStmt.setString(1, sess.getUid());
+                 logStmt.setString(2, actions);
+                 logStmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+                 logStmt.executeUpdate();
+
+             } catch (SQLException logEx) {
+                 System.out.println("Log Insertion Error: " + logEx.getMessage());
+             }
+
+             Dashboard db = new Dashboard();
+             this.dispose();
+             db.setVisible(true);
+
+         } else {
+             JOptionPane.showMessageDialog(null, "Database update failed. Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
+         }
+     }
+
     }//GEN-LAST:event_RegDoneButtonActionPerformed
 
     private void statusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusActionPerformed

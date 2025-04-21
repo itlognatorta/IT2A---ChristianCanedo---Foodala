@@ -152,6 +152,10 @@ private void setDefaultProfilePicture() {
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        add_order = new javax.swing.JButton();
+        edit_order = new javax.swing.JButton();
+        delete_order = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -174,7 +178,7 @@ private void setDefaultProfilePicture() {
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel3.setText("Order List");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 200, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -309,20 +313,49 @@ private void setDefaultProfilePicture() {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 720, 100));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, 650, 260));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 210, 670, 290));
+
+        add_order.setBackground(new java.awt.Color(0, 0, 255));
+        add_order.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        add_order.setText("ADD");
+        add_order.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_orderActionPerformed(evt);
+            }
+        });
+        jPanel1.add(add_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 90, 40));
+
+        edit_order.setBackground(new java.awt.Color(0, 255, 0));
+        edit_order.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        edit_order.setText("EDIT");
+        edit_order.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_orderActionPerformed(evt);
+            }
+        });
+        jPanel1.add(edit_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 90, 40));
+
+        delete_order.setBackground(new java.awt.Color(255, 0, 0));
+        delete_order.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        delete_order.setText("DELETE");
+        delete_order.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_orderActionPerformed(evt);
+            }
+        });
+        jPanel1.add(delete_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 100, 40));
+
+        refresh.setBackground(new java.awt.Color(255, 255, 51));
+        refresh.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        refresh.setText("REFRESH");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 120, -1, 40));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 513));
 
@@ -399,6 +432,22 @@ private void setDefaultProfilePicture() {
         loadProfilePicture();
     }//GEN-LAST:event_formWindowOpened
 
+    private void add_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_orderActionPerformed
+        
+    }//GEN-LAST:event_add_orderActionPerformed
+
+    private void edit_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_orderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edit_orderActionPerformed
+
+    private void delete_orderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_orderActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_delete_orderActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_refreshActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -438,8 +487,11 @@ private void setDefaultProfilePicture() {
     private javax.swing.JPanel acc1;
     private javax.swing.JPanel acc3;
     private javax.swing.JPanel accdb;
+    private javax.swing.JButton add_order;
     private javax.swing.JLabel csname;
     private javax.swing.JPanel db;
+    private javax.swing.JButton delete_order;
+    private javax.swing.JButton edit_order;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -463,5 +515,6 @@ private void setDefaultProfilePicture() {
     private javax.swing.JTable jTable1;
     private javax.swing.JPanel orderdb;
     private javax.swing.JLabel pfp;
+    private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
 }

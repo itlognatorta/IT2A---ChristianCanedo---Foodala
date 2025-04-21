@@ -339,6 +339,11 @@ public class Dashboard extends javax.swing.JFrame {
         delete_user.setBackground(new java.awt.Color(255, 0, 0));
         delete_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         delete_user.setText("DELETE");
+        delete_user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_userActionPerformed(evt);
+            }
+        });
         jPanel1.add(delete_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 100, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -420,32 +425,34 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void edit_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_userActionPerformed
         int rowindex = users_table.getSelectedRow();
-        
-        if (rowindex < 0){
-           JOptionPane.showMessageDialog(null, "Please Select an Item:");
-        }else{   
-            
-            
-            try{
-            dbconnect db = new dbconnect();
-            TableModel tbl = users_table.getModel();
-            ResultSet rs = db.getData("SELECT * FROM customer WHERE id = "+tbl.getValueAt(rowindex, 0)+"");
-            if(rs.next()){
+
+if (rowindex < 0) {
+    JOptionPane.showMessageDialog(null, "Please select a user.");
+} else {
+    try {
+        dbconnect db = new dbconnect();
+        TableModel tbl = users_table.getModel();
+        int userId = Integer.parseInt(tbl.getValueAt(rowindex, 0).toString());
+
+        ResultSet rs = db.getData("SELECT * FROM customer WHERE id = " + userId);
+
+        if (rs.next()) {
             EditUsers eu = new EditUsers();
-            eu.add_fname.setText(""+rs.getString("cs_fname"));                      
-            eu.add_email.setText(""+rs.getString("cs_email"));  
-            eu.add_contact.setText(""+rs.getString("cs_contact"));  
-            eu.status.setText(""+rs.getString("cs_status"));
-            
+            eu.add_fname.setText(rs.getString("cs_fname"));
+            eu.add_email.setText(rs.getString("cs_email"));
+            eu.add_contact.setText(rs.getString("cs_contact"));
+            eu.status.setText(rs.getString("cs_status")); 
+
             eu.setVisible(true);
             this.dispose();
-                    }
-        }catch(SQLException ex){
-            System.out.println(""+ex);
         }
-        
-        TableModel tbl = users_table.getModel();
-        }
+    } catch (SQLException ex) {
+        System.out.println("" + ex);
+        JOptionPane.showMessageDialog(null, "An error occurred while loading user data.");
+    }
+}
+
+
     }//GEN-LAST:event_edit_userActionPerformed
 
     private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
@@ -454,7 +461,7 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
-        adminname.setText("Hello "+sess.getFname());
+        adminname.setText(""+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
     private void add_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_userActionPerformed
@@ -462,6 +469,43 @@ public class Dashboard extends javax.swing.JFrame {
          this.dispose();
          af.setVisible(true);
     }//GEN-LAST:event_add_userActionPerformed
+
+    private void delete_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_userActionPerformed
+        int rowindex = users_table.getSelectedRow();
+
+        if (rowindex < 0) {
+         JOptionPane.showMessageDialog(null, "Please select a user.");
+     } else {
+         try {
+             dbconnect db = new dbconnect();
+             TableModel tbl = users_table.getModel();
+             int userId = Integer.parseInt(tbl.getValueAt(rowindex, 0).toString());
+
+             ResultSet rs = db.getData("SELECT * FROM customer WHERE id = " + userId);
+
+             if (rs.next()) {
+                 String status = rs.getString("cs_status");
+
+                 if (status.equalsIgnoreCase("Inactive")) {
+                     int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this inactive user?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
+                     if (confirm == JOptionPane.YES_OPTION) {
+                         db.updateData("DELETE FROM customer WHERE id = " + userId);
+                         JOptionPane.showMessageDialog(null, "Inactive user deleted successfully.");
+                         // Optionally refresh table here
+                     }
+                 } else {
+                     JOptionPane.showMessageDialog(null, "Only inactive users can be deleted.");
+                 }
+             }
+
+         } catch (SQLException ex) {
+             System.out.println("" + ex);
+             JOptionPane.showMessageDialog(null, "An error occurred while trying to delete the user.");
+         }
+     }
+
+
+    }//GEN-LAST:event_delete_userActionPerformed
 
     /**
      * @param args the command line arguments

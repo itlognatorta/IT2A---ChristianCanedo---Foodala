@@ -341,7 +341,7 @@ public class CustomerPanel extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
          Session sess = Session.getInstance();
-         adminname.setText("Hello "+sess.getFname());  
+         adminname.setText(""+sess.getFname());  
     }//GEN-LAST:event_formWindowActivated
 
     /**

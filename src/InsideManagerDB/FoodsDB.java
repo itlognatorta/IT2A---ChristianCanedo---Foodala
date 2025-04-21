@@ -5,6 +5,7 @@
  */
 package InsideManagerDB;
 
+import InsideAdminDB.EditUsers;
 import InternalPackage.ManagersDB;
 import config.Session;
 import config.dbconnect;
@@ -13,6 +14,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,6 +25,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -36,6 +40,7 @@ public class FoodsDB extends javax.swing.JFrame {
     public FoodsDB() {
         initComponents();
         loadProfilePicture();
+        displayData();
     }
     
     Color hover = new Color(102,102,102);  
@@ -47,9 +52,8 @@ public class FoodsDB extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
    public void loadProfilePicture() {
-    String username = dbconnect.loggedInUsername;  
+    String username = dbconnect.loggedInUsername;
 
-    
     if (username == null || username.isEmpty()) {
         setDefaultProfilePicture();
         return;
@@ -59,58 +63,73 @@ public class FoodsDB extends javax.swing.JFrame {
          PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
 
         pst.setString(1, username);
-        try (ResultSet rs = pst.executeQuery()) {
-            if (rs.next()) {
-                String imagePath = rs.getString("profile_picture");
+        ResultSet rs = pst.executeQuery();
 
-              
-                if (imagePath != null && !imagePath.isEmpty()) {
-                    File imgFile = new File(imagePath);
-                    
-                    if (!imgFile.isAbsolute()) {  
-                       
-                        imgFile = new File("src/" + imagePath);
-                    }
+        if (rs.next()) {
+            String imagePath = rs.getString("profile_picture");
 
-                    if (imgFile.exists()) {
-                        setProfilePicture(imgFile);
-                        return; 
-                    }
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
                 }
             }
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "Database Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
     }
 
-    
-    setDefaultProfilePicture();
+    setDefaultProfilePicture(); // fallback to default if anything fails
 }
 
-
-    private void setProfilePicture(File imageFile) {
+private void setProfilePicture(File imageFile) {
     try {
         BufferedImage img = ImageIO.read(imageFile);
-        ImageIcon ii = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
-        pfp.setIcon(ii);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(icon);
     } catch (IOException e) {
-        JOptionPane.showMessageDialog(null, "Error processing image: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
         setDefaultProfilePicture();
     }
 }
 
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/pfpimage/default.png");
 
-    private void setDefaultProfilePicture() {
-        File defaultImage = new File("src/pfpimage/default_profile.png"); 
-    if (defaultImage.exists()) {
-        setProfilePicture(defaultImage);
-    } else {
-        JOptionPane.showMessageDialog(null, "Default image missing!", "Warning", JOptionPane.WARNING_MESSAGE);
-        pfp.setIcon(null); 
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+            pfp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pfp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pfp.setIcon(null);
     }
 }
+
+public void displayData(){
+        
+        try{
+            dbconnect dbc = new dbconnect();
+            ResultSet rs = dbc.getData("SELECT f_id, f_name , f_price, f_category, f_status FROM food_tbl");           
+            foods_tbl.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Errors"+ex.getMessage());
+        }
+}    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -141,9 +160,12 @@ public class FoodsDB extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        foods_tbl = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        add_prod = new javax.swing.JButton();
+        delete_prod = new javax.swing.JButton();
+        edit_prod = new javax.swing.JButton();
+        refresh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -296,34 +318,53 @@ public class FoodsDB extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 700, 100));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(foods_tbl);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 259, 670, 250));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 209, 670, 290));
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
-        jLabel3.setText("Overall Menu");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, -1, -1));
+        jLabel3.setText("Products");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 180, -1, -1));
 
-        jButton1.setBackground(new java.awt.Color(0, 0, 255));
-        jButton1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
-        jButton1.setText("ADD");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        add_prod.setBackground(new java.awt.Color(0, 0, 255));
+        add_prod.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        add_prod.setText("ADD");
+        add_prod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                add_prodActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, 110, 40));
+        jPanel1.add(add_prod, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 90, 40));
+
+        delete_prod.setBackground(new java.awt.Color(255, 0, 0));
+        delete_prod.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        delete_prod.setText("DELETE");
+        delete_prod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                delete_prodActionPerformed(evt);
+            }
+        });
+        jPanel1.add(delete_prod, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 100, 40));
+
+        edit_prod.setBackground(new java.awt.Color(0, 255, 0));
+        edit_prod.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        edit_prod.setText("EDIT");
+        edit_prod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_prodActionPerformed(evt);
+            }
+        });
+        jPanel1.add(edit_prod, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 90, 40));
+
+        refresh.setBackground(new java.awt.Color(255, 255, 51));
+        refresh.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        refresh.setText("REFRESH");
+        refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshActionPerformed(evt);
+            }
+        });
+        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 120, -1, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -400,20 +441,101 @@ public class FoodsDB extends javax.swing.JFrame {
       this.dispose();
     }//GEN-LAST:event_accMouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void add_prodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_prodActionPerformed
         FoodForm ff = new FoodForm();
         ff.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_add_prodActionPerformed
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
        Session sess = Session.getInstance();
-       mgname.setText("Hello "+sess.getFname());
+       mgname.setText(""+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
       loadProfilePicture();
     }//GEN-LAST:event_formWindowOpened
+
+    private void delete_prodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_prodActionPerformed
+     int rowIndex = foods_tbl.getSelectedRow();
+     if (rowIndex >= 0) {
+         TableModel model = foods_tbl.getModel();
+
+         // Get the foodId from the first column (index 0)
+         int selectedFoodId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+
+         // Get the availability status (assuming it's in the 5th column, adjust if needed)
+         String foodStatus = model.getValueAt(rowIndex, 4).toString().trim();
+
+         if ("Unavailable".equalsIgnoreCase(foodStatus)) {
+             // Show a confirmation dialog before deleting the unavailable food item
+             int confirm = JOptionPane.showConfirmDialog(null, "This food item is unavailable. Do you want to delete it?", 
+                                                          "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+
+             if (confirm == JOptionPane.YES_OPTION) {
+                 // Proceed with deletion if confirmed
+                 try {
+                     // Establish connection to the database
+                     dbconnect dbc = new dbconnect();
+                     Connection conn = dbc.getConnection();
+
+                     // Prepare SQL DELETE statement
+                     String sql = "DELETE FROM food_tbl WHERE f_id = ?";
+                     PreparedStatement pst = conn.prepareStatement(sql);
+                     pst.setInt(1, selectedFoodId);
+
+                     int rowsAffected = pst.executeUpdate();
+
+                     if (rowsAffected > 0) {
+                         JOptionPane.showMessageDialog(null, "Food item deleted successfully.");
+                         displayData();  
+                     } else {
+                         JOptionPane.showMessageDialog(null, "Error: Could not delete food item.", "Error", JOptionPane.ERROR_MESSAGE);
+                     }
+
+                 } catch (SQLException e) {
+                     JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                 }
+             }
+         } else {
+             JOptionPane.showMessageDialog(null, "This food item is not unavailable and cannot be deleted.");
+         }
+     } else {
+         JOptionPane.showMessageDialog(null, "Please select a food item to delete.");
+     }
+    }//GEN-LAST:event_delete_prodActionPerformed
+
+    private void edit_prodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_prodActionPerformed
+       int rowIndex = foods_tbl.getSelectedRow();
+       if (rowIndex >= 0) {
+           TableModel model = foods_tbl.getModel();
+
+           // Get the foodId from the first column (index 0)
+           int selectedFoodId = Integer.parseInt(model.getValueAt(rowIndex, 0).toString());
+
+           // Create an instance of EditFood
+           EditFoods ef = new EditFoods();
+
+           // Pass the selected foodId to the EditFood form
+           ef.foodId = selectedFoodId;  // This is the key part! We're storing the foodId
+
+           // Populate the form fields (name, price, category, status)
+           ef.e_name.setText(model.getValueAt(rowIndex, 1).toString());
+           ef.e_price.setText(model.getValueAt(rowIndex, 2).toString());
+           ef.e_cat.setText(model.getValueAt(rowIndex, 3).toString());
+           ef.e_status.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
+
+           // Make the EditFood form visible
+           ef.setVisible(true);
+           this.dispose(); // Close the current window
+       } else {
+           JOptionPane.showMessageDialog(null, "Please select a food item to edit.");
+       }
+    }//GEN-LAST:event_edit_prodActionPerformed
+
+    private void refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshActionPerformed
+        displayData();
+    }//GEN-LAST:event_refreshActionPerformed
 
     /**
      * @param args the command line arguments
@@ -455,9 +577,12 @@ public class FoodsDB extends javax.swing.JFrame {
     private javax.swing.JPanel acc;
     private javax.swing.JPanel acc1;
     private javax.swing.JPanel acc3;
+    private javax.swing.JButton add_prod;
     private javax.swing.JPanel db;
+    private javax.swing.JButton delete_prod;
+    private javax.swing.JButton edit_prod;
     private javax.swing.JPanel foods_db;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTable foods_tbl;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
@@ -478,8 +603,8 @@ public class FoodsDB extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel mgname;
     private javax.swing.JLabel pfp;
+    private javax.swing.JButton refresh;
     // End of variables declaration//GEN-END:variables
 }
