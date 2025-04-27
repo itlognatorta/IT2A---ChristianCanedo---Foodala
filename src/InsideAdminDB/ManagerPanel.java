@@ -199,7 +199,7 @@ public class ManagerPanel extends javax.swing.JFrame {
 
         adminname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         adminname.setText("ADMIN");
-        jPanel2.add(adminname, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 180, -1, -1));
+        jPanel2.add(adminname, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 180, -1, -1));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 240, 560));
 
@@ -324,7 +324,7 @@ public class ManagerPanel extends javax.swing.JFrame {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
        Session sess = Session.getInstance();
-       adminname.setText("Hello "+sess.getFname());
+       adminname.setText(""+sess.getFname());
     }//GEN-LAST:event_formWindowActivated
 
     /**

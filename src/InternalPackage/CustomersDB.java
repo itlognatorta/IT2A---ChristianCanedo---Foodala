@@ -325,10 +325,10 @@ public void displayData(){
 
         cs_name.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         cs_name.setText("Hello");
-        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 100, -1));
+        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 100, -1));
 
         pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 140, 140));
 
         cs_order.setBackground(new java.awt.Color(204, 204, 204));
         cs_order.addMouseListener(new java.awt.event.MouseAdapter() {

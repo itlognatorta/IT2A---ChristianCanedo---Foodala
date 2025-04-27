@@ -303,10 +303,10 @@ public void displayData(){
 
         mgname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         mgname.setText("Hello ");
-        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
+        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 150, 40));
 
         pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/mgpp-removebg-preview (1).png"))); // NOI18N
-        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 110));
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 150, 140));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 520));
 
