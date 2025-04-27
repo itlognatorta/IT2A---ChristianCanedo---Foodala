@@ -320,7 +320,7 @@ private void setDefaultProfilePicture() {
 
         csname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         csname.setText("Hello ");
-        jPanel2.add(csname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
+        jPanel2.add(csname, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 120, 30));
 
         pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
@@ -579,7 +579,7 @@ private void setDefaultProfilePicture() {
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         Session sess = Session.getInstance();
-        csname.setText("Hello "+sess.getFname());
+        csname.setText(""+sess.getFname());
         u_id.setText(""+sess.getUid());
         csfname1.setText(""+sess.getFname());
         cslname.setText(""+sess.getLname());

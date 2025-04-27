@@ -3,7 +3,6 @@ package InternalPackage;
 
 import InsideCustomerDB.AccCustomerDB;
 import InsideCustomerDB.OrderDB;
-import OutsidePackage.login;
 import config.Session;
 import config.dbconnect;
 import java.awt.Color;
@@ -22,6 +21,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import net.proteanit.sql.DbUtils;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -38,9 +38,9 @@ public class CustomersDB extends javax.swing.JFrame {
     
     public CustomersDB() {
         initComponents();
-        
-        loadProfilePicture();
-        
+        displayData();
+        loadProfilePicture();       
+        displayFoodCounts();
     }
 
    Color hover = new Color(102,102,102);  
@@ -119,6 +119,55 @@ private void setDefaultProfilePicture() {
     }
 }
 
+public void displayData(){
+        
+        try{
+            dbconnect dbc = new dbconnect();
+            ResultSet rs = dbc.getData("SELECT f_id, f_name , f_price, f_category, f_status FROM food_tbl");           
+            cuisine.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Errors"+ex.getMessage());
+        }
+}    
+
+    public void displayFoodCounts() {
+        try {
+            dbconnect dbc = new dbconnect();
+            ResultSet rs = dbc.getData("SELECT f_category, COUNT(*) AS count FROM food_tbl GROUP BY f_category");
+
+            int mealsCount = (0);
+            int drinksCount = (0);
+            int snacksCount = (0);
+            int dessertCount = (0);
+
+            while (rs.next()) {
+                String category = rs.getString("f_category");
+                int count = rs.getInt("count");
+
+                if ("meals".equalsIgnoreCase(category)) {
+                    mealsCount = count;
+                } else if ("drinks".equalsIgnoreCase(category)) {
+                    drinksCount = count;
+                } else if ("snacks".equalsIgnoreCase(category)) {
+                    snacksCount = count;
+                } else if ("dessert".equalsIgnoreCase(category)) {
+                    dessertCount = count;
+                }
+            }
+
+            // Example: Update labels in your GUI (make sure these labels exist!)
+            MealsLabel.setText("Meals: " + mealsCount);
+            DrinksLabel.setText("Drinks: " + drinksCount);
+            SnacksLabel.setText("Snacks: " + snacksCount);
+            DessertLabel.setText("Dessert: " + dessertCount);
+
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+    }
+
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -150,9 +199,18 @@ private void setDefaultProfilePicture() {
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        MealsLabel = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        DrinksLabel = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        SnacksLabel = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        DessertLabel = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        cuisine = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -267,7 +325,7 @@ private void setDefaultProfilePicture() {
 
         cs_name.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         cs_name.setText("Hello");
-        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 150, 130, -1));
+        jPanel2.add(cs_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 150, 100, -1));
 
         pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/cspp-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
@@ -305,22 +363,47 @@ private void setDefaultProfilePicture() {
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 190, 60));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 690, 100));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, -1, -1));
 
-        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel4MouseClicked(evt);
-            }
-        });
-        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel9.setText("Log Out Account");
-        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 160, 30));
+        MealsLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        MealsLabel.setText("MEALS");
+        jPanel5.add(MealsLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
-        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/logout-removebg-preview (1).png"))); // NOI18N
-        jPanel4.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 10, -1, -1));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 130, 40));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 440, 210, 50));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        DrinksLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        DrinksLabel.setText("DRINKS");
+        jPanel6.add(DrinksLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 120, 130, 40));
+
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        SnacksLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        SnacksLabel.setText("SNACKS");
+        jPanel7.add(SnacksLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, 130, 40));
+
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        DessertLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
+        DessertLabel.setText("DESSERT");
+        jPanel8.add(DessertLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        jPanel1.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 120, 130, 40));
+
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setText("Choose your favorite cuisine");
+        jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 190, -1, -1));
+
+        jScrollPane1.setViewportView(cuisine);
+
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 220, 660, 280));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -357,30 +440,13 @@ private void setDefaultProfilePicture() {
         db.setBackground(defbutton);
     }//GEN-LAST:event_dbMouseExited
 
-    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
-        int choice = JOptionPane.showConfirmDialog(
-        null,
-        "Are you sure you want to log out?",
-        "Logout Confirmation",
-        JOptionPane.YES_NO_OPTION
-    );
-
-    if (choice == JOptionPane.YES_OPTION) {
-       
-        this.dispose();
-        login lg = new login();
-        lg.setVisible(true);
-    }
-
-    }//GEN-LAST:event_jPanel4MouseClicked
-
     private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_jPanel1MouseClicked
 
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
        Session sess = Session.getInstance();     
-        cs_name.setText("Hello " +sess.getFname()); 
+        cs_name.setText("" +sess.getFname()); 
     }//GEN-LAST:event_formWindowActivated
 
     private void cs_orderMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cs_orderMouseEntered
@@ -459,14 +525,18 @@ private void setDefaultProfilePicture() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel DessertLabel;
+    private javax.swing.JLabel DrinksLabel;
+    private javax.swing.JLabel MealsLabel;
+    private javax.swing.JLabel SnacksLabel;
     private javax.swing.JPanel acc;
     private javax.swing.JPanel acc2;
     private javax.swing.JPanel acc3;
     private javax.swing.JLabel cs_name;
     private javax.swing.JPanel cs_order;
+    private javax.swing.JTable cuisine;
     private javax.swing.JPanel db;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -475,6 +545,7 @@ private void setDefaultProfilePicture() {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -486,7 +557,11 @@ private void setDefaultProfilePicture() {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel pfp;
     // End of variables declaration//GEN-END:variables
 }

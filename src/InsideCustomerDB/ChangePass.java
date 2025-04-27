@@ -5,7 +5,6 @@
  */
 package InsideCustomerDB;
 
-import InsideManagerDB.AccManagerDB;
 import config.Session;
 import config.dbconnect;
 import config.passwordHasher;

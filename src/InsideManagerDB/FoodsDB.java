@@ -522,7 +522,7 @@ public void displayData(){
            // Populate the form fields (name, price, category, status)
            ef.e_name.setText(model.getValueAt(rowIndex, 1).toString());
            ef.e_price.setText(model.getValueAt(rowIndex, 2).toString());
-           ef.e_cat.setText(model.getValueAt(rowIndex, 3).toString());
+           ef.e_cat.setSelectedItem(model.getValueAt(rowIndex, 3).toString());
            ef.e_status.setSelectedItem(model.getValueAt(rowIndex, 4).toString());
 
            // Make the EditFood form visible

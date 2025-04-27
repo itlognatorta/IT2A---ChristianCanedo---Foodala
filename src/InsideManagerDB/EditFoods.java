@@ -53,7 +53,7 @@ public class EditFoods extends javax.swing.JFrame {
         e_status = new javax.swing.JComboBox<>();
         e_name = new javax.swing.JTextField();
         e_price = new javax.swing.JTextField();
-        e_cat = new javax.swing.JTextField();
+        e_cat = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,9 +106,9 @@ public class EditFoods extends javax.swing.JFrame {
         });
         jPanel3.add(canbot, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 110, 40));
 
-        e_status.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        e_status.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         e_status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose status", "Available", "Unavailable", " ", " " }));
-        jPanel3.add(e_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 370, 230, 50));
+        jPanel3.add(e_status, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 240, 60));
 
         e_name.setBackground(new java.awt.Color(153, 153, 153));
         e_name.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -126,10 +126,9 @@ public class EditFoods extends javax.swing.JFrame {
         e_price.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "Price", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
         jPanel3.add(e_price, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 190, 240, 70));
 
-        e_cat.setBackground(new java.awt.Color(153, 153, 153));
         e_cat.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        e_cat.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 3, true), "Category", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Century Gothic", 1, 14))); // NOI18N
-        jPanel3.add(e_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 240, 70));
+        e_cat.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Category", "Meals", "Drinks", "Snacks", "Dessert" }));
+        jPanel3.add(e_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 240, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -164,7 +163,7 @@ public class EditFoods extends javax.swing.JFrame {
      // Get trimmed input values
      String foodName = e_name.getText().trim();
      String foodPriceText = e_price.getText().trim();
-     String foodCategory = e_cat.getText().trim();
+     String foodCategory = e_cat.getSelectedItem().toString().trim();
      String foodStatus = e_status.getSelectedItem().toString().trim();
 
      // Validate Food Name
@@ -197,9 +196,9 @@ public class EditFoods extends javax.swing.JFrame {
      }
 
      // Validate Category
-     if (foodCategory.isEmpty()) {
+     if (e_cat.getSelectedIndex() == 0) {
          e_cat.setBorder(BorderFactory.createLineBorder(Color.RED));
-         errorMessages.append("Food category is required.\n");
+         errorMessages.append("Please select a food category.\n");
          isValid = false;
      } else {
          e_cat.setBorder(BorderFactory.createLineBorder(Color.GRAY));
@@ -323,7 +322,7 @@ try {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton canbot;
-    public javax.swing.JTextField e_cat;
+    public javax.swing.JComboBox<String> e_cat;
     public javax.swing.JTextField e_name;
     public javax.swing.JTextField e_price;
     public javax.swing.JComboBox<String> e_status;

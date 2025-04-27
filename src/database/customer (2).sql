@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 01, 2025 at 05:23 PM
+-- Generation Time: Apr 27, 2025 at 04:20 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -47,16 +47,18 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`id`, `cs_fname`, `cs_lname`, `cs_email`, `cs_contact`, `cs_user`, `cs_pass`, `cs_address`, `cs_type`, `cs_status`, `profile_picture`) VALUES
 (1, 'mark', 'christian', 'markcanedo@gmail.com', '09329011345', 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'wala', 'admin', 'active', ''),
-(5, 'hoho', 'kaka', 'hohokaka@gmail.com', '09329011345', 'koko', 'kokokaka123', 'wla', '', 'Pending', ''),
-(10, 'aw', 'aw', 'aw@gmail.com', '09329011345', 'awaw', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'aw', 'manager', 'active', 'C:\\Users\\Administrator\\Desktop\\IT2A---ChristianCanedo---Foodala\\profile_pictures\\pfp.jpg'),
-(11, 'Marian', 'Cadungon', 'marian.cadungon10@gmail.com', '09934119800', 'Marian', 'kram0207', 'Lipata', '', 'Active', ''),
-(12, 'natnat', 'almaden', 'natnat@gmail.com', '09329011345', 'natnat', '05bd0ee58fd753cc054dd727f1700b0ec7a52a69a61a5a5d44c6aa554d198648', 'wala', 'customer', 'active', ''),
-(13, 'chanchan', 'oo', 'chanchan@gmail.com', '09329011345', 'chanchan', 'christian', 'oo', 'Customer', 'active', ''),
+(5, 'hoho', 'kaka', 'hohokaka@gmail.com', '09329011345', 'koko', 'kokokaka123', 'wla', '', 'Active', ''),
+(10, 'aw', 'aw', 'aw@gmail.com', '09329011345', 'awaw', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'aw', 'manager', 'active', 'pfpimage/default.jpg'),
+(12, 'natnat', 'almaden', 'natnat@gmail.com', '09329011345', 'natnat', '6c48b15923d52c3645543b66e62169f8f9a85f6a8a0f20aa688b0e78d56c192d', 'wala', 'customer', 'active', 'pfpimage/default.jpg'),
+(13, 'chanchan', 'oo', 'chanchan@gmail.com', '09329011345', 'chanchan', 'df59c257785d70706a411e70e123aff2844d6d57eb19f3a071afc8e019f5f2d8', 'oo', 'Customer', 'active', ''),
 (14, 'mike', 'christian', 'awaw@gmail.com', '09329011345', 'mikey', 'c8c738c493efa4015396b5c305b307b915415e7ea3761d71799f1f5ae8a8006f', 'Lower Lipata, Minglanilla, Cebu', 'Customer', 'Active', ''),
 (15, 'test', 'test', 'test@gmail.com', '09329011345', 'test', 'fccdd6f437911e49ff6cd6d1ea20d7fdc0ff75fbd22d6a9930676978f9e35af1', 'test', 'Customer', 'Active', ''),
 (16, 'Mark ', 'Christian', 'christian@gmail.com', '09329011345', 'admin123', 'JAvlGPq9JyTdtvBO6x2llnRI1+gxwIyPqCKAn3THIKk=', 'wala', 'Admin', 'Active', ''),
 (17, 'wawa', 'wawa', 'wawa@gmail.com', '09909011345', 'wawaw', '+fSQbd7larvHB+vuJvVOEbSBtv5ksbC8iqzFOdyP9iU=', 'wawa', 'Manager', 'Active', ''),
-(18, 'test1', 'test1', 'test1@gmail.com', '09329011345', 'test1', '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578', 'test1', 'manager', 'Active', 'C:\\Users\\Administrator\\Desktop\\IT2A---ChristianCanedo---Foodala\\profile_pictures\\pfp1.jpg');
+(18, 'test1', 'test1', 'test1@gmail.com', '09329011345', 'test1', '37268335dd6931045bdcdf92623ff819a64244b53d0e746d438797349d4da578', 'test1', 'manager', 'Active', 'C:\\Users\\Administrator\\Desktop\\IT2A---ChristianCanedo---Foodala\\profile_pictures\\pfp1.jpg'),
+(19, 'christian', 'christian', 'christian@gmail.com', '09329011345', 'christian', 'df59c257785d70706a411e70e123aff2844d6d57eb19f3a071afc8e019f5f2d8', 'christian', 'Customer', 'Active', 'pfpimage/default.jpg'),
+(24, 'macky', 'mackyu', 'macky@gmail.com', '09329011345', 'macky', '78fd1ca8020dc6d7535e45c4b6c7164eaadbc748bc8146ecdc2748f1364b379f', 'macky', 'Customer', 'Active', 'pfpimage/default.jpg'),
+(25, 'miketest', 'mike', 'mike@gmail.com', '09329011566', 'mike', 'b8ef69ad52755883952749fb3416642283d6313bd58738711bbdea3d347538a9', 'awaw', 'Customer', 'Active', 'pfpimage/pfp1.jpg');
 
 --
 -- Indexes for dumped tables
@@ -76,7 +78,7 @@ ALTER TABLE `customer`
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

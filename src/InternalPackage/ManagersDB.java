@@ -2,6 +2,7 @@ package InternalPackage;
 
 
 import InsideManagerDB.AccManagerDB;
+import InsideManagerDB.EditOrder;
 import InsideManagerDB.FoodsDB;
 import config.Session;
 import config.dbconnect;
@@ -21,6 +22,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
+import javax.swing.table.TableModel;
+import net.proteanit.sql.DbUtils;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -40,9 +43,10 @@ public class ManagersDB extends javax.swing.JFrame {
     public ManagersDB() {
         initComponents();
         loadProfilePicture();
-        
+        displayData();      
     }
-
+    
+    
    Color hover = new Color(102,102,102);  
     Color defbutton = new Color(204,204,204);  
     
@@ -119,6 +123,19 @@ private void setDefaultProfilePicture() {
     }
 }
 
+public void displayData(){
+        
+        try{
+            dbconnect dbc = new dbconnect();
+            ResultSet rs = dbc.getData("SELECT o_id, f_id , o_quantity, o_due, o_status FROM order_tbl");           
+            order.setModel(DbUtils.resultSetToTableModel(rs));
+            
+            
+        }catch(SQLException ex){
+            System.out.println("Errors"+ex.getMessage());
+        }
+        
+    }
   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -155,11 +172,12 @@ private void setDefaultProfilePicture() {
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        order = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
+        edit_user = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -297,7 +315,7 @@ private void setDefaultProfilePicture() {
 
         mgname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         mgname.setText("Hello");
-        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 150, 140, 40));
+        jPanel2.add(mgname, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 150, 140, 40));
 
         pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/mgpp-removebg-preview (1).png"))); // NOI18N
         jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 100, 110));
@@ -330,11 +348,11 @@ private void setDefaultProfilePicture() {
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel6.setText("List of Order");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 240, -1, -1));
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, -1, -1));
 
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(order);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 270, 670, 240));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 670, 230));
 
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -351,6 +369,16 @@ private void setDefaultProfilePicture() {
         jPanel7.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 170, 90));
+
+        edit_user.setBackground(new java.awt.Color(0, 255, 0));
+        edit_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        edit_user.setText("EDIT");
+        edit_user.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edit_userActionPerformed(evt);
+            }
+        });
+        jPanel1.add(edit_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 100, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -436,6 +464,43 @@ private void setDefaultProfilePicture() {
        loadProfilePicture();
     }//GEN-LAST:event_formWindowOpened
 
+    private void edit_userActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edit_userActionPerformed
+       int rowIndex = order.getSelectedRow();  // Get selected row index
+
+    if (rowIndex < 0) {
+        JOptionPane.showMessageDialog(null, "Please select an order.");
+    } else {
+        try {
+            dbconnect db = new dbconnect();
+            TableModel tbl = order.getModel();  // Get the table model
+            int orderId = Integer.parseInt(tbl.getValueAt(rowIndex, 0).toString());  // Get the order ID from the selected row
+
+            // Corrected SQL query to fetch order status
+            ResultSet rs = db.getData("SELECT o_status FROM order_tbl WHERE o_id = " + orderId);
+
+            if (rs.next()) {
+                // Create instance of EditOrder form
+                EditOrder eo = new EditOrder();
+
+               
+                eo.status.setSelectedItem(rs.getString("o_status"));
+
+               
+                eo.orderId = orderId;  
+
+               
+                eo.setVisible(true);
+                this.dispose();  // Close the current window
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex);
+            JOptionPane.showMessageDialog(null, "An error occurred while loading order data.");
+        }
+    }
+
+
+    }//GEN-LAST:event_edit_userActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -476,6 +541,7 @@ private void setDefaultProfilePicture() {
     private javax.swing.JPanel acc1;
     private javax.swing.JPanel acc3;
     private javax.swing.JPanel db;
+    private javax.swing.JButton edit_user;
     private javax.swing.JPanel foods_db;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -505,8 +571,8 @@ private void setDefaultProfilePicture() {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel mgname;
+    public javax.swing.JTable order;
     private javax.swing.JLabel pfp;
     // End of variables declaration//GEN-END:variables
 }
