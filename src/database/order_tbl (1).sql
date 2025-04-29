@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 29, 2025 at 05:39 PM
+-- Generation Time: Apr 29, 2025 at 05:47 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,7 +41,7 @@ CREATE TABLE `order_tbl` (
 --
 
 INSERT INTO `order_tbl` (`o_id`, `f_id`, `c_id`, `o_quantity`, `o_due`, `o_status`) VALUES
-(1, 2, 12, 2, 40, 'Pending'),
+(1, 2, 12, 2, 40, 'Done'),
 (2, 1, 12, 3, 507, 'Pending');
 
 --
@@ -53,8 +53,8 @@ INSERT INTO `order_tbl` (`o_id`, `f_id`, `c_id`, `o_quantity`, `o_due`, `o_statu
 --
 ALTER TABLE `order_tbl`
   ADD PRIMARY KEY (`o_id`),
-  ADD KEY `fid` (`f_id`),
-  ADD KEY `id_fk` (`c_id`);
+  ADD KEY `id_fk` (`c_id`),
+  ADD KEY `f_id` (`f_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -74,6 +74,7 @@ ALTER TABLE `order_tbl`
 -- Constraints for table `order_tbl`
 --
 ALTER TABLE `order_tbl`
+  ADD CONSTRAINT `f_id` FOREIGN KEY (`f_id`) REFERENCES `food_tbl` (`f_id`),
   ADD CONSTRAINT `id_fk` FOREIGN KEY (`c_id`) REFERENCES `customer` (`id`);
 COMMIT;
 
