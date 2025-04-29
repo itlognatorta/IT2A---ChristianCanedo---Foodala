@@ -44,6 +44,7 @@ public class ManagersDB extends javax.swing.JFrame {
         initComponents();
         loadProfilePicture();
         displayData();      
+        displayOrderStats();
     }
     
     
@@ -136,6 +137,46 @@ public void displayData(){
         }
         
     }
+
+    public void displayOrderStats() {
+    try {
+        dbconnect dbc = new dbconnect();
+
+        // Total Orders
+        ResultSet totalOrdersRs = dbc.getData("SELECT COUNT(*) AS total FROM order_tbl");
+        if (totalOrdersRs.next()) {
+            int total = totalOrdersRs.getInt("total");
+            total_ord.setText("<html><center>Total Orders<br><br>" + total + "</center></html>");
+        }
+
+        // Earned Funds
+        ResultSet earnedRs = dbc.getData("SELECT SUM(o_due) AS total_earned FROM order_tbl");
+        if (earnedRs.next()) {
+            double total_earned = earnedRs.getDouble("total_earned");
+            earned.setText("<html><center>Earned Funds<br><br>₱" + String.format("%.2f", total_earned) + "</center></html>");
+        }
+
+        // Successful Orders
+        ResultSet successRs = dbc.getData("SELECT COUNT(*) AS successful FROM order_tbl WHERE o_status = 'Done'");
+        if (successRs.next()) {
+            int successful = successRs.getInt("successful");
+            succ_ord.setText("<html><center>Successful Orders<br><br>" + successful + "</center></html>");
+        }
+
+        // Pending Orders
+        ResultSet pendingRs = dbc.getData("SELECT COUNT(*) AS pending FROM order_tbl WHERE o_status = 'Pending'");
+        if (pendingRs.next()) {
+            int pending = pendingRs.getInt("pending");
+            pend_ord.setText("<html><center>Pending Orders<br><br>" + pending + "</center></html>");
+        }
+
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage());
+    }
+}
+
+
+
   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -167,16 +208,16 @@ public void displayData(){
         jPanel3 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        total_ord = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
+        pend_ord = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         order = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
+        earned = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
+        succ_ord = new javax.swing.JLabel();
         edit_user = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -332,19 +373,19 @@ public void displayData(){
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel2.setText("Total Orders");
-        jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        total_ord.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        total_ord.setText("Total Orders");
+        jPanel4.add(total_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 80));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 140, 90));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 130, 90));
 
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel3.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel3.setText("Pending Orders");
-        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        pend_ord.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        pend_ord.setText("Pending Orders");
+        jPanel5.add(pend_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 80));
 
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 120, 170, 90));
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 120, 180, 90));
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel6.setText("List of Order");
@@ -356,19 +397,19 @@ public void displayData(){
 
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel9.setText("Earned Funds");
-        jPanel6.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        earned.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        earned.setText("Earned Funds");
+        jPanel6.add(earned, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 80));
 
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 120, 140, 90));
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 140, 90));
 
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel10.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel10.setText("Successful Orders");
-        jPanel7.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        succ_ord.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        succ_ord.setText("Successful Orders");
+        jPanel7.add(succ_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 80));
 
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 120, 170, 90));
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 180, 90));
 
         edit_user.setBackground(new java.awt.Color(0, 255, 0));
         edit_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -541,10 +582,10 @@ public void displayData(){
     private javax.swing.JPanel acc1;
     private javax.swing.JPanel acc3;
     private javax.swing.JPanel db;
+    private javax.swing.JLabel earned;
     private javax.swing.JButton edit_user;
     private javax.swing.JPanel foods_db;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -554,15 +595,12 @@ public void displayData(){
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -573,6 +611,9 @@ public void displayData(){
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel mgname;
     public javax.swing.JTable order;
+    private javax.swing.JLabel pend_ord;
     private javax.swing.JLabel pfp;
+    private javax.swing.JLabel succ_ord;
+    private javax.swing.JLabel total_ord;
     // End of variables declaration//GEN-END:variables
 }
