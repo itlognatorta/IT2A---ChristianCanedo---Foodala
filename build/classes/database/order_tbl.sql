@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2025 at 04:21 PM
+-- Generation Time: Apr 29, 2025 at 05:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -30,6 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `order_tbl` (
   `o_id` int(11) NOT NULL,
   `f_id` int(11) NOT NULL,
+  `c_id` int(11) NOT NULL,
   `o_quantity` int(11) NOT NULL,
   `o_due` float NOT NULL,
   `o_status` varchar(255) NOT NULL
@@ -39,9 +40,9 @@ CREATE TABLE `order_tbl` (
 -- Dumping data for table `order_tbl`
 --
 
-INSERT INTO `order_tbl` (`o_id`, `f_id`, `o_quantity`, `o_due`, `o_status`) VALUES
-(1, 1, 2, 178, 'Done'),
-(2, 1, 2, 178, 'Pending');
+INSERT INTO `order_tbl` (`o_id`, `f_id`, `c_id`, `o_quantity`, `o_due`, `o_status`) VALUES
+(1, 2, 12, 2, 40, 'Pending'),
+(2, 1, 12, 3, 507, 'Pending');
 
 --
 -- Indexes for dumped tables
@@ -52,7 +53,8 @@ INSERT INTO `order_tbl` (`o_id`, `f_id`, `o_quantity`, `o_due`, `o_status`) VALU
 --
 ALTER TABLE `order_tbl`
   ADD PRIMARY KEY (`o_id`),
-  ADD KEY `fid` (`f_id`);
+  ADD KEY `fid` (`f_id`),
+  ADD KEY `id_fk` (`c_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -63,6 +65,16 @@ ALTER TABLE `order_tbl`
 --
 ALTER TABLE `order_tbl`
   MODIFY `o_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `order_tbl`
+--
+ALTER TABLE `order_tbl`
+  ADD CONSTRAINT `id_fk` FOREIGN KEY (`c_id`) REFERENCES `customer` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

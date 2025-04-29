@@ -7,6 +7,7 @@ import InsideManagerDB.FoodsDB;
 import config.Session;
 import config.dbconnect;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,6 +22,8 @@ import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
@@ -219,6 +222,7 @@ public void displayData(){
         jPanel7 = new javax.swing.JPanel();
         succ_ord = new javax.swing.JLabel();
         edit_user = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -412,7 +416,7 @@ public void displayData(){
         jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 180, 90));
 
         edit_user.setBackground(new java.awt.Color(0, 255, 0));
-        edit_user.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        edit_user.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
         edit_user.setText("EDIT");
         edit_user.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -420,6 +424,16 @@ public void displayData(){
             }
         });
         jPanel1.add(edit_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 100, 40));
+
+        jButton1.setBackground(new java.awt.Color(0, 0, 153));
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setText("RECEIPT");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 230, 100, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -542,6 +556,63 @@ public void displayData(){
 
     }//GEN-LAST:event_edit_userActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+      int rowIndex = order.getSelectedRow();  // Get selected row index
+
+if (rowIndex < 0) {
+    JOptionPane.showMessageDialog(null, "Please select an order.");
+} else {
+    try {
+        dbconnect db = new dbconnect();
+        TableModel tbl = order.getModel();  // Get the table model
+        int orderId = Integer.parseInt(tbl.getValueAt(rowIndex, 0).toString());  // Get the order ID from the selected row
+
+        System.out.println("Selected Order ID: " + orderId);  // Debugging statement
+
+        // ✅ CORRECTED SQL QUERY: join on customer ID, not order ID
+        ResultSet rs = db.getData(
+            "SELECT o.o_id, o.o_quantity, o.o_due, o.o_status, " +
+            "f.f_name, f.f_price, u.cs_fname " +
+            "FROM order_tbl o " +
+            "JOIN food_tbl f ON o.f_id = f.f_id " +
+            "JOIN customer u ON o.c_id = u.id " +  // ✅ Fix is here
+            "WHERE o.o_id = " + orderId
+        );
+
+        if (rs.next()) {
+            // Create the receipt content
+            StringBuilder receipt = new StringBuilder();
+            receipt.append("         GrubGo - Order Receipt\n");
+            receipt.append("        ---------------------------\n\n");
+
+            receipt.append("Order ID: ").append(rs.getInt("o_id")).append("\n");
+            receipt.append("Customer: ").append(rs.getString("cs_fname")).append("\n");
+            receipt.append("Item: ").append(rs.getString("f_name")).append("\n");
+            receipt.append("Unit Price: ₱").append(String.format("%.2f", rs.getDouble("f_price"))).append("\n");
+            receipt.append("Quantity: ").append(rs.getInt("o_quantity")).append("\n");
+            receipt.append("Total Due: ₱").append(String.format("%.2f", rs.getDouble("o_due"))).append("\n");
+            receipt.append("Status: ").append(rs.getString("o_status")).append("\n\n");
+
+            receipt.append("        ---------------------------\n");
+            receipt.append("        Thank you for ordering!\n");
+
+            // Show the receipt in a JTextArea
+            JTextArea textArea = new JTextArea(receipt.toString());
+            textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            JOptionPane.showMessageDialog(null, new JScrollPane(textArea), "Receipt", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            JOptionPane.showMessageDialog(null, "No details found for this order.");
+        }
+    } catch (SQLException ex) {
+        System.out.println("Error: " + ex);
+        JOptionPane.showMessageDialog(null, "An error occurred while loading order data.");
+    }
+}
+
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -585,6 +656,7 @@ public void displayData(){
     private javax.swing.JLabel earned;
     private javax.swing.JButton edit_user;
     private javax.swing.JPanel foods_db;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;

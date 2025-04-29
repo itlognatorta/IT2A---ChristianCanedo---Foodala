@@ -234,11 +234,11 @@ public class AddOrder extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         try {
-        dbconnect dbc = new dbconnect();
-        Connection conn = dbc.getConnection();
+    dbconnect dbc = new dbconnect();
+    Connection conn = dbc.getConnection();
 
     // Insert into order_tbl
-    String sql = "INSERT INTO order_tbl (f_id, o_quantity, o_due, o_status) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO order_tbl (f_id, c_id, o_quantity, o_due, o_status) VALUES (?, ?, ?, ?, ?)";
     PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
     // Get data from input fields
@@ -247,10 +247,23 @@ public class AddOrder extends javax.swing.JFrame {
     double due = Double.parseDouble(total.getText().replace("Total Price: ", "").trim());
     String status = "Pending";
 
+    // Get customer ID from session (assumed)
+    Session sess = Session.getInstance();
+    String userId = sess.getUid();  // This should match the c_id (customer.id)
+
+    if (userId == null || userId.trim().isEmpty()) {
+        JOptionPane.showMessageDialog(null, "Customer not logged in. Cannot place order.");
+        return;
+    }
+
+    int customerId = Integer.parseInt(userId); // Convert to int
+
+    // Set values into query
     pst.setInt(1, foodId);
-    pst.setInt(2, quantity);
-    pst.setDouble(3, due);
-    pst.setString(4, status);
+    pst.setInt(2, customerId);  // <- This was missing before
+    pst.setInt(3, quantity);
+    pst.setDouble(4, due);
+    pst.setString(5, status);
 
     int rows = pst.executeUpdate();
 
@@ -262,22 +275,15 @@ public class AddOrder extends javax.swing.JFrame {
         }
 
         // Log the action
-        Session sess = Session.getInstance();
-        String userId = sess.getUid();
+        String actions = "Added New Order! Order ID: " + lastOrderId;
 
-        if (userId != null && !userId.trim().isEmpty()) {
-            String actions = "Added New Order! Order ID: " + lastOrderId;
-
-            PreparedStatement logPst = conn.prepareStatement(
-                "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)"
-            );
-            logPst.setString(1, userId);
-            logPst.setString(2, actions);
-            logPst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
-            logPst.executeUpdate();
-        } else {
-            System.out.println("Warning: Session UID is null or empty. Log not inserted.");
-        }
+        PreparedStatement logPst = conn.prepareStatement(
+            "INSERT INTO logs (id, actions, date) VALUES (?, ?, ?)"
+        );
+        logPst.setInt(1, customerId);
+        logPst.setString(2, actions);
+        logPst.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+        logPst.executeUpdate();
 
         JOptionPane.showMessageDialog(null, "Order placed successfully!");
 
@@ -298,6 +304,7 @@ public class AddOrder extends javax.swing.JFrame {
 } catch (NumberFormatException ex) {
     JOptionPane.showMessageDialog(null, "Invalid number format: " + ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
 }
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
