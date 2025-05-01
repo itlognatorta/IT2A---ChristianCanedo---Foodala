@@ -382,7 +382,7 @@ public void displayData(){
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        total_ord.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        total_ord.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         total_ord.setText("Total Orders");
         jPanel4.add(total_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 60));
 
@@ -394,9 +394,9 @@ public void displayData(){
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pend_ord.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        pend_ord.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         pend_ord.setText("Pending Orders");
-        jPanel5.add(pend_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 60));
+        jPanel5.add(pend_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 60));
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/pending.png"))); // NOI18N
         jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, 30));
@@ -414,7 +414,7 @@ public void displayData(){
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        earned.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        earned.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         earned.setText("Earned Funds");
         jPanel6.add(earned, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 60));
 
@@ -429,9 +429,9 @@ public void displayData(){
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/order.png"))); // NOI18N
         jPanel7.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
 
-        succ_ord.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        succ_ord.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         succ_ord.setText("Successful Orders");
-        jPanel7.add(succ_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 60));
+        jPanel7.add(succ_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 60));
 
         jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 180, 120));
 

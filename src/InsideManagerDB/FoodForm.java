@@ -9,6 +9,13 @@ import InternalPackage.ManagersDB;
 import config.Session;
 import config.dbconnect;
 import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +24,9 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
@@ -33,7 +42,11 @@ public class FoodForm extends javax.swing.JFrame {
     public FoodForm() {
         initComponents();
     }
-    
+        
+    private String selectedImageFilename = null;
+    private File selectedFile = null;
+   
+
     Color hover = new Color(153,153,153);  
     Color defbutton = new Color(102,102,102);  
     
@@ -78,7 +91,7 @@ public class FoodForm extends javax.swing.JFrame {
         jLabel1.setText("Add Food To Menu");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 250, 50));
+        jPanel3.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 250, 50));
 
         addbot.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         addbot.setText("ADD");
@@ -146,14 +159,15 @@ public class FoodForm extends javax.swing.JFrame {
         });
         jPanel3.add(f_cat, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 240, 60));
 
-        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 320, 570));
+        getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 310, 570));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addbotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addbotActionPerformed
-        dbconnect dbc = new dbconnect();
+       
+     dbconnect dbc = new dbconnect();
         boolean isValid = true;
         StringBuilder errorMessages = new StringBuilder();
 
@@ -212,7 +226,7 @@ public class FoodForm extends javax.swing.JFrame {
     try {
         Connection conn = dbc.getConnection();
 
-        String sql = "INSERT INTO food_tbl (f_name, f_price, f_category, f_status) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO food_tbl (f_name, f_price, f_category, f_status, f_image) VALUES (?, ?, ?, ?, ?)";
         PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         pst.setString(1, foodName);
         pst.setDouble(2, foodPrice);
@@ -263,9 +277,7 @@ public class FoodForm extends javax.swing.JFrame {
     } catch (SQLException e) {
         JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
     }
-
-
-
+    
     }//GEN-LAST:event_addbotActionPerformed
 
     private void canbotActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_canbotActionPerformed

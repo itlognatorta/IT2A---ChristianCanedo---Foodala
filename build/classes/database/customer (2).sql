@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 27, 2025 at 04:20 PM
+-- Generation Time: May 01, 2025 at 01:09 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,8 +48,8 @@ CREATE TABLE `customer` (
 INSERT INTO `customer` (`id`, `cs_fname`, `cs_lname`, `cs_email`, `cs_contact`, `cs_user`, `cs_pass`, `cs_address`, `cs_type`, `cs_status`, `profile_picture`) VALUES
 (1, 'mark', 'christian', 'markcanedo@gmail.com', '09329011345', 'admin', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'wala', 'admin', 'active', ''),
 (5, 'hoho', 'kaka', 'hohokaka@gmail.com', '09329011345', 'koko', 'kokokaka123', 'wla', '', 'Active', ''),
-(10, 'aw', 'aw', 'aw@gmail.com', '09329011345', 'awaw', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'aw', 'manager', 'active', 'pfpimage/default.jpg'),
-(12, 'natnat', 'almaden', 'natnat@gmail.com', '09329011345', 'natnat', '6c48b15923d52c3645543b66e62169f8f9a85f6a8a0f20aa688b0e78d56c192d', 'wala', 'customer', 'active', 'pfpimage/default.jpg'),
+(10, 'Opaw ga Lamaw', 'aw', 'aw@gmail.com', '09329011345', 'awaw', 'ef797c8118f02dfb649607dd5d3f8c7623048c9c063d532cc95c5ed7a898a64f', 'aw', 'manager', 'active', 'pfpimage/1421bb7c-5da7-4256-91c3-ffa58bbe67c5.jpg'),
+(12, 'Merlion', 'almaden', 'natnat@gmail.com', '09329011345', 'natnat', '6c48b15923d52c3645543b66e62169f8f9a85f6a8a0f20aa688b0e78d56c192d', 'wala', 'customer', 'active', 'pfpimage/merlion.jpg'),
 (13, 'chanchan', 'oo', 'chanchan@gmail.com', '09329011345', 'chanchan', 'df59c257785d70706a411e70e123aff2844d6d57eb19f3a071afc8e019f5f2d8', 'oo', 'Customer', 'active', ''),
 (14, 'mike', 'christian', 'awaw@gmail.com', '09329011345', 'mikey', 'c8c738c493efa4015396b5c305b307b915415e7ea3761d71799f1f5ae8a8006f', 'Lower Lipata, Minglanilla, Cebu', 'Customer', 'Active', ''),
 (15, 'test', 'test', 'test@gmail.com', '09329011345', 'test', 'fccdd6f437911e49ff6cd6d1ea20d7fdc0ff75fbd22d6a9930676978f9e35af1', 'test', 'Customer', 'Active', ''),
