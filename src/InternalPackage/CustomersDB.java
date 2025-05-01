@@ -365,6 +365,7 @@ public void displayData(){
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 690, 100));
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 130, -1, -1));
 
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         MealsLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -373,6 +374,7 @@ public void displayData(){
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 120, 130, 40));
 
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         DrinksLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -381,6 +383,7 @@ public void displayData(){
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 120, 130, 40));
 
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SnacksLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -389,6 +392,7 @@ public void displayData(){
 
         jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 120, 130, 40));
 
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
         jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         DessertLabel.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N

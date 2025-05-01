@@ -39,6 +39,7 @@ public class OrderDB extends javax.swing.JFrame {
         initComponents();
         loadProfilePicture();
         displayData();
+        displayOrderStats();
     }
 
     Color hover = new Color(102,102,102);  
@@ -131,6 +132,29 @@ public void displayData(){
         
     }
 
+    public void displayOrderStats() {
+       try {
+           dbconnect dbc = new dbconnect();
+
+           // Successful Orders
+           ResultSet successRs = dbc.getData("SELECT COUNT(*) AS successful FROM order_tbl WHERE o_status = 'Done'");
+           if (successRs.next()) {
+               int successful = successRs.getInt("successful");
+               succ_ord.setText("<html><center>Successful Orders<br><br>" + successful + "</center></html>");
+           }
+
+           // Pending Orders
+           ResultSet pendingRs = dbc.getData("SELECT COUNT(*) AS pending FROM order_tbl WHERE o_status = 'Pending'");
+           if (pendingRs.next()) {
+               int pending = pendingRs.getInt("pending");
+               pend_ord.setText("<html><center>Pending Orders<br><br>" + pending + "</center></html>");
+           }
+
+       } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage());
+       }
+   }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -165,6 +189,12 @@ public void displayData(){
         order = new javax.swing.JTable();
         add_order = new javax.swing.JButton();
         refresh = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
+        pend_ord = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        succ_ord = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -187,7 +217,7 @@ public void displayData(){
 
         jLabel3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jLabel3.setText("Order List");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 200, -1, -1));
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 220, -1, -1));
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -318,13 +348,13 @@ public void displayData(){
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 190, 60));
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 190, 60));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 720, 100));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 0, 690, 90));
 
         jScrollPane1.setViewportView(order);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 230, 670, 270));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 250, 670, 250));
 
         add_order.setBackground(new java.awt.Color(0, 0, 255));
         add_order.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -334,7 +364,7 @@ public void displayData(){
                 add_orderActionPerformed(evt);
             }
         });
-        jPanel1.add(add_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 90, 40));
+        jPanel1.add(add_order, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 140, 90, 40));
 
         refresh.setBackground(new java.awt.Color(255, 255, 51));
         refresh.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
@@ -344,7 +374,31 @@ public void displayData(){
                 refreshActionPerformed(evt);
             }
         });
-        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, -1, 40));
+        jPanel1.add(refresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 140, -1, 40));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        pend_ord.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        pend_ord.setText("Orders to Recieve");
+        jPanel4.add(pend_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, -1));
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/pending.png"))); // NOI18N
+        jPanel4.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, 30));
+
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 110, 150, 120));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        succ_ord.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        succ_ord.setText("Successfull Orders");
+        jPanel5.add(succ_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 50, -1, -1));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/order.png"))); // NOI18N
+        jPanel5.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 10, -1, -1));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 110, 150, 120));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 880, 513));
 
@@ -481,21 +535,27 @@ public void displayData(){
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable order;
     private javax.swing.JPanel orderdb;
+    private javax.swing.JLabel pend_ord;
     private javax.swing.JLabel pfp;
     private javax.swing.JButton refresh;
+    private javax.swing.JLabel succ_ord;
     // End of variables declaration//GEN-END:variables
 }

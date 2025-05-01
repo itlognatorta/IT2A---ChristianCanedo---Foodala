@@ -212,14 +212,18 @@ public void displayData(){
         jLabel8 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         total_ord = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         pend_ord = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         order = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         earned = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         succ_ord = new javax.swing.JLabel();
         edit_user = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -373,47 +377,63 @@ public void displayData(){
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
         jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 20, 190, 60));
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 700, 100));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 0, 700, 90));
 
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        total_ord.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        total_ord.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         total_ord.setText("Total Orders");
-        jPanel4.add(total_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 80));
+        jPanel4.add(total_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 60));
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 120, 130, 90));
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/total.png"))); // NOI18N
+        jPanel4.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 100, 130, 120));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        pend_ord.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        pend_ord.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         pend_ord.setText("Pending Orders");
-        jPanel5.add(pend_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 80));
+        jPanel5.add(pend_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, -1, 60));
 
-        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 120, 180, 90));
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/pending.png"))); // NOI18N
+        jPanel5.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, 30));
+
+        jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(690, 100, 180, 120));
 
         jLabel6.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
-        jLabel6.setText("List of Order");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 250, -1, -1));
+        jLabel6.setText("List of Orders");
+        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 260, -1, -1));
 
         jScrollPane1.setViewportView(order);
 
-        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 280, 670, 230));
+        jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 290, 670, 220));
 
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        earned.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        earned.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
         earned.setText("Earned Funds");
-        jPanel6.add(earned, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 80));
+        jPanel6.add(earned, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 50, -1, 60));
 
-        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 140, 90));
+        jLabel10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/earned.jpg"))); // NOI18N
+        jPanel6.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, -1, -1));
 
+        jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 100, 140, 120));
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        succ_ord.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
-        succ_ord.setText("Successful Orders");
-        jPanel7.add(succ_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, 80));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/order.png"))); // NOI18N
+        jPanel7.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 10, -1, -1));
 
-        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 120, 180, 90));
+        succ_ord.setFont(new java.awt.Font("Arial", 1, 15)); // NOI18N
+        succ_ord.setText("Successful Orders");
+        jPanel7.add(succ_ord, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, -1, 60));
+
+        jPanel1.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 100, 180, 120));
 
         edit_user.setBackground(new java.awt.Color(0, 255, 0));
         edit_user.setFont(new java.awt.Font("Century Gothic", 1, 14)); // NOI18N
@@ -423,7 +443,7 @@ public void displayData(){
                 edit_userActionPerformed(evt);
             }
         });
-        jPanel1.add(edit_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 230, 100, 40));
+        jPanel1.add(edit_user, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 240, 100, 40));
 
         jButton1.setBackground(new java.awt.Color(0, 0, 153));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -433,7 +453,7 @@ public void displayData(){
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 230, 100, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 240, 100, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -658,6 +678,7 @@ if (rowIndex < 0) {
     private javax.swing.JPanel foods_db;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
@@ -667,12 +688,15 @@ if (rowIndex < 0) {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

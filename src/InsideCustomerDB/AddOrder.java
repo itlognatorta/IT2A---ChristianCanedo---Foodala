@@ -160,6 +160,7 @@ public class AddOrder extends javax.swing.JFrame {
 
         jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, 430, 250));
 
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jButton1.setText("CANCEL");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -167,8 +168,9 @@ public class AddOrder extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 480, 110, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 480, 120, 40));
 
+        insert.setBackground(new java.awt.Color(204, 204, 204));
         insert.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         insert.setText("INSERT");
         insert.addActionListener(new java.awt.event.ActionListener() {
@@ -178,14 +180,15 @@ public class AddOrder extends javax.swing.JFrame {
         });
         jPanel1.add(insert, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 220, 90, 40));
 
+        jButton3.setBackground(new java.awt.Color(204, 204, 204));
         jButton3.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jButton3.setText("ADD ORDER");
+        jButton3.setText("PLACE ORDER");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 480, 110, 40));
+        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 480, 120, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -233,7 +236,7 @@ public class AddOrder extends javax.swing.JFrame {
     }//GEN-LAST:event_insertActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        try {
+    try {
     dbconnect dbc = new dbconnect();
     Connection conn = dbc.getConnection();
 
@@ -260,7 +263,7 @@ public class AddOrder extends javax.swing.JFrame {
 
     // Set values into query
     pst.setInt(1, foodId);
-    pst.setInt(2, customerId);  // <- This was missing before
+    pst.setInt(2, customerId);  
     pst.setInt(3, quantity);
     pst.setDouble(4, due);
     pst.setString(5, status);
@@ -302,7 +305,7 @@ public class AddOrder extends javax.swing.JFrame {
 } catch (SQLException e) {
     JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
 } catch (NumberFormatException ex) {
-    JOptionPane.showMessageDialog(null, "Invalid number format: " + ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(null, "Insert Order First! " + ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
 }
 
     }//GEN-LAST:event_jButton3ActionPerformed
