@@ -65,23 +65,28 @@ public class SecretQuestion extends javax.swing.JFrame {
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jLabel1.setText("CHOOSE SECRET QUESTION");
         jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 350, 50));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 270, 40));
 
         secretQuestion.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         secretQuestion.setMaximumRowCount(3);
         secretQuestion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "What's your favorite color?", "What's your favorite food?", "What is your middle name?" }));
-        jPanel1.add(secretQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, 330, 60));
+        jPanel1.add(secretQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 270, 50));
 
         secretAnswer.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jPanel1.add(secretAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 330, 70));
+        jPanel1.add(secretAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 260, 270, 50));
 
         jButton1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton1.setText("Cancel");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 430, 130, 50));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 350, 120, 50));
 
         jButton2.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jButton2.setText("Confirm");
@@ -90,17 +95,17 @@ public class SecretQuestion extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 430, 130, 50));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, 130, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 513, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -120,32 +125,34 @@ if (secretAnswer == null || secretAnswer.getText().trim().isEmpty()) {
         JOptionPane.WARNING_MESSAGE
     );
 } else {
-    String sql = "INSERT INTO customer(secret_question, secret_answer) VALUES (?, ?)";
+    String sql = "UPDATE customer SET secret_question = ?, secret_answer = ? WHERE cs_user = ?";
     dbconnect dbc = new dbconnect();
 
     try (Connection conn = dbc.getConnection();
-         PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+         PreparedStatement pst = conn.prepareStatement(sql)) {
 
         String question     = secretQuestion.getSelectedItem().toString();
         String answer       = secretAnswer.getText().trim();
         String hashedAnswer = hashSecretAnswer(answer);
+        String username     = dbconnect.loggedInUsername; // get logged-in username
 
         pst.setString(1, question);
         pst.setString(2, hashedAnswer);
+        pst.setString(3, username);
 
         int rows = pst.executeUpdate();
 
         if (rows > 0) {
             JOptionPane.showMessageDialog(
                 null,
-                "Secret question added successfully.",
+                "Secret question and answer updated successfully.",
                 "Success",
                 JOptionPane.INFORMATION_MESSAGE
             );
         } else {
             JOptionPane.showMessageDialog(
                 null,
-                "Failed to add secret question.",
+                "Failed to update secret question and answer.",
                 "Error",
                 JOptionPane.ERROR_MESSAGE
             );
@@ -160,11 +167,17 @@ if (secretAnswer == null || secretAnswer.getText().trim().isEmpty()) {
     }
 }
 
-
-
-
+        AccManagerDB adb = new AccManagerDB();
+        this.dispose();
+        adb.setVisible(true);
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        AccManagerDB adb = new AccManagerDB();
+        this.dispose();
+        adb.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

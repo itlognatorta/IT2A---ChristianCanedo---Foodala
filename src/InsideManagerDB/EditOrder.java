@@ -106,7 +106,7 @@ public class EditOrder extends javax.swing.JFrame {
         jPanel3.add(canbot, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 110, 40));
 
         status.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose status", "Done", "Cancel", " ", " " }));
+        status.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Choose status", "Done", "Cancel" }));
         jPanel3.add(status, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 240, 60));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

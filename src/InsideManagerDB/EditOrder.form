@@ -118,12 +118,10 @@
               <Font name="Tahoma" size="14" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="5">
+              <StringArray count="3">
                 <StringItem index="0" value="Choose status"/>
                 <StringItem index="1" value="Done"/>
                 <StringItem index="2" value="Cancel"/>
-                <StringItem index="3" value=" "/>
-                <StringItem index="4" value=" "/>
               </StringArray>
             </Property>
           </Properties>

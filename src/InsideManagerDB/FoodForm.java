@@ -218,7 +218,7 @@ public class FoodForm extends javax.swing.JFrame {
     try {
         Connection conn = dbc.getConnection();
 
-        String sql = "INSERT INTO food_tbl (f_name, f_price, f_category, f_status, f_image) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO food_tbl (f_name, f_price, f_category, f_status) VALUES (?, ?, ?, ?)";
         PreparedStatement pst = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         pst.setString(1, foodName);
         pst.setDouble(2, foodPrice);

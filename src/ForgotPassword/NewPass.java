@@ -94,8 +94,6 @@ public class NewPass extends javax.swing.JFrame {
             }
         });
         jPanel3.add(connewhide, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
-
-        connewpass.setText("jPasswordField2");
         jPanel3.add(connewpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 50));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 240, 70));
@@ -138,8 +136,6 @@ public class NewPass extends javax.swing.JFrame {
             }
         });
         jPanel4.add(newhide, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 20, -1, -1));
-
-        newpass.setText("jPasswordField1");
         jPanel4.add(newpass, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 50));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 120, 240, 70));

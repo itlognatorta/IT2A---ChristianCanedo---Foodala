@@ -29,7 +29,7 @@ public class dbconnect {
     private static final String DB_PASSWORD = "";
     
           public static String loggedInUsername; 
-          
+          public static int loggedInUserId;
        // constructor to connect to our database
         public dbconnect(){
             try{

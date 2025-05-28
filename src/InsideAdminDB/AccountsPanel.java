@@ -47,6 +47,7 @@ public class AccountsPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        changepp = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         acc = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -93,6 +94,9 @@ public class AccountsPanel extends javax.swing.JFrame {
         jPanel12 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         uid = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -108,6 +112,24 @@ public class AccountsPanel extends javax.swing.JFrame {
             }
         });
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        changepp.setBackground(new java.awt.Color(102, 102, 102));
+        changepp.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        changepp.setText("Change Profile Picture");
+        changepp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                changeppMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                changeppMouseExited(evt);
+            }
+        });
+        changepp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                changeppActionPerformed(evt);
+            }
+        });
+        jPanel1.add(changepp, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 450, 170, 40));
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -333,6 +355,33 @@ public class AccountsPanel extends javax.swing.JFrame {
 
         jPanel1.add(jPanel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 90, 290, 40));
 
+        jLabel27.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel27.setText("Change Password");
+        jLabel27.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel27MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 300, -1, -1));
+
+        jLabel30.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel30.setText("Set up Secret Question");
+        jLabel30.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel30MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 330, -1, -1));
+
+        jLabel20.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel20.setText("Logs");
+        jLabel20.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel20MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 360, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -433,6 +482,34 @@ public class AccountsPanel extends javax.swing.JFrame {
         adtype.setText(""+sess.getType());
     }//GEN-LAST:event_formWindowActivated
 
+    private void changeppMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changeppMouseEntered
+        changepp.setBackground(hover);
+    }//GEN-LAST:event_changeppMouseEntered
+
+    private void changeppMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_changeppMouseExited
+        changepp.setBackground(defbutton);
+    }//GEN-LAST:event_changeppMouseExited
+
+    private void changeppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeppActionPerformed
+
+        
+
+    }//GEN-LAST:event_changeppActionPerformed
+
+    private void jLabel27MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel27MouseClicked
+        
+    }//GEN-LAST:event_jLabel27MouseClicked
+
+    private void jLabel30MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel30MouseClicked
+      
+    }//GEN-LAST:event_jLabel30MouseClicked
+
+    private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
+       Logs lg = new Logs();
+       this.dispose();
+       lg.setVisible(true);
+    }//GEN-LAST:event_jLabel20MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -477,6 +554,7 @@ public class AccountsPanel extends javax.swing.JFrame {
     private javax.swing.JLabel adminname;
     private javax.swing.JLabel adname;
     private javax.swing.JLabel adtype;
+    private javax.swing.JButton changepp;
     private javax.swing.JPanel cs;
     private javax.swing.JPanel db;
     private javax.swing.JLabel jLabel1;
@@ -491,12 +569,15 @@ public class AccountsPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;

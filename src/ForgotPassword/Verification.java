@@ -5,6 +5,7 @@
  */
 package ForgotPassword;
 
+import static InsideManagerDB.SecretQuestion.hashSecretAnswer;
 import OutsidePackage.login;
 import config.dbconnect;
 import java.sql.Connection;
@@ -51,20 +52,17 @@ public class Verification extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel3 = new javax.swing.JPanel();
-        EmailField = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        FnameField = new javax.swing.JTextField();
+        secretQuestion = new javax.swing.JComboBox<>();
         jLabel3 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
-        LnameField = new javax.swing.JTextField();
+        secretAnswer = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
         Id = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,22 +78,6 @@ public class Verification extends javax.swing.JFrame {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 280, 50));
 
-        jPanel3.setBackground(new java.awt.Color(153, 153, 255));
-        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        EmailField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                EmailFieldActionPerformed(evt);
-            }
-        });
-        jPanel3.add(EmailField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 40));
-
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 240, 60));
-
-        jLabel2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel2.setText("Enter Email*");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 360, -1, -1));
-
         jButton1.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton1.setText("Cancel");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +85,7 @@ public class Verification extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 460, 120, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 120, 40));
 
         jButton2.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         jButton2.setText("Proceed");
@@ -112,17 +94,15 @@ public class Verification extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 460, 120, 40));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 380, 120, 40));
 
         jPanel4.setBackground(new java.awt.Color(153, 153, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        FnameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                FnameFieldActionPerformed(evt);
-            }
-        });
-        jPanel4.add(FnameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 40));
+        secretQuestion.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        secretQuestion.setMaximumRowCount(3);
+        secretQuestion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "What's your favorite color?", "What's your favorite food?", "What is your middle name?" }));
+        jPanel4.add(secretQuestion, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 40));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 240, 60));
 
@@ -133,17 +113,17 @@ public class Verification extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(153, 153, 255));
         jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        LnameField.addActionListener(new java.awt.event.ActionListener() {
+        secretAnswer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LnameFieldActionPerformed(evt);
+                secretAnswerActionPerformed(evt);
             }
         });
-        jPanel5.add(LnameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 40));
+        jPanel5.add(secretAnswer, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 220, 40));
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 240, 60));
 
         jLabel4.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel4.setText("Enter Last Name*");
+        jLabel4.setText("Enter Secret Answer*");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 270, -1, -1));
 
         jPanel6.setBackground(new java.awt.Color(153, 153, 255));
@@ -158,9 +138,9 @@ public class Verification extends javax.swing.JFrame {
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 110, 240, 60));
 
-        jLabel5.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        jLabel5.setText("Enter First Name*");
-        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
+        jLabel2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        jLabel2.setText("Choose Secret Question*");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 180, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -173,7 +153,7 @@ public class Verification extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 532, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -181,82 +161,98 @@ public class Verification extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void EmailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailFieldActionPerformed
+    private void IdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_EmailFieldActionPerformed
+    }//GEN-LAST:event_IdActionPerformed
+
+    private void secretAnswerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_secretAnswerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_secretAnswerActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+
+     String userId = Id.getText().trim();
+String selectedQuestion = secretQuestion.getSelectedItem().toString();
+String inputAnswer = secretAnswer.getText().trim();
+
+if (userId.isEmpty() || inputAnswer.isEmpty()) {
+    JOptionPane.showMessageDialog(
+        null,
+        "ID and secret answer are required.",
+        "Validation Error",
+        JOptionPane.WARNING_MESSAGE
+    );
+    return;
+}
+
+String sql = "SELECT secret_question, secret_answer FROM customer WHERE id = ?";
+
+try (Connection conn = dbconnect.getConnection();
+     PreparedStatement pst = conn.prepareStatement(sql)) {
+
+    pst.setString(1, userId);
+    ResultSet rs = pst.executeQuery();
+
+    if (rs.next()) {
+        String dbQuestion = rs.getString("secret_question");
+        String dbHashedAnswer = rs.getString("secret_answer");
+
+        String hashedInputAnswer = hashSecretAnswer(inputAnswer); // Hash user input
+
+        boolean questionMatch = selectedQuestion.equalsIgnoreCase(dbQuestion);
+        boolean answerMatch = hashedInputAnswer.equals(dbHashedAnswer);
+
+        if (questionMatch && answerMatch) {
+            JOptionPane.showMessageDialog(
+                null,
+                "Verification successful! You may now reset your password.",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+            // Open password reset window
+            NewPass np = new NewPass(userId);
+            np.setVisible(true);
+            this.dispose();
+
+        } else {
+            JOptionPane.showMessageDialog(
+                null,
+                "Secret question and answer do not match.",
+                "Verification Failed",
+                JOptionPane.ERROR_MESSAGE
+            );
+        }
+
+    } else {
+        JOptionPane.showMessageDialog(
+            null,
+            "User ID not found.",
+            "Error",
+            JOptionPane.ERROR_MESSAGE
+        );
+    }
+
+} catch (SQLException ex) {
+    JOptionPane.showMessageDialog(
+        null,
+        "Database error: " + ex.getMessage(),
+        "SQL Error",
+        JOptionPane.ERROR_MESSAGE
+    );
+    ex.printStackTrace();
+}
+
+login lg = new login();
+        lg.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         login lg = new login();
         lg.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void FnameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FnameFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_FnameFieldActionPerformed
-
-    private void LnameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LnameFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_LnameFieldActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-      
-   String userId = Id.getText().trim();
-String inputFname = FnameField.getText().trim();
-String inputLname = LnameField.getText().trim();
-String inputEmail = EmailField.getText().trim();
-
-if (!userId.equals(verifiedUserId)) {  
-    JOptionPane.showMessageDialog(null, "ID does not match! Please try again.", "Error", JOptionPane.ERROR_MESSAGE);
-    return;
-}
-
-try (Connection conn = dbconnect.getConnection();
-     PreparedStatement pst = conn.prepareStatement(
-         "SELECT cs_user, cs_fname, cs_lname, cs_email FROM customer WHERE id = ?")) {
-
-    pst.setString(1, userId);
-    ResultSet rs = pst.executeQuery();
-
-    if (rs.next()) {
-       
-        String dbFname = rs.getString("cs_fname");
-        String dbLname = rs.getString("cs_lname");
-        String dbEmail = rs.getString("cs_email");
-
-        // Check if user input matches database records
-        if (inputFname.equalsIgnoreCase(dbFname) &&
-            inputLname.equalsIgnoreCase(dbLname) &&
-            inputEmail.equalsIgnoreCase(dbEmail)) {
-
-            JOptionPane.showMessageDialog(null, "Verification Successful!", 
-                                          "Success", JOptionPane.INFORMATION_MESSAGE);
-
-            // Open the NewPassword frame
-            NewPass np = new NewPass(verifiedUserId);
-            np.setVisible(true);
-            this.dispose(); // Close current frame
-
-        } else {
-            JOptionPane.showMessageDialog(null, "Credentials are incorrect!", 
-                                          "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    } else {
-        JOptionPane.showMessageDialog(null, "User ID doesn't exist!", 
-                                      "Failed", JOptionPane.ERROR_MESSAGE);
-    }
-
-} catch (SQLException ex) {
-    ex.printStackTrace();
-    JOptionPane.showMessageDialog(null, "SQL Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-}
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void IdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_IdActionPerformed
 
     /**
      * @param args the command line arguments
@@ -295,22 +291,19 @@ try (Connection conn = dbconnect.getConnection();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField EmailField;
-    private javax.swing.JTextField FnameField;
     private javax.swing.JTextField Id;
-    private javax.swing.JTextField LnameField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JTextField secretAnswer;
+    private javax.swing.JComboBox<String> secretQuestion;
     // End of variables declaration//GEN-END:variables
 }

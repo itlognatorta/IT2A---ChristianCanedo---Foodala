@@ -183,6 +183,7 @@ private void setDefaultProfilePicture() {
         u_id = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
         jLabel26 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -479,6 +480,15 @@ private void setDefaultProfilePicture() {
         });
         jPanel1.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 400, -1, -1));
 
+        jLabel30.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
+        jLabel30.setText("Set up Secret Question");
+        jLabel30.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel30MouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 430, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -657,6 +667,12 @@ if (result == JFileChooser.APPROVE_OPTION) {
 
     }//GEN-LAST:event_formWindowOpened
 
+    private void jLabel30MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel30MouseClicked
+    Secretquestion sq = new Secretquestion();
+    this.dispose();
+    sq.setVisible(true);
+    }//GEN-LAST:event_jLabel30MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -725,6 +741,7 @@ if (result == JFileChooser.APPROVE_OPTION) {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
