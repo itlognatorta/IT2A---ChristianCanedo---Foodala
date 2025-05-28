@@ -15,6 +15,15 @@ import javax.swing.border.Border;
 import net.proteanit.sql.DbUtils;
 import InsideAdminDB.AddUsersForm;
 import InsideAdminDB.EditUsers;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableModel;
 
@@ -35,7 +44,7 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard() {
         initComponents();
-        
+        loadProfilePicture();
         displayData();
         displayUserCounts();
     }
@@ -92,6 +101,73 @@ public class Dashboard extends javax.swing.JFrame {
     }
 }
     @SuppressWarnings("unchecked")
+    
+    public void loadProfilePicture() {
+    String username = dbconnect.loggedInUsername;
+
+    if (username == null || username.isEmpty()) {
+        setDefaultProfilePicture();
+        return;
+    }
+
+    try (Connection con = dbconnect.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
+
+        pst.setString(1, username);
+        ResultSet rs = pst.executeQuery();
+
+        if (rs.next()) {
+            String imagePath = rs.getString("profile_picture");
+
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+
+                if (!imageFile.isAbsolute()) {
+                    imageFile = new File("src/" + imagePath);  // fallback
+                }
+
+                if (imageFile.exists()) {
+                    setProfilePicture(imageFile);
+                    return;
+                }
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback to default if anything fails
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+        pfp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
+    }
+}
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/pfpimage/default.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(pfp.getWidth(), pfp.getHeight(), Image.SCALE_SMOOTH));
+            pfp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pfp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pfp.setIcon(null);
+    }
+}
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -110,7 +186,7 @@ public class Dashboard extends javax.swing.JFrame {
         cs = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        pfp = new javax.swing.JLabel();
         adminname = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -243,8 +319,8 @@ public class Dashboard extends javax.swing.JFrame {
 
         jPanel2.add(cs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 240, 60));
 
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
-        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 150));
+        pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 200, 150));
 
         adminname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         adminname.setText("ADMIN");
@@ -563,7 +639,6 @@ if (rowindex < 0) {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -573,6 +648,7 @@ if (rowindex < 0) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mg;
     private javax.swing.JPanel mgno;
+    private javax.swing.JLabel pfp;
     private javax.swing.JButton refresh;
     private javax.swing.JTable users_table;
     // End of variables declaration//GEN-END:variables

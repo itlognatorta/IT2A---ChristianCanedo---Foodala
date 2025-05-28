@@ -4,9 +4,26 @@ package InsideAdminDB;
 import InternalPackage.Dashboard;
 import OutsidePackage.login;
 import config.Session;
+import config.dbconnect;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.border.Border;
 
@@ -27,11 +44,9 @@ public class AccountsPanel extends javax.swing.JFrame {
      */
     public AccountsPanel() {
         initComponents();
-        
-        
-    }
-
-   
+        loadProfilePicture();       
+    }   
+    
     Color hover = new Color(102,102,102);  
      Color defbutton = new Color(204,204,204);  
     
@@ -41,6 +56,78 @@ public class AccountsPanel extends javax.swing.JFrame {
         button.setBackground(defbutton);
     }
     
+    public void loadProfilePicture() {
+    String username = dbconnect.loggedInUsername;
+
+    if (username == null || username.isEmpty()) {
+        setDefaultProfilePicture();
+        return;
+    }
+
+    try (Connection con = dbconnect.getConnection();
+         PreparedStatement pst = con.prepareStatement("SELECT profile_picture FROM customer WHERE cs_user = ?")) {
+
+        pst.setString(1, username);
+
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                String imagePath = rs.getString("profile_picture");
+
+                if (imagePath != null && !imagePath.isEmpty()) {
+                    File imageFile = new File(imagePath);
+
+                    if (!imageFile.isAbsolute()) {
+                        imageFile = new File("src/" + imagePath);
+                    }
+
+                    if (imageFile.exists()) {
+                        setProfilePicture(imageFile);
+                        return;
+                    }
+                }
+            }
+        }
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error loading profile picture: " + e.getMessage());
+    }
+
+    setDefaultProfilePicture(); // fallback
+}
+
+private void setProfilePicture(File imageFile) {
+    try {
+        BufferedImage img = ImageIO.read(imageFile);
+        int width = pfp.getWidth() > 0 ? pfp.getWidth() : 150;
+        int height = pfp.getHeight() > 0 ? pfp.getHeight() : 150;
+        ImageIcon icon = new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        pfp.setIcon(icon);
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error setting profile picture: " + e.getMessage());
+        setDefaultProfilePicture();
+    }
+}
+
+private void setDefaultProfilePicture() {
+    try {
+        URL defaultImageUrl = getClass().getResource("/pfpimage/default.png");
+
+        if (defaultImageUrl != null) {
+            BufferedImage img = ImageIO.read(defaultImageUrl);
+            int width = pfp.getWidth() > 0 ? pfp.getWidth() : 150;
+            int height = pfp.getHeight() > 0 ? pfp.getHeight() : 150;
+            ImageIcon icon = new ImageIcon(img.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+            pfp.setIcon(icon);
+        } else {
+            JOptionPane.showMessageDialog(null, "Default profile image is missing!", "Warning", JOptionPane.WARNING_MESSAGE);
+            pfp.setIcon(null);
+        }
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading default image: " + e.getMessage());
+        pfp.setIcon(null);
+    }
+}
+
   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -65,7 +152,7 @@ public class AccountsPanel extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        pfp = new javax.swing.JLabel();
         adminname = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -227,8 +314,8 @@ public class AccountsPanel extends javax.swing.JFrame {
 
         jPanel2.add(cs, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 240, 60));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
-        jPanel2.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 150));
+        pfp.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ICONS/GrubGo Logo (1).jpg"))); // NOI18N
+        jPanel2.add(pfp, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 150));
 
         adminname.setFont(new java.awt.Font("Century Gothic", 1, 18)); // NOI18N
         adminname.setText("ADMIN");
@@ -491,17 +578,76 @@ public class AccountsPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_changeppMouseExited
 
     private void changeppActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_changeppActionPerformed
+       JFileChooser chooser = new JFileChooser();
+int result = chooser.showOpenDialog(null);
+
+if (result == JFileChooser.APPROVE_OPTION) {
+    File selectedFile = chooser.getSelectedFile();
+    String filename = selectedFile.getAbsolutePath();
+
+    try {
+        // Validate the image
+        BufferedImage testImage = ImageIO.read(selectedFile);
+        if (testImage == null) {
+            JOptionPane.showMessageDialog(null, "Selected file is not a valid image.");
+            return;
+        }
+
+        // Get dimensions safely
+        int width = pfp.getWidth() > 0 ? pfp.getWidth() : 150;
+        int height = pfp.getHeight() > 0 ? pfp.getHeight() : 150;
+
+        // Set scaled image as icon
+        ImageIcon ii = new ImageIcon(testImage.getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        pfp.setIcon(ii);
+
+        // Save image to local folder
+        File destination = new File("src/pfpimage", selectedFile.getName());
+        destination.getParentFile().mkdirs();
+
+        try (InputStream fis = new FileInputStream(selectedFile);
+             OutputStream fos = new FileOutputStream(destination)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = fis.read(buffer)) != -1) {
+                fos.write(buffer, 0, bytesRead);
+            }
+        }
+
+        // Update image path in database
+        String username = dbconnect.loggedInUsername;
+        String relativePath = "pfpimage/" + selectedFile.getName();
+
+        try (Connection con = dbconnect.getConnection();
+             PreparedStatement pst = con.prepareStatement("UPDATE customer SET profile_picture = ? WHERE cs_user = ?")) {
+            pst.setString(1, relativePath);
+            pst.setString(2, username);
+            pst.executeUpdate();
+        }
+
+        JOptionPane.showMessageDialog(null, "Profile Picture Updated Successfully!");
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(null, "Error loading or saving image: " + e.getMessage());
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error updating database: " + e.getMessage());
+    }
+}
 
         
 
     }//GEN-LAST:event_changeppActionPerformed
 
     private void jLabel27MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel27MouseClicked
-        
+        Changepass cp = new Changepass();
+        this.dispose();
+        cp.setVisible(true);
     }//GEN-LAST:event_jLabel27MouseClicked
 
     private void jLabel30MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel30MouseClicked
-      
+        secretquest sq = new secretquest();      
+        this.dispose();
+        sq.setVisible(true);
     }//GEN-LAST:event_jLabel30MouseClicked
 
     private void jLabel20MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel20MouseClicked
@@ -582,7 +728,6 @@ public class AccountsPanel extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
@@ -596,6 +741,7 @@ public class AccountsPanel extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JPanel mg;
+    private javax.swing.JLabel pfp;
     private javax.swing.JLabel uid;
     // End of variables declaration//GEN-END:variables
 }
