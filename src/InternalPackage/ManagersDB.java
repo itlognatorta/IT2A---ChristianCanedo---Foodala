@@ -600,7 +600,7 @@ if (rowIndex < 0) {
         );
 
         if (rs.next()) {
-            // Optional: Ask user for a note to include on the receipt
+            // Ask for note
             JTextField noteField = new JTextField(20);
             JPanel notePanel = new JPanel();
             notePanel.add(new JLabel("Add Note (Optional):"));
@@ -612,11 +612,11 @@ if (rowIndex < 0) {
                 userNote = noteField.getText().trim();
             }
 
-            // Build the receipt content
+            // Build receipt string
             StringBuilder receipt = new StringBuilder();
+             receipt.append("        \n\n");
             receipt.append("         GrubGo - Order Receipt\n");
             receipt.append("        ---------------------------\n\n");
-
             receipt.append("Order ID: ").append(rs.getInt("o_id")).append("\n");
             receipt.append("Customer: ").append(rs.getString("cs_fname")).append("\n");
             receipt.append("Item: ").append(rs.getString("f_name")).append("\n");
@@ -630,12 +630,8 @@ if (rowIndex < 0) {
             }
 
             receipt.append("        ---------------------------\n");
-            receipt.append("        Thank you for ordering!\n\n");
-            
-            
-            receipt.append("Print receipt?\n");
+            receipt.append("        Thank you for ordering!\n");
 
-          
             JTextArea textArea = new JTextArea(receipt.toString());
             textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
             JScrollPane scrollPane = new JScrollPane(textArea);
@@ -643,20 +639,15 @@ if (rowIndex < 0) {
             int printOption = JOptionPane.showConfirmDialog(
                 null,
                 scrollPane,
-                "RECEIPT",
+                "RECEIPT - PRINT?",
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.INFORMATION_MESSAGE
             );
 
             if (printOption == JOptionPane.YES_OPTION) {
-                try {
-                    boolean printed = textArea.print();
-                    if (!printed) {
-                        JOptionPane.showMessageDialog(null, "Printing was cancelled.");
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "An error occurred while printing: " + e.getMessage());
-                }
+                // Custom printing with logo
+                ReceiptPrinter rp = new ReceiptPrinter(receipt.toString());
+                rp.printReceipt();
             }
 
         } else {
@@ -667,6 +658,7 @@ if (rowIndex < 0) {
         JOptionPane.showMessageDialog(null, "An error occurred while loading order data.");
     }
 }
+
 
 
 
