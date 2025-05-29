@@ -21,9 +21,12 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.border.Border;
 import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
@@ -577,7 +580,7 @@ public void displayData(){
     }//GEN-LAST:event_edit_userActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-      int rowIndex = order.getSelectedRow();  // Get selected row index
+  int rowIndex = order.getSelectedRow();  // Get selected row index
 
 if (rowIndex < 0) {
     JOptionPane.showMessageDialog(null, "Please select an order.");
@@ -587,20 +590,29 @@ if (rowIndex < 0) {
         TableModel tbl = order.getModel();  // Get the table model
         int orderId = Integer.parseInt(tbl.getValueAt(rowIndex, 0).toString());  // Get the order ID from the selected row
 
-        System.out.println("Selected Order ID: " + orderId);  // Debugging statement
-
-        // ✅ CORRECTED SQL QUERY: join on customer ID, not order ID
         ResultSet rs = db.getData(
             "SELECT o.o_id, o.o_quantity, o.o_due, o.o_status, " +
             "f.f_name, f.f_price, u.cs_fname " +
             "FROM order_tbl o " +
             "JOIN food_tbl f ON o.f_id = f.f_id " +
-            "JOIN customer u ON o.c_id = u.id " +  // ✅ Fix is here
+            "JOIN customer u ON o.c_id = u.id " +
             "WHERE o.o_id = " + orderId
         );
 
         if (rs.next()) {
-            // Create the receipt content
+            // Optional: Ask user for a note to include on the receipt
+            JTextField noteField = new JTextField(20);
+            JPanel notePanel = new JPanel();
+            notePanel.add(new JLabel("Add Note (Optional):"));
+            notePanel.add(noteField);
+            int noteResult = JOptionPane.showConfirmDialog(null, notePanel, "Add Note to Receipt", JOptionPane.OK_CANCEL_OPTION);
+
+            String userNote = "";
+            if (noteResult == JOptionPane.OK_OPTION) {
+                userNote = noteField.getText().trim();
+            }
+
+            // Build the receipt content
             StringBuilder receipt = new StringBuilder();
             receipt.append("         GrubGo - Order Receipt\n");
             receipt.append("        ---------------------------\n\n");
@@ -613,13 +625,40 @@ if (rowIndex < 0) {
             receipt.append("Total Due: ₱").append(String.format("%.2f", rs.getDouble("o_due"))).append("\n");
             receipt.append("Status: ").append(rs.getString("o_status")).append("\n\n");
 
-            receipt.append("        ---------------------------\n");
-            receipt.append("        Thank you for ordering!\n");
+            if (!userNote.isEmpty()) {
+                receipt.append("Note: ").append(userNote).append("\n\n");
+            }
 
-            // Show the receipt in a JTextArea
+            receipt.append("        ---------------------------\n");
+            receipt.append("        Thank you for ordering!\n\n");
+            
+            
+            receipt.append("Print receipt?\n");
+
+          
             JTextArea textArea = new JTextArea(receipt.toString());
             textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-            JOptionPane.showMessageDialog(null, new JScrollPane(textArea), "Receipt", JOptionPane.INFORMATION_MESSAGE);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+
+            int printOption = JOptionPane.showConfirmDialog(
+                null,
+                scrollPane,
+                "RECEIPT",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.INFORMATION_MESSAGE
+            );
+
+            if (printOption == JOptionPane.YES_OPTION) {
+                try {
+                    boolean printed = textArea.print();
+                    if (!printed) {
+                        JOptionPane.showMessageDialog(null, "Printing was cancelled.");
+                    }
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "An error occurred while printing: " + e.getMessage());
+                }
+            }
+
         } else {
             JOptionPane.showMessageDialog(null, "No details found for this order.");
         }
